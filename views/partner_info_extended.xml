@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+        <record id="view_partner_form" model="ir.ui.view">
+           <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <field name="type" position="before">
+                    <field name="x_pn_nombre1" />
+                    <field name="x_pn_nombre2" />
+                    <field name="x_pn_apellido1" />
+                    <field name="x_pn_apellido2" />
+                    <field name="x_pn_tipoDocumento" />
+                    <field name="x_pn_numeroDocumento" />
+                    <field name="x_pn_retri" />
+                    <field name="x_uvt"/>
+                    <field name="ciiu" />
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
