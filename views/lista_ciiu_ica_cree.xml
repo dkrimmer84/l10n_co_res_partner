@@ -30,6 +30,7 @@
                     <field name="name"/> 
                     <field name="parent"/> 
                     <field name="type"/>
+                    <field name="codigo_name" />
                 </group>
             </form>
         </field>
