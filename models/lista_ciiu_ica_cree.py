@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from openerp.osv import fields, osv
+from openerp import models, fields
 
 # CIIU, ICA y CREE
 
 
-class CiiuIcaCree(osv.osv):
+class CiiuIcaCree(models.Model):
     _name = "lista.ciiu_ica_cree"
     _description = "Lista CIIU, ICA y CREE"
 
-    _columns = {
-        'codigo': fields.char('Código', size=20, required=True),
-        'name': fields.char('Descripción', size=20, required=True),
-        'parent': fields.char('Padre', size=20, required=True),
-        'type': fields.char('Tipo', size=20, required=True),
-    }
+    codigo = fields.Char('Código', size=20, required=True)
+    name = fields.Char('Descripción', size=20, required=True)
+    parent = fields.Char('Padre', size=20, required=True)
+    type = fields.Char('Tipo', size=20, required=True)
+
