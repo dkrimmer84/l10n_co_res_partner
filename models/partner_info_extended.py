@@ -28,6 +28,7 @@ class PartnerInfoExtended(models.Model):
     DOCTYPE6 = "41 - Pasaporte"
     DOCTYPE7 = "42 - Documento de identificación extranjero"
     DOCTYPE8 = "43 - Sin identificación del exterior o para uso definido por la DIAN"
+    DOCTYPE9 = "11 - Registro civil de nacimiento"
 
     # Regímen Tributario
     RETRI = "Regímen Tributario"
@@ -46,6 +47,7 @@ class PartnerInfoExtended(models.Model):
     x_pn_apellido2 = fields.Char(SECONDARY_NAME, size=30)
     x_pn_tipoDocumento = fields.Selection(
         [
+            (11, DOCTYPE9),
             (12, DOCTYPE4),
             (13, DOCTYPE1),
             (21, DOCTYPE5),
@@ -71,6 +73,5 @@ class PartnerInfoExtended(models.Model):
 
     )
 
-    # Aplicar reglas UVT?
-    x_uvt = fields.Boolean('Aplicar reglas UVT?')
+    # CIIU
     ciiu = fields.Many2one('lista.ciiu_ica_cree', 'Actividad CIIU')

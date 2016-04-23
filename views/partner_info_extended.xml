@@ -13,7 +13,6 @@
                     <field name="x_pn_tipoDocumento" />
                     <field name="x_pn_numeroDocumento" />
                     <field name="x_pn_retri" />
-                    <field name="x_uvt"/>
                     <field name="ciiu" />
                 </field>
             </field>
