@@ -13,7 +13,7 @@
             <tree string="CIIU">
                 <!-- these will automatically map table headers for our list view -->
                 <field name="codigo"/> 
-                <field name="name"/>
+                <field name="description"/>
             </tree>
         </field>
     </record>
@@ -27,10 +27,10 @@
             <form string="CIIU" version="7.0">
                 <group>
                     <field name="codigo"/> 
-                    <field name="name"/> 
+                    <field name="description"/> 
                     <field name="parent"/> 
                     <field name="type"/>
-                    <field name="codigo_name" />
+                    <field name="name" />
                 </group>
             </form>
         </field>
