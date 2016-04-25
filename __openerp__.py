@@ -11,7 +11,7 @@ Colombian Partner Rules:
 
     * Additional fields: first and second name, first and second last name
     * Additional fields: Document Type, Document Number & Tributate regime
-    * CIIU, ICA y CREE ....
+    * CIIU, ICA y CREE ...
     """,
     'depends': [
         'account',
