@@ -1,9 +1,22 @@
 {
-    'name': 'Extended Partner Information',
+    'name': 'Colombia - Partner Information',
+    'category': 'Localization',
     'version': '0.2',
     'author': 'Dominic Krimmer, Plastinorte S.A.S',
-    'description': 'This Plugin provides additional fields and some modifications in the partner module.',
-    'depends': ['base'],
+    'maintainer': 'dominic.krimmer@gmail.com',
+    'website': 'https://www.plastinorte.com',
+    'description': """
+Colombian Partner Rules:
+======================
+
+    * Additional fields: first and second name, first and second last name
+    * Additional fields: Document Type, Document Number & Tributate regime
+    * CIIU, ICA y CREE ...
+    """,
+    'depends': [
+        'account',
+        'base'
+    ],
     'data': [
         'views/l10n_co_res_partner.xml',
         'views/ciiu.xml'

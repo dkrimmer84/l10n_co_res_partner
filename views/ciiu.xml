@@ -2,31 +2,31 @@
 <openerp>
     <data>
 
-<!-- CIIU, ICA y CREE Related info-->
+<!-- CIIU Related info-->
 
-    <!--CIIU, ICA y CREE List View-->
+    <!--CIIU List View-->
     <record id="view_ciiu_transaction_tree" model="ir.ui.view">
-        <field name="name">lista.ciiu_ica_cree.tree</field>
-        <field name="model">lista.ciiu_ica_cree</field>
+        <field name="name">ciiu.tree</field>
+        <field name="model">ciiu</field>
         <field name="arch" type="xml">
             <!-- this will be our title of list/tree view -->
             <tree string="CIIU">
                 <!-- these will automatically map table headers for our list view -->
-                <field name="codigo"/> 
+                <field name="code"/> 
                 <field name="description"/>
             </tree>
         </field>
     </record>
 
-    <!-- CIIU, ICA y CREE Form View-->
+    <!-- CIIU Form View-->
     <record id="view_ciiu_transaction_form" model="ir.ui.view">
-        <field name="name">lista.ciiu_ica_cree.form.view</field>
-        <field name="model">lista.ciiu_ica_cree</field>
+        <field name="name">ciiu.view</field>
+        <field name="model">ciiu</field>
         <field name="arch" type="xml">
             <!-- this will be our title of list/tree view -->
             <form string="CIIU" version="7.0">
                 <group>
-                    <field name="codigo"/> 
+                    <field name="code"/> 
                     <field name="description"/> 
                     <field name="parent"/> 
                     <field name="type"/>
@@ -38,7 +38,7 @@
 
     <record id="action_ciiu_transaction" model="ir.actions.act_window">
         <field name="name">CIIU, ICA y CREE</field>
-        <field name="res_model">lista.ciiu_ica_cree</field>
+        <field name="res_model">ciiu</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id"  eval="False"/>

@@ -74,4 +74,4 @@ class PartnerInfoExtended(models.Model):
     )
 
     # CIIU
-    ciiu = fields.Many2one('lista.ciiu_ica_cree', 'Actividad CIIU')
+    ciiu = fields.Many2one('ciiu', 'Actividad CIIU')
