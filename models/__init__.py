@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-import partner_info_extended
-import lista_ciiu_ica_cree
+import l10n_co_res_partner
+import ciiu

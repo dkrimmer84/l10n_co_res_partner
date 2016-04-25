@@ -2,4 +2,4 @@
 # init
 
 import models
-from addons.partner_info_extended.models import partner_info_extended
+from addons.l10n_co_res_partner.models import l10n_co_res_partner
