@@ -15,7 +15,8 @@ Colombian Partner Rules:
     """,
     'depends': [
         'account',
-        'base'
+        'account_accountant',
+        'base',
     ],
     'data': [
         'views/l10n_co_res_partner.xml',
