@@ -29,8 +29,10 @@
                 <group>
                     <field name="code"/> 
                     <field name="description"/> 
-                    <field name="hasParent" />
+                    <field name="hasParent" attrs="{'invisible':[('hasDivision', '=', True)]}" />
                     <field name="parent" attrs="{'invisible':[('hasParent', '=', False)]}"/> 
+                    <field name="hasDivision" attrs="{'invisible':[('hasParent', '=', True)]}" />
+                    <field name="division" attrs="{'invisible':[('hasDivision', '=', False)]}"/> 
                     <field name="type"/>
                     <field name="name" />
                 </group>

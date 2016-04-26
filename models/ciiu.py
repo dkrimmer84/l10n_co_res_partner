@@ -16,19 +16,22 @@ class Ciiu(models.Model):
     )
     code = fields.Char('Código', required=True)
     description = fields.Char('Descripción', required=True)
-    parent = fields.Many2one('ciiu', 'Padre')
     type = fields.Char(
         'Tipo',
         store=True,
         compute="_set_type"
     )
     hasParent = fields.Boolean('Tiene Padre?')
+    parent = fields.Many2one('ciiu', 'Padre')
+
+    hasDivision = fields.Boolean('Tiene Division?')
+    division = fields.Many2one('ciiu', 'Division')
 
     @api.one
     @api.depends('code', 'description')
     def _concat_name(self):
         """
-        This function concats two fields in order to be able to search
+        This function concatinates two fields in order to be able to search
         for CIIU as number or string
         @return: void
         """
@@ -45,9 +48,12 @@ class Ciiu(models.Model):
         Therefore we tag them accordingly as 'view' or 'other'
         @return: void
         """
-        # Parent
-        if self.hasParent is True:
-            self.type = 'view'
         # Child
+        if self.hasParent is True:
+            if self.division is True:
+                self.type = 'view'
+            else:
+                self.type = 'other'
+        # Division
         else:
-            self.type = 'other'
+            self.type = 'view'
