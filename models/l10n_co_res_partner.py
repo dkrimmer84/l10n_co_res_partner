@@ -97,37 +97,26 @@ class PartnerInfoExtended(models.Model):
         as the other fields should fill it up.
         @return: void
         """
-        nameList = []
-
-        self.name = ''
-
         if self.x_pn_nombre1 is False:
             self.x_pn_nombre1 = ''
-        else:
-            nameList.append(
-                self.x_pn_nombre1.encode(encoding='utf-8').strip()
-            )
 
         if self.x_pn_nombre2 is False:
             self.x_pn_nombre2 = ''
-        else:
-            nameList.append(
-                self.x_pn_nombre2.encode(encoding='utf-8').strip()
-            )
 
         if self.x_pn_apellido1 is False:
             self.x_pn_apellido1 = ''
-        else:
-            nameList.append(
-                self.x_pn_apellido1.encode(encoding='utf-8').strip()
-            )
 
         if self.x_pn_apellido2 is False:
             self.x_pn_apellido2 = ''
-        else:
-            nameList.append(
-                self.x_pn_apellido2.encode(encoding='utf-8').strip()
-            )
+
+        nameList = [
+            self.x_pn_nombre1.encode(encoding='utf-8').strip(),
+            self.x_pn_nombre2.encode(encoding='utf-8').strip(),
+            self.x_pn_apellido1.encode(encoding='utf-8').strip(),
+            self.x_pn_apellido2.encode(encoding='utf-8').strip()
+        ]
+
+        self.name = ''
 
         formatedList = []
         for item in nameList:
