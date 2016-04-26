@@ -27,6 +27,18 @@ class Ciiu(models.Model):
     hasDivision = fields.Boolean('Tiene Division?')
     division = fields.Many2one('ciiu', 'Division')
 
+    hasSection = fields.Boolean('Tiene Seccion?')
+    section = fields.Many2one('ciiu', 'Seccion')
+
+    hierarchy = fields.Selection(
+        [
+            (1, 'Tiene Padre?'),
+            (2, 'Tiene Division?'),
+            (3, 'Tiene Seccion?')
+        ],
+        'Hierarchy'
+    )
+
     @api.one
     @api.depends('code', 'description')
     def _concat_name(self):
@@ -38,19 +50,22 @@ class Ciiu(models.Model):
         if self.code is False or self.description is False:
             self.name = ''
         else:
-            self.name = str(self.code) + ' - ' + str(self.description.encode('utf-8').strip())
+            self.name = str(self.code.encode('utf-8').strip()) + \
+                        ' - ' + str(self.description.encode('utf-8').strip())
 
     @api.one
     @api.depends('hasParent')
     def _set_type(self):
         """
-        Parent and Child should be visually separated in the tree view.
+        Section, Division and Parent should be visually separated in the tree view.
         Therefore we tag them accordingly as 'view' or 'other'
         @return: void
         """
         # Child
         if self.hasParent is True:
             if self.division is True:
+                self.type = 'view'
+            elif self.section is True:
                 self.type = 'view'
             else:
                 self.type = 'other'

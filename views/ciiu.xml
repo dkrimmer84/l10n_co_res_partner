@@ -29,10 +29,12 @@
                 <group>
                     <field name="code"/> 
                     <field name="description"/> 
-                    <field name="hasParent" attrs="{'invisible':[('hasDivision', '=', True)]}" />
+                    <field name="hasParent" attrs="{'invisible':['|',('hasDivision', '=', True),('hasSection', '=', True)]}" />
                     <field name="parent" attrs="{'invisible':[('hasParent', '=', False)]}"/> 
-                    <field name="hasDivision" attrs="{'invisible':[('hasParent', '=', True)]}" />
+                    <field name="hasDivision" attrs="{'invisible':['|',('hasParent', '=', True),('hasSection', '=', True)]}" />
                     <field name="division" attrs="{'invisible':[('hasDivision', '=', False)]}"/> 
+                    <field name="hasSection" attrs="{'invisible':['|',('hasDivision', '=', True),('hasParent', '=', True)]}" />
+                    <field name="section" attrs="{'invisible':[('hasSection', '=', False)]}"/> 
                     <field name="type"/>
                     <field name="name" />
                 </group>
