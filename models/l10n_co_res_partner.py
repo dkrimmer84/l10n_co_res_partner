@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Partner Information App
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 # Extend the Partner Model with some more fields
@@ -41,10 +41,16 @@ class PartnerInfoExtended(models.Model):
     RETRI7 = "Gran Contribuyente"
 
     # Define the new fields
-    x_pn_nombre1 = fields.Char(PRIMARY_FNAME, size=30)
-    x_pn_nombre2 = fields.Char(SECONDARY_FNAME, size=30)
-    x_pn_apellido1 = fields.Char(PRIMARY_NAME, size=30)
-    x_pn_apellido2 = fields.Char(SECONDARY_NAME, size=30)
+    name = fields.Char(
+        string="Nombre completo",
+        store=True,
+        compute="_concat_name"
+    )
+
+    x_pn_nombre1 = fields.Char(PRIMARY_FNAME)
+    x_pn_nombre2 = fields.Char(SECONDARY_FNAME)
+    x_pn_apellido1 = fields.Char(PRIMARY_NAME)
+    x_pn_apellido2 = fields.Char(SECONDARY_NAME)
     x_pn_tipoDocumento = fields.Selection(
         [
             (11, DOCTYPE9),
@@ -81,3 +87,46 @@ class PartnerInfoExtended(models.Model):
             (2, 'juridica')
         ], 'Tipo de persona'
     )
+
+    @api.one
+    @api.depends('x_pn_nombre1', 'x_pn_nombre2', 'x_pn_apellido1', 'x_pn_apellido2')
+    def _concat_name(self):
+        """
+        This function concatinates the four name fields in order to be able to search
+        for the entire name. On the other hand the original name field should not be editable anymore
+        as the other fields should fill it up.
+        @return: void
+        """
+        nameList = []
+
+        self.name = ''
+
+        if self.x_pn_nombre1 is False:
+            self.x_pn_nombre1 = ''
+        else:
+            nameList.append(
+                self.x_pn_nombre1.encode(encoding='utf-8').strip()
+            )
+
+        if self.x_pn_nombre2 is False:
+            self.x_pn_nombre2 = ''
+        else:
+            nameList.append(
+                self.x_pn_nombre2.encode(encoding='utf-8').strip()
+            )
+
+        if self.x_pn_apellido1 is False:
+            self.x_pn_apellido1 = ''
+        else:
+            nameList.append(
+                self.x_pn_apellido1.encode(encoding='utf-8').strip()
+            )
+
+        if self.x_pn_apellido2 is False:
+            self.x_pn_apellido2 = ''
+        else:
+            nameList.append(
+                self.x_pn_apellido2.encode(encoding='utf-8').strip()
+            )
+
+        self.name = ' ' .join(nameList)

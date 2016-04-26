@@ -7,6 +7,7 @@
             <field name="arch" type="xml">
                 <field name="type" position="before">
                     <field name="personType" />
+                    <field name="name" attrs="{'invisible':[('personType', '=', 2)]}" />
                     <field name="x_pn_nombre1" attrs="{'invisible':[('personType', '=', 2)]}" />
                     <field name="x_pn_nombre2" attrs="{'invisible':[('personType', '=', 2)]}" />
                     <field name="x_pn_apellido1" attrs="{'invisible':[('personType', '=', 2)]}" />
