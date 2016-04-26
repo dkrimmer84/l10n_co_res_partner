@@ -129,4 +129,8 @@ class PartnerInfoExtended(models.Model):
                 self.x_pn_apellido2.encode(encoding='utf-8').strip()
             )
 
-        self.name = ' ' .join(nameList)
+        formatedList = []
+        for item in nameList:
+            if item is not '':
+                formatedList.append(item)
+        self.name = ' ' .join(formatedList)
