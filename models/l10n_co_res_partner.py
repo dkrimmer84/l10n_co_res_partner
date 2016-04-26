@@ -75,3 +75,9 @@ class PartnerInfoExtended(models.Model):
 
     # CIIU
     ciiu = fields.Many2one('ciiu', 'Actividad CIIU')
+    personType = fields.Selection(
+        [
+            (1, 'natural'),
+            (2, 'juridica')
+        ], 'Tipo de persona'
+    )

@@ -6,6 +6,7 @@
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <field name="type" position="before">
+                    <field name="personType" />
                     <field name="x_pn_nombre1" />
                     <field name="x_pn_nombre2" />
                     <field name="x_pn_apellido1" />
