@@ -88,8 +88,11 @@ class PartnerInfoExtended(models.Model):
         ], 'Tipo de persona'
     )
 
+    companyName = fields.Char('Nombre de la compañia')
+
+
     @api.one
-    @api.depends('x_pn_nombre1', 'x_pn_nombre2', 'x_pn_apellido1', 'x_pn_apellido2')
+    @api.depends('x_pn_nombre1', 'x_pn_nombre2', 'x_pn_apellido1', 'x_pn_apellido2', 'companyName')
     def _concat_name(self):
         """
         This function concatinates the four name fields in order to be able to search
@@ -97,6 +100,7 @@ class PartnerInfoExtended(models.Model):
         as the other fields should fill it up.
         @return: void
         """
+
         if self.x_pn_nombre1 is False:
             self.x_pn_nombre1 = ''
 
