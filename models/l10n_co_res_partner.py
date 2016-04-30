@@ -44,7 +44,8 @@ class PartnerInfoExtended(models.Model):
     name = fields.Char(
         string="Nombre completo",
         store=True,
-        compute="_concat_name"
+        compute="_concat_name",
+        required=True
     )
 
     x_pn_nombre1 = fields.Char(PRIMARY_FNAME)
@@ -130,3 +131,15 @@ class PartnerInfoExtended(models.Model):
             self.name = ' ' .join(formatedList)
         else:
             self.name = self.companyName
+
+    @api.onchange('personType')
+    def onChangePersonType(self):
+        if self.personType is 2:
+            self.x_pn_nombre1 = ''
+            self.x_pn_nombre2 = ''
+            self.x_pn_apellido1 = ''
+            self.x_pn_apellido2 = ''
+        elif self.personType is 1:
+            self.companyName = False
+
+
