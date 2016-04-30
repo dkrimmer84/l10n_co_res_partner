@@ -105,11 +105,13 @@ class PartnerInfoExtended(models.Model):
         [
             (1, NATURAL),
             (2, COMPANY)
-        ], PERSONTYPE
+        ],
+        PERSONTYPE,
+        default=1
     )
 
     companyName = fields.Char(COMPNAME)
-    getCompanyType = fields.Selection(related='company_type')
+    # getCompanyType = fields.Selection(related='company_type')
     verificationDigit = fields.Integer('DV', size=2)
     formatedNit = fields.Char(
         string='NIT Formateado',
