@@ -123,7 +123,10 @@ class PartnerInfoExtended(models.Model):
         self.name = ''
 
         formatedList = []
-        for item in nameList:
-            if item is not '':
-                formatedList.append(item)
-        self.name = ' ' .join(formatedList)
+        if self.companyName is False:
+            for item in nameList:
+                if item is not '':
+                    formatedList.append(item)
+            self.name = ' ' .join(formatedList)
+        else:
+            self.name = self.companyName

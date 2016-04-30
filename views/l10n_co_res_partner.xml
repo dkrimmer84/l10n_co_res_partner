@@ -16,7 +16,7 @@
 
                 <field name="type" position="before">
                     <field name="personType" />
-                    <field name="companyName"  attrs="{'invisible':['|',('personType', '=', 1),('company_type', '=', 'person')]}" />
+                    <field name="companyName"  attrs="{'invisible':[('personType', '=', 1),('company_type', '=', 'person')]}" />
                     <field name="x_pn_nombre1" attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')]}" />
                     <field name="x_pn_nombre2" attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')]}" />
                     <field name="x_pn_apellido1" attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')]}" />
