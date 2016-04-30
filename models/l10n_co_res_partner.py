@@ -145,6 +145,11 @@ class PartnerInfoExtended(models.Model):
                 self.formatedNit = '-' .join(formatedNitList)
 
 
+    @api.onchange('x_pn_tipoDocumento')
+    def onChangeDocType(self):
+        self.verificationDigit = ''
+
+
 
     @api.one
     @api.depends('x_pn_nombre1', 'x_pn_nombre2', 'x_pn_apellido1', 'x_pn_apellido2', 'companyName')
