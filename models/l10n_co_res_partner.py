@@ -11,7 +11,11 @@ class PartnerInfoExtended(models.Model):
     _name = 'res.partner'
     _inherit = 'res.partner'
 
-    # Declare some strings
+    '''
+    Let's start declaring some fix strings
+    '''
+
+    # Basic Fields
     PRIMARY_FNAME = "Primer Nombre"
     SECONDARY_FNAME = "Segundo Nombre"
     PRIMARY_NAME = "Primer Apellido"
@@ -40,9 +44,24 @@ class PartnerInfoExtended(models.Model):
     RETRI6 = "Común Auto-retenedor"
     RETRI7 = "Gran Contribuyente"
 
-    # Define the new fields
+    # Name field will be replaced
+    NAME = "Nombre completo"
+
+    # CIIU
+    CIIU = "Actividad CIIU"
+    NATURAL = "natural"
+    COMPANY = "juridica"
+    PERSONTYPE = "Tipo de persona"
+
+    # Company Name
+    COMPNAME = "Nombre de la compañia"
+
+    '''
+    Let's create the new fields:
+    '''
+    # Replace the name field
     name = fields.Char(
-        string="Nombre completo",
+        string=NAME,
         store=True,
         compute="_concat_name",
         required=True
@@ -81,15 +100,50 @@ class PartnerInfoExtended(models.Model):
     )
 
     # CIIU
-    ciiu = fields.Many2one('ciiu', 'Actividad CIIU')
+    ciiu = fields.Many2one('ciiu', CIIU)
     personType = fields.Selection(
         [
-            (1, 'natural'),
-            (2, 'juridica')
-        ], 'Tipo de persona'
+            (1, NATURAL),
+            (2, COMPANY)
+        ], PERSONTYPE
     )
 
-    companyName = fields.Char('Nombre de la compañia')
+    companyName = fields.Char(COMPNAME)
+    getCompanyType = fields.Selection(related='company_type')
+    verificationDigit = fields.Integer('DV', size=2)
+    formatedNit = fields.Char(
+        string='NIT Formateado',
+        compute="_concat_nit",
+        store=True
+    )
+
+    @api.one
+    @api.depends('verificationDigit', 'x_pn_numeroDocumento')
+    def _concat_nit(self):
+        """
+        Concatinating the NIT number in order to have it consistant everywhere where we need it
+        @return: void
+        """
+
+        if self.verificationDigit is False:
+            self.verificationDigit = ''
+        if self.x_pn_numeroDocumento is False:
+            self.x_pn_numeroDocumento = ''
+
+        self.formatedNit = ''
+
+        nitList = [
+            str(self.x_pn_numeroDocumento),
+            str(self.verificationDigit)
+        ]
+
+        formatedNitList = []
+
+        for item in nitList:
+            if item is not '' and item is not '0':
+                formatedNitList.append(item)
+                self.formatedNit = '-' .join(formatedNitList)
+
 
 
     @api.one
