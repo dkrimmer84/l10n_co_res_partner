@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Partner Information App
-from openerp import models, fields, api
-
+from openerp import models, fields, api, exceptions
 
 # Extend the Partner Model with some more fields
 
@@ -146,6 +145,10 @@ class PartnerInfoExtended(models.Model):
                 formatedNitList.append(item)
                 self.formatedNit = '-' .join(formatedNitList)
 
+        # TODO delete me and make me beautiful
+        nit = str(self.x_pn_numeroDocumento)
+        raise exceptions.ValidationError(self._check_dv(nit))
+
 
     @api.onchange('x_pn_tipoDocumento')
     def onChangeDocType(self):
@@ -204,3 +207,35 @@ class PartnerInfoExtended(models.Model):
             self.companyName = False
 
 
+    def _check_dv(self, nit):
+        """
+        Function to validate the check digit
+        @param nit: Enter the NIT number without check digit
+        @return: Boolean
+        """
+        nitString = '0'*(15-len(nit)) + nit
+        vl = list(nitString)
+        result = (
+                   int(vl[0])*71+
+                   int(vl[1])*67+
+                   int(vl[2])*59+
+                   int(vl[3])*53+
+                   int(vl[4])*47+
+                   int(vl[5])*43+
+                   int(vl[6])*41+
+                   int(vl[7])*37+
+                   int(vl[8])*29+
+                   int(vl[9])*23+
+                   int(vl[10])*19+
+                   int(vl[11])*17+
+                   int(vl[12])*13+
+                   int(vl[13])*7+
+                   int(vl[14])*3
+               ) % 11
+
+        if result in (0, 1):
+            return str(result)
+        else:
+            return str(11-result)
+
+    #_constraints = [(_check_dv, '¡Error! El digito de verificación es incorrecto', ['verificationDigit'])]
