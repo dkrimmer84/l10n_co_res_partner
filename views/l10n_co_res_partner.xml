@@ -18,7 +18,6 @@
                     <field name="personType" />
                     <field name="x_pn_tipoDocumento" />
                     <field name="x_pn_numeroDocumento" />
-                    <field name="verificationDigit" placeholder="DV" attrs="{'invisible':[('x_pn_tipoDocumento', '!=', 31)]}" />
                     <field name="formatedNit" attrs="{'invisible':[('x_pn_tipoDocumento', '!=', 31)]}" readonly="1" />
                     <field name="companyName"  attrs="{'invisible':[('personType', '=', 1),('company_type', '=', 'person')]}" />
                     <field name="x_pn_nombre1" attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')]}" />

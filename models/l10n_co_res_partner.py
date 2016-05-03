@@ -10,9 +10,7 @@ class PartnerInfoExtended(models.Model):
     _name = 'res.partner'
     _inherit = 'res.partner'
 
-    '''
-    Let's start declaring some fix strings
-    '''
+    # Creating new strings
 
     # Basic Fields
     PRIMARY_FNAME = "Primer Nombre"
@@ -55,9 +53,12 @@ class PartnerInfoExtended(models.Model):
     # Company Name
     COMPNAME = "Nombre de la compañia"
 
-    '''
-    Let's create the new fields:
-    '''
+    # --- Creating new fields --
+
+    # Company Name
+    companyName = fields.Char(COMPNAME)
+    # getCompanyType = fields.Selection(related='company_type')
+
     # Replace the name field
     name = fields.Char(
         string=NAME,
@@ -66,10 +67,13 @@ class PartnerInfoExtended(models.Model):
         required=True
     )
 
+    # Adding new name fields
     x_pn_nombre1 = fields.Char(PRIMARY_FNAME)
     x_pn_nombre2 = fields.Char(SECONDARY_FNAME)
     x_pn_apellido1 = fields.Char(PRIMARY_NAME)
     x_pn_apellido2 = fields.Char(SECONDARY_NAME)
+
+    # Document information
     x_pn_tipoDocumento = fields.Selection(
         [
             (11, DOCTYPE9),
@@ -84,7 +88,14 @@ class PartnerInfoExtended(models.Model):
         ], DOCTYPE
     )
     x_pn_numeroDocumento = fields.Integer(DOCNUM, size=25)
+    verificationDigit = fields.Integer('DV', size=2)
+    formatedNit = fields.Char(
+        string='NIT Formateado',
+        compute="_concat_nit",
+        store=True
+    )
 
+    # Tributate regime
     x_pn_retri = fields.Selection(
         [
             (6, RETRI1),
@@ -109,58 +120,43 @@ class PartnerInfoExtended(models.Model):
         default=1
     )
 
-    companyName = fields.Char(COMPNAME)
-    # getCompanyType = fields.Selection(related='company_type')
-    verificationDigit = fields.Integer('DV', size=2)
-    formatedNit = fields.Char(
-        string='NIT Formateado',
-        compute="_concat_nit",
-        store=True
-    )
-
     @api.one
     @api.depends('verificationDigit', 'x_pn_numeroDocumento')
     def _concat_nit(self):
         """
-        Concatinating the NIT number in order to have it consistant everywhere where we need it
+        Concatenating and formating the NIT number in order to have it consistant everywhere where we need it
         @return: void
         """
-
-        if self.verificationDigit is False:
-            self.verificationDigit = ''
         if self.x_pn_numeroDocumento is False:
             self.x_pn_numeroDocumento = ''
 
         self.formatedNit = ''
 
+        # Formating the NIT: xx.xxx.xxx-x
+        s = str(self.x_pn_numeroDocumento)[::-1]
+        newnit = '.'.join(s[i:i+3] for i in range(0, len(s), 3))
+        newnit = newnit[::-1]
+
         nitList = [
-            str(self.x_pn_numeroDocumento),
-            str(self.verificationDigit)
+            newnit,
+            # Calling the NIT Function which creates the Verification Code:
+            self._check_dv(str(self.x_pn_numeroDocumento))
         ]
 
         formatedNitList = []
 
         for item in nitList:
+            # TODO Check if 0 creates problems with NIT that have a 0 in DV
             if item is not '' and item is not '0':
                 formatedNitList.append(item)
                 self.formatedNit = '-' .join(formatedNitList)
-
-        # TODO delete me and make me beautiful
-        nit = str(self.x_pn_numeroDocumento)
-        raise exceptions.ValidationError(self._check_dv(nit))
-
-
-    @api.onchange('x_pn_tipoDocumento')
-    def onChangeDocType(self):
-        self.verificationDigit = ''
-
 
 
     @api.one
     @api.depends('x_pn_nombre1', 'x_pn_nombre2', 'x_pn_apellido1', 'x_pn_apellido2', 'companyName')
     def _concat_name(self):
         """
-        This function concatinates the four name fields in order to be able to search
+        This function concatenates the four name fields in order to be able to search
         for the entire name. On the other hand the original name field should not be editable anymore
         as the other fields should fill it up.
         @return: void
@@ -198,6 +194,10 @@ class PartnerInfoExtended(models.Model):
 
     @api.onchange('personType')
     def onChangePersonType(self):
+        """
+        Delete entries in fields once the type of person changes
+        @return: void
+        """
         if self.personType is 2:
             self.x_pn_nombre1 = ''
             self.x_pn_nombre2 = ''
@@ -211,7 +211,7 @@ class PartnerInfoExtended(models.Model):
         """
         Function to validate the check digit
         @param nit: Enter the NIT number without check digit
-        @return: Boolean
+        @return: String
         """
         nitString = '0'*(15-len(nit)) + nit
         vl = list(nitString)
@@ -238,4 +238,6 @@ class PartnerInfoExtended(models.Model):
         else:
             return str(11-result)
 
-    #_constraints = [(_check_dv, '¡Error! El digito de verificación es incorrecto', ['verificationDigit'])]
+    def _check_doc_number(self):
+        # TODO check amount of digits in nit and co.
+        return False
