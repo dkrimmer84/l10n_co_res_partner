@@ -57,7 +57,9 @@ class PartnerInfoExtended(models.Model):
 
     # Company Name
     companyName = fields.Char(COMPNAME)
-    # getCompanyType = fields.Selection(related='company_type')
+
+    # companyType
+    companyType = fields.Selection(related='company_type')
 
     # Replace the name field
     name = fields.Char(
@@ -120,11 +122,21 @@ class PartnerInfoExtended(models.Model):
         default=1
     )
 
+    # Is Company: replace the field company_type
+    company_type = fields.Selection(
+        [
+            ('person', 'Individual'),
+            ('company', 'Compañia')
+        ]
+    )
+
+    is_company = fields.Boolean(string=None)
+
     @api.one
-    @api.depends('verificationDigit', 'x_pn_numeroDocumento')
+    @api.depends('x_pn_numeroDocumento')
     def _concat_nit(self):
         """
-        Concatenating and formating the NIT number in order to have it consistant everywhere where we need it
+        Concatenating and formatting the NIT number in order to have it consistent everywhere where it is needed
         @return: void
         """
         if self.x_pn_numeroDocumento is False:
@@ -132,7 +144,7 @@ class PartnerInfoExtended(models.Model):
 
         self.formatedNit = ''
 
-        # Formating the NIT: xx.xxx.xxx-x
+        # Formatting the NIT: xx.xxx.xxx-x
         s = str(self.x_pn_numeroDocumento)[::-1]
         newnit = '.'.join(s[i:i+3] for i in range(0, len(s), 3))
         newnit = newnit[::-1]
@@ -206,6 +218,16 @@ class PartnerInfoExtended(models.Model):
         elif self.personType is 1:
             self.companyName = False
 
+    @api.one
+    @api.onchange('company_type')
+    def onChangeCompanyType(self):
+        if self.company_type == 'company':
+            self.personType = 2
+            self.is_company = True
+        else:
+            self.personType = 1
+            self.is_company = False
+
 
     def _check_dv(self, nit):
         """
@@ -216,20 +238,20 @@ class PartnerInfoExtended(models.Model):
         nitString = '0'*(15-len(nit)) + nit
         vl = list(nitString)
         result = (
-                   int(vl[0])*71+
-                   int(vl[1])*67+
-                   int(vl[2])*59+
-                   int(vl[3])*53+
-                   int(vl[4])*47+
-                   int(vl[5])*43+
-                   int(vl[6])*41+
-                   int(vl[7])*37+
-                   int(vl[8])*29+
-                   int(vl[9])*23+
-                   int(vl[10])*19+
-                   int(vl[11])*17+
-                   int(vl[12])*13+
-                   int(vl[13])*7+
+                   int(vl[0])*71 +
+                   int(vl[1])*67 +
+                   int(vl[2])*59 +
+                   int(vl[3])*53 +
+                   int(vl[4])*47 +
+                   int(vl[5])*43 +
+                   int(vl[6])*41 +
+                   int(vl[7])*37 +
+                   int(vl[8])*29 +
+                   int(vl[9])*23 +
+                   int(vl[10])*19 +
+                   int(vl[11])*17 +
+                   int(vl[12])*13 +
+                   int(vl[13])*7 +
                    int(vl[14])*3
                ) % 11
 

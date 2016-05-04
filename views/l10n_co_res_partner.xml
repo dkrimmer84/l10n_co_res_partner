@@ -10,6 +10,18 @@
                     <attribute name="invisible">True</attribute>
                 </field>
 
+                <field name="company_type" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+
+
+                <field name="is_company" invisible="1"/>
+                <field name="name" position="before">
+
+                        <field name="company_type" widget="radio" class="oe_edit_only" options="{'horizontal': true}"/>
+                </field>
+
+
                 <field name="parent_id" position="before">
                     <h3><field name="name" readonly="1" /></h3>
                 </field>
