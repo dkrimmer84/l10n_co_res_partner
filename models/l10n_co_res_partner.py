@@ -2,7 +2,7 @@
 
 # Partner Information App
 from openerp import models, fields, api, exceptions
-
+import re
 # Extend the Partner Model with some more fields
 
 
@@ -89,7 +89,7 @@ class PartnerInfoExtended(models.Model):
             (43, DOCTYPE8)
         ], DOCTYPE
     )
-    x_pn_numeroDocumento = fields.Integer(DOCNUM, size=25)
+    x_pn_numeroDocumento = fields.Char(DOCNUM)
     verificationDigit = fields.Integer('DV', size=2)
     formatedNit = fields.Char(
         string='NIT Formateado',
@@ -122,7 +122,7 @@ class PartnerInfoExtended(models.Model):
         default=1
     )
 
-    # Is Company: replace the field company_type
+    # Replacing the field company_type
     company_type = fields.Selection(
         [
             ('person', 'Individual'),
@@ -130,6 +130,7 @@ class PartnerInfoExtended(models.Model):
         ]
     )
 
+    # Boolean if contact is a company or an individual
     is_company = fields.Boolean(string=None)
 
     @api.one
@@ -139,6 +140,12 @@ class PartnerInfoExtended(models.Model):
         Concatenating and formatting the NIT number in order to have it consistent everywhere where it is needed
         @return: void
         """
+
+        # First check if entered value is valid
+        self._check_ident()
+        self._check_ident_num()
+
+        # Instead of showing "False" we put en empty string
         if self.x_pn_numeroDocumento is False:
             self.x_pn_numeroDocumento = ''
 
@@ -158,8 +165,7 @@ class PartnerInfoExtended(models.Model):
         formatedNitList = []
 
         for item in nitList:
-            # TODO Check if 0 creates problems with NIT that have a 0 in DV
-            if item is not '' and item is not '0':
+            if item is not '':
                 formatedNitList.append(item)
                 self.formatedNit = '-' .join(formatedNitList)
 
@@ -174,6 +180,7 @@ class PartnerInfoExtended(models.Model):
         @return: void
         """
 
+        # Avoiding that "False" will be written into the name field
         if self.x_pn_nombre1 is False:
             self.x_pn_nombre1 = ''
 
@@ -186,6 +193,7 @@ class PartnerInfoExtended(models.Model):
         if self.x_pn_apellido2 is False:
             self.x_pn_apellido2 = ''
 
+        # Collecting all names in a field that will be concatenated
         nameList = [
             self.x_pn_nombre1.encode(encoding='utf-8').strip(),
             self.x_pn_nombre2.encode(encoding='utf-8').strip(),
@@ -207,7 +215,7 @@ class PartnerInfoExtended(models.Model):
     @api.onchange('personType')
     def onChangePersonType(self):
         """
-        Delete entries in fields once the type of person changes
+        Delete entries in name fields once the type of person changes to "company"
         @return: void
         """
         if self.personType is 2:
@@ -219,8 +227,22 @@ class PartnerInfoExtended(models.Model):
             self.companyName = False
 
     @api.one
+    @api.onchange('x_pn_tipoDocumento')
+    def onChangeDocumentType(self):
+        """
+        If Document Type changes we delete the value as for different document types there are different formats
+        e.g. "Tarjeta de extranjeria" (21) allows letters in the value
+        @return: void
+        """
+        self.x_pn_numeroDocumento = False
+
+    @api.one
     @api.onchange('company_type')
     def onChangeCompanyType(self):
+        """
+        This function changes the person type field if the company type changes.
+        @return: void
+        """
         if self.company_type == 'company':
             self.personType = 2
             self.is_company = True
@@ -231,10 +253,13 @@ class PartnerInfoExtended(models.Model):
 
     def _check_dv(self, nit):
         """
-        Function to validate the check digit
+        Function to validate the check digit (DV)
         @param nit: Enter the NIT number without check digit
         @return: String
         """
+        if self.x_pn_tipoDocumento != 31:
+            return str(nit)
+
         nitString = '0'*(15-len(nit)) + nit
         vl = list(nitString)
         result = (
@@ -260,6 +285,17 @@ class PartnerInfoExtended(models.Model):
         else:
             return str(11-result)
 
-    def _check_doc_number(self):
-        # TODO check amount of digits in nit and co.
-        return False
+    @api.constrains('x_pn_numeroDocumento')
+    def _check_ident(self):
+        if len(str(self.x_pn_numeroDocumento)) < 2:
+            raise exceptions.ValidationError("¡Error! Número de identificación debe tener entre 2 y 12 dígitos")
+        elif len(str(self.x_pn_numeroDocumento)) > 12:
+            raise exceptions.ValidationError("¡Error! Número de identificación debe tener entre 2 y 12 dígitos")
+        return True
+
+    @api.constrains('x_pn_numeroDocumento')
+    def _check_ident_num(self):
+        if self.x_pn_numeroDocumento != False and self.x_pn_tipoDocumento != 21:
+            if re.match("^[0-9]+$", self.x_pn_numeroDocumento) == None:
+                    raise exceptions.ValidationError("¡Error! El número de identificación sólo permite números")
+        return True
