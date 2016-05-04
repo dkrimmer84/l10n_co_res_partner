@@ -69,6 +69,12 @@ class PartnerInfoExtended(models.Model):
         required=True
     )
 
+    # helper pseudo name
+    pseudo_name = fields.Char(
+        string='Pseudo Name',
+        store=True,
+        compute="_concat_name")
+
     # Adding new name fields
     x_pn_nombre1 = fields.Char(PRIMARY_FNAME)
     x_pn_nombre2 = fields.Char(SECONDARY_FNAME)
@@ -179,7 +185,7 @@ class PartnerInfoExtended(models.Model):
         as the other fields should fill it up.
         @return: void
         """
-
+        # TODO: pseudo_name ist das gleiche wie name, wird aber gebraucht da name nicht auf readonly stehen darf.
         # Avoiding that "False" will be written into the name field
         if self.x_pn_nombre1 is False:
             self.x_pn_nombre1 = ''
@@ -202,6 +208,7 @@ class PartnerInfoExtended(models.Model):
         ]
 
         self.name = ''
+        self.pseudo_name = ''
 
         formatedList = []
         if self.companyName is False:
@@ -209,8 +216,10 @@ class PartnerInfoExtended(models.Model):
                 if item is not '':
                     formatedList.append(item)
             self.name = ' ' .join(formatedList)
+            self.pseudo_name = ' ' .join(formatedList)
         else:
             self.name = self.companyName
+            self.pseudo_name = self.companyName
 
     @api.onchange('personType')
     def onChangePersonType(self):
@@ -230,8 +239,8 @@ class PartnerInfoExtended(models.Model):
     @api.onchange('x_pn_tipoDocumento')
     def onChangeDocumentType(self):
         """
-        If Document Type changes we delete the value as for different document types there are different formats
-        e.g. "Tarjeta de extranjeria" (21) allows letters in the value
+        If Document Type changes we delete the document number as for different document types there are different
+        formats e.g. "Tarjeta de extranjeria" (21) allows letters in the value
         @return: void
         """
         self.x_pn_numeroDocumento = False
@@ -241,19 +250,37 @@ class PartnerInfoExtended(models.Model):
     def onChangeCompanyType(self):
         """
         This function changes the person type field if the company type changes.
+        If it is a company, document type 31 will be selected automatically as in colombia it's more probably that
+        it will be choosen by the user.
         @return: void
         """
         if self.company_type == 'company':
             self.personType = 2
             self.is_company = True
+            self.x_pn_tipoDocumento = 31
         else:
             self.personType = 1
             self.is_company = False
+            self.x_pn_tipoDocumento = False
+
+    @api.one
+    @api.onchange('is_company')
+    def onChangeIsCompany(self):
+        """
+        This function changes the person type field and the company type if checked / unchecked
+        @return: void
+        """
+        if self.is_company is True:
+            self.personType = 2
+            self.company_type = 'company'
+        else:
+            self.is_company = False
+            self.company_type = 'person'
 
 
     def _check_dv(self, nit):
         """
-        Function to validate the check digit (DV)
+        Function to validate the check digit (DV). So there is no need to type it manually.
         @param nit: Enter the NIT number without check digit
         @return: String
         """
@@ -287,15 +314,32 @@ class PartnerInfoExtended(models.Model):
 
     @api.constrains('x_pn_numeroDocumento')
     def _check_ident(self):
+        """
+        This function checks the number length in the Identification field. Min 2, Max 12 digits.
+        @return: void
+        """
         if len(str(self.x_pn_numeroDocumento)) < 2:
             raise exceptions.ValidationError("¡Error! Número de identificación debe tener entre 2 y 12 dígitos")
         elif len(str(self.x_pn_numeroDocumento)) > 12:
             raise exceptions.ValidationError("¡Error! Número de identificación debe tener entre 2 y 12 dígitos")
-        return True
 
     @api.constrains('x_pn_numeroDocumento')
     def _check_ident_num(self):
-        if self.x_pn_numeroDocumento != False and self.x_pn_tipoDocumento != 21:
+        """
+        This function checks the content of the identification fields: Type of document and number cannot be empty.
+        There are two document types that permit letters in the identification field: 21 and 41
+        The rest does not permit any letters
+        @return: void
+        """
+        if self.x_pn_numeroDocumento != False and self.x_pn_tipoDocumento != 21 and self.x_pn_tipoDocumento != 41:
             if re.match("^[0-9]+$", self.x_pn_numeroDocumento) == None:
                     raise exceptions.ValidationError("¡Error! El número de identificación sólo permite números")
-        return True
+
+    @api.constrains('x_pn_tipoDocumento')
+    def _checkDocType(self):
+        """
+        This function throws and error if there is no document type selected.
+        @return: void
+        """
+        if self.x_pn_tipoDocumento is False:
+            raise exceptions.ValidationError("¡Error! Porfavor escoga un tipo de identificación ")

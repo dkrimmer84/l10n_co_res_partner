@@ -14,15 +14,16 @@
                     <attribute name="invisible">True</attribute>
                 </field>
 
-
-                <field name="is_company" invisible="1"/>
                 <field name="company_type" position="after">
-                    <field name="company_type" widget="radio" class="oe_edit_only" options="{'horizontal': true}"/>
+                    <field invisible="1" name="company_type" widget="radio" class="oe_edit_only" options="{'horizontal': true}"/>
+                    <field name="is_company" class="oe_inline" modifiers="{}"/>
+                    <label for="is_company" string="¿Es una empresa?"/>
                 </field>
 
 
                 <field name="parent_id" position="before">
-                    <h3><field name="name" readonly="1" /></h3>
+                    <field name="name" invisible="1" />
+                    <h3><field name="pseudo_name" readonly="1" /></h3>
                 </field>
 
                 <field name="type" position="before">
