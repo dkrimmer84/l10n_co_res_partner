@@ -25,7 +25,7 @@
         <field name="model">ciiu</field>
         <field name="arch" type="xml">
             <!-- this will be our title of list/tree view -->
-            <form string="CIIU" version="7.0">
+            <form string="CIIU" version="7.0" toolbar="1" create="false" delete="false" edit="false">
                 <group>
                     <field name="code"/> 
                     <field name="description"/> 
