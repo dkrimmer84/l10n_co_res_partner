@@ -17,10 +17,12 @@ Colombian Partner Rules:
         'account',
         'account_accountant',
         'base',
+        'l10n_co'
     ],
     'data': [
         'views/l10n_co_res_partner.xml',
-        'views/ciiu.xml'
+        'views/ciiu.xml',
+        'data/ciiu.csv'
     ],
     'installable': True,
 }

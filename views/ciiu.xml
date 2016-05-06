@@ -10,7 +10,7 @@
         <field name="model">ciiu</field>
         <field name="arch" type="xml">
             <!-- this will be our title of list/tree view -->
-            <tree string="CIIU" colors="blue:type == 'view'; black:type == 'other'">
+            <tree string="CIIU" colors="blue:type == 'view'; black:type == 'other'" toolbar="1" create="false" delete="false" edit="false">
                 <!-- these will automatically map table headers for our list view -->
                 <field name="code"/> 
                 <field name="description"/>
