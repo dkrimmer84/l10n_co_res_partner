@@ -288,7 +288,7 @@ class PartnerInfoExtended(models.Model):
         @return: void
         """
         if self.is_company is True:
-            self.personType = 2
+            self.personType = 1
             self.company_type = 'company'
         else:
             self.is_company = False
