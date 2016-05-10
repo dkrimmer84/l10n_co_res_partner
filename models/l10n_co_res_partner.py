@@ -288,7 +288,7 @@ class PartnerInfoExtended(models.Model):
         @return: void
         """
         if self.is_company is True:
-            self.personType = 1
+            self.personType = 2
             self.company_type = 'company'
         else:
             self.is_company = False
@@ -332,7 +332,7 @@ class PartnerInfoExtended(models.Model):
     @api.constrains('x_pn_numeroDocumento')
     def _check_ident(self):
         """
-        This function checks the number length in the Identification field. Min 2, Max 12 digits.
+        This function checks the number length in the Identification field. Min 6, Max 12 digits.
         @return: void
         """
         if len(str(self.x_pn_numeroDocumento)) < 2:
