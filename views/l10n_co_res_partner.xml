@@ -55,7 +55,7 @@
                     <field name="x_pn_apellido2"
                            attrs="{'invisible':['|',('personType', '=', 2)]}"  />
                     <field name="x_pn_retri" />
-                    <field name="ciiu" />
+                    <field name="ciiu" domain="[('type', '=', 'other')]" />
                 </field>
             </field>
         </record>
