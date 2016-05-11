@@ -148,6 +148,9 @@ class PartnerInfoExtended(models.Model):
     # Boolean if contact is a company or an individual
     is_company = fields.Boolean(string=None)
 
+    # Verification digit
+    dv = fields.Integer(string=None, store=True)
+
     @api.one
     @api.depends('x_pn_numeroDocumento')
     def _concat_nit(self):
@@ -183,6 +186,9 @@ class PartnerInfoExtended(models.Model):
             if item is not '':
                 formatedNitList.append(item)
                 self.formatedNit = '-' .join(formatedNitList)
+
+        # Saving Verification digit in a proper field
+        self.dv = nitList[1]
 
 
     @api.one
