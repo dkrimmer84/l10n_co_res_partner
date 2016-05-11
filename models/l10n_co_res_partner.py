@@ -47,6 +47,9 @@ class PartnerInfoExtended(models.Model):
     DOCTYPE7 = "42 - Documento de identificación extranjero"
     DOCTYPE8 = "43 - Sin identificación del exterior o para uso definido por la DIAN"
     DOCTYPE9 = "11 - Registro civil de nacimiento"
+    # TODO: Replace these names with the real terms and numbers
+    DOCTYPE10 = "xx - DIAN"
+    DOCTYPE11 = "xx - DIE"
 
     # Regímen Tributario
     RETRI = "Regímen Tributario"
@@ -95,7 +98,10 @@ class PartnerInfoExtended(models.Model):
             (31, DOCTYPE3),
             (41, DOCTYPE6),
             (42, DOCTYPE7),
-            (43, DOCTYPE8)
+            (43, DOCTYPE8),
+            (99, DOCTYPE10),
+            (98, DOCTYPE11)
+
         ], DOCTYPE
     )
     x_pn_numeroDocumento = fields.Char(DOCNUM)
@@ -257,7 +263,7 @@ class PartnerInfoExtended(models.Model):
         @return: void
         """
         if self.company_type == 'company':
-            self.personType = self.personType = 2
+            self.personType = 2
             self.is_company = True
             self.x_pn_tipoDocumento = 31
         else:
