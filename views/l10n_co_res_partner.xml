@@ -15,27 +15,44 @@
                 </field>
 
                 <field name="company_type" position="after">
-                    <field invisible="1" name="company_type" widget="radio" class="oe_edit_only" options="{'horizontal': true}"/>
+                    <field invisible="1"
+                           name="company_type"
+                           widget="radio"
+                           class="oe_edit_only"
+                           options="{'horizontal': true}"/>
+
                     <field name="is_company" class="oe_inline" modifiers="{}"/>
                     <label for="is_company" string="¿Es una empresa?"/>
                 </field>
 
-
                 <field name="parent_id" position="before">
-                    <field name="name" invisible="1" />
-                    <h3><field name="pseudo_name" readonly="1" /></h3>
+                    <h3>
+                        <field
+                                name="name"
+                                attrs="{'invisible':[('x_pn_nombre1', '=', ''),('companyName', '=', False)]}"
+                                placeholder="¡Campo se llenará automáticamente!" />
+                    </h3>
                 </field>
 
                 <field name="type" position="before">
-                    <field name="personType" attrs="{'readonly':[('company_type', '=', 'company')]}"/>
+                    <field name="personType"
+                           attrs="{'readonly':[('company_type', '=', 'company')]}"/>
                     <field name="x_pn_tipoDocumento" />
                     <field name="x_pn_numeroDocumento" />
-                    <field name="formatedNit" attrs="{'invisible':[('x_pn_tipoDocumento', '!=', 31)]}" readonly="1" />
-                    <field name="companyName"  attrs="{'invisible':[('personType', '=', 1),('company_type', '=', 'person')]}" />
-                    <field name="x_pn_nombre1" attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')]}" />
-                    <field name="x_pn_nombre2" attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')]}" />
-                    <field name="x_pn_apellido1" attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')]}" />
-                    <field name="x_pn_apellido2" attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')]}"  />
+                    <field name="formatedNit"
+                           attrs="{'invisible':[('x_pn_tipoDocumento', '!=', 31)]}"
+                           readonly="1" />
+                    <field name="companyName"
+                           attrs="{'invisible':[('personType', '=', 1),('company_type', '=', 'person')], 'required': [('personType', '=', 2)]}" />
+                    <field name="x_pn_nombre1"
+                           default_focus="1"
+                           attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')], 'required': [('personType', '=', 1)]}" />
+                    <field name="x_pn_nombre2"
+                           attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')]}" />
+                    <field name="x_pn_apellido1"
+                           attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')], 'required': [('personType', '=', 1)]}" />
+                    <field name="x_pn_apellido2"
+                           attrs="{'invisible':['|',('personType', '=', 2),('company_type', '=', 'company')]}"  />
                     <field name="x_pn_retri" />
                     <field name="ciiu" />
                 </field>

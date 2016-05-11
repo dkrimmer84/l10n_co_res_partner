@@ -78,20 +78,6 @@ class PartnerInfoExtended(models.Model):
     # companyType
     companyType = fields.Selection(related='company_type')
 
-    # Replace the name field
-    name = fields.Char(
-        string=NAME,
-        store=True,
-        compute="_concat_name",
-        required=True
-    )
-
-    # helper pseudo name
-    pseudo_name = fields.Char(
-        string='Pseudo Name',
-        store=True,
-        compute="_concat_name")
-
     # Adding new name fields
     x_pn_nombre1 = fields.Char(PRIMARY_FNAME)
     x_pn_nombre2 = fields.Char(SECONDARY_FNAME)
@@ -194,7 +180,7 @@ class PartnerInfoExtended(models.Model):
 
 
     @api.one
-    @api.depends('x_pn_nombre1', 'x_pn_nombre2', 'x_pn_apellido1', 'x_pn_apellido2', 'companyName')
+    @api.onchange('x_pn_nombre1', 'x_pn_nombre2', 'x_pn_apellido1', 'x_pn_apellido2', 'companyName')
     def _concat_name(self):
         """
         This function concatenates the four name fields in order to be able to search
@@ -202,7 +188,6 @@ class PartnerInfoExtended(models.Model):
         as the other fields should fill it up.
         @return: void
         """
-        # TODO: pseudo_name ist das gleiche wie name, wird aber gebraucht da name nicht auf readonly stehen darf.
         # Avoiding that "False" will be written into the name field
         if self.x_pn_nombre1 is False:
             self.x_pn_nombre1 = ''
@@ -224,19 +209,19 @@ class PartnerInfoExtended(models.Model):
             self.x_pn_apellido2.encode(encoding='utf-8').strip()
         ]
 
-        self.name = ''
-        self.pseudo_name = ''
-
         formatedList = []
         if self.companyName is False:
             for item in nameList:
                 if item is not '':
                     formatedList.append(item)
             self.name = ' ' .join(formatedList)
-            self.pseudo_name = ' ' .join(formatedList)
         else:
             self.name = self.companyName
-            self.pseudo_name = self.companyName
+
+    @api.one
+    @api.onchange('name')
+    def onChangeName(self):
+        self._concat_name()
 
     @api.onchange('personType')
     def onChangePersonType(self):
@@ -272,7 +257,7 @@ class PartnerInfoExtended(models.Model):
         @return: void
         """
         if self.company_type == 'company':
-            self.personType = 2
+            self.personType = self.personType = 2
             self.is_company = True
             self.x_pn_tipoDocumento = 31
         else:
@@ -293,7 +278,6 @@ class PartnerInfoExtended(models.Model):
         else:
             self.is_company = False
             self.company_type = 'person'
-
 
     def _check_dv(self, nit):
         """
@@ -360,3 +344,19 @@ class PartnerInfoExtended(models.Model):
         """
         if self.x_pn_tipoDocumento is False:
             raise exceptions.ValidationError("¡Error! Porfavor escoga un tipo de identificación ")
+
+    @api.constrains('x_pn_nombre1', 'x_pn_nombre2', 'companyName')
+    def _check_names(self):
+        """
+        Double check: Although validation is checked within the frontend (xml) we check it again to get sure
+        TODO: Check if obsolate :-)
+        """
+        if self.is_company is True:
+            if self.companyName is False:
+                raise exceptions.ValidationError("¡Error! Porfavor ingrese el nombre de la empresa")
+        else:
+            if self.x_pn_nombre1 is False or self.x_pn_nombre1 == '':
+                raise exceptions.ValidationError("¡Error! Porfavor ingrese el nombre de la persona")
+
+
+
