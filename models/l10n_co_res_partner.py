@@ -158,37 +158,38 @@ class PartnerInfoExtended(models.Model):
         Concatenating and formatting the NIT number in order to have it consistent everywhere where it is needed
         @return: void
         """
+        # Executing only for Document Type 31 (NIT)
+        if self.x_pn_tipoDocumento is 31:
+            # First check if entered value is valid
+            self._check_ident()
+            self._check_ident_num()
 
-        # First check if entered value is valid
-        self._check_ident()
-        self._check_ident_num()
+            # Instead of showing "False" we put en empty string
+            if self.x_pn_numeroDocumento is False:
+                self.x_pn_numeroDocumento = ''
 
-        # Instead of showing "False" we put en empty string
-        if self.x_pn_numeroDocumento is False:
-            self.x_pn_numeroDocumento = ''
+            self.formatedNit = ''
 
-        self.formatedNit = ''
+            # Formatting the NIT: xx.xxx.xxx-x
+            s = str(self.x_pn_numeroDocumento)[::-1]
+            newnit = '.'.join(s[i:i+3] for i in range(0, len(s), 3))
+            newnit = newnit[::-1]
 
-        # Formatting the NIT: xx.xxx.xxx-x
-        s = str(self.x_pn_numeroDocumento)[::-1]
-        newnit = '.'.join(s[i:i+3] for i in range(0, len(s), 3))
-        newnit = newnit[::-1]
+            nitList = [
+                newnit,
+                # Calling the NIT Function which creates the Verification Code:
+                self._check_dv(str(self.x_pn_numeroDocumento))
+            ]
 
-        nitList = [
-            newnit,
-            # Calling the NIT Function which creates the Verification Code:
-            self._check_dv(str(self.x_pn_numeroDocumento))
-        ]
+            formatedNitList = []
 
-        formatedNitList = []
+            for item in nitList:
+                if item is not '':
+                    formatedNitList.append(item)
+                    self.formatedNit = '-' .join(formatedNitList)
 
-        for item in nitList:
-            if item is not '':
-                formatedNitList.append(item)
-                self.formatedNit = '-' .join(formatedNitList)
-
-        # Saving Verification digit in a proper field
-        self.dv = nitList[1]
+            # Saving Verification digit in a proper field
+            self.dv = nitList[1]
 
 
     @api.one

@@ -59,5 +59,28 @@
                 </field>
             </field>
         </record>
+
+        <record id="view_tree_res_partner_inherited" model="ir.ui.view">
+            <field name="name">Partner – User extension</field>
+                <field name="model">res.partner</field>
+                <field name="inherit_id" ref="base.view_partner_tree"/>
+                <field name="arch" type="xml">
+                <field name="phone" position="before">
+                    <field name="x_pn_numeroDocumento" string="Identificación" />
+                </field>
+            </field>
+        </record>
+
+        <record id="view_search_res_partner_inherited" model="ir.ui.view">
+            <field name="name">Search - extension</field>
+                <field name="model">res.partner</field>
+                <field name="inherit_id" ref="base.view_res_partner_filter"/>
+                <field name="arch" type="xml">
+                    <field name="name" position="replace">
+                        <field name="name" filter_domain="['|',('display_name','ilike',self), ('x_pn_numeroDocumento','ilike',self)]" />
+                    </field>
+            </field>
+        </record>
+
     </data>
 </openerp>
