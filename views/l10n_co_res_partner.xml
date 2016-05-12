@@ -57,8 +57,8 @@
                     <field name="x_pn_retri" />
                     <field name="ciiu" domain="[('type', '=', 'other')]" />
                     <field name="xcountry" /> <!-- Country -->
-                    <field name="xstate" /> <!-- municipality / Ciudad -->
-                    <field name="xcity" /> <!-- City / Municipality -->
+                    <field name="xstate" attrs="{'invisible':[('xcountry', '=', False)]}" /> <!-- Department -->
+                    <field name="xcity" attrs="{'invisible':[('xcountry', '=', False)]}" /> <!-- City / Municipality -->
 
                 </field>
             </field>

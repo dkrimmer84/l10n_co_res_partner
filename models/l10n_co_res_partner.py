@@ -60,6 +60,9 @@ class PartnerInfoExtended(models.Model):
     DOCTYPE7 = "42 - Documento de identificación extranjero"
     DOCTYPE8 = "43 - Sin identificación del exterior o para uso definido por la DIAN"
     DOCTYPE9 = "11 - Registro civil de nacimiento"
+    DOCTYPE12 = "AS - Adulto sin identificación"
+    DOCTYPE13 = "MS - Menor sin identificación"
+    DOCTYPE14 = "NU - Número único de identificación"
     # TODO: Replace these names with the real terms and numbers
     DOCTYPE10 = "xx - DIAN"
     DOCTYPE11 = "xx - DIE"
