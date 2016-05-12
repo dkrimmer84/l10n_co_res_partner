@@ -20,7 +20,20 @@
 # Partner Information App
 from openerp import models, fields, api, exceptions
 import re
-# Extend the Partner Model with some more fields
+
+
+class CountryStateCity(models.Model):
+    """
+    Model added to manipulate separately the cities on Partner address.
+    """
+    _description = 'Model to manipulate Cities'
+    _name = 'res.country.state.city'
+
+    code = fields.Char('City Code', size=5, help='Código DANE -5 dígitos-', required=True)
+    name = fields.Char('City Name', size=64, required=True)
+    state_id = fields.Many2one('res.country.state', 'State', required=True)
+    country_id = fields.Many2one('res.country', 'Country', required=True)
+    _order = 'code'
 
 
 class PartnerInfoExtended(models.Model):
@@ -150,6 +163,11 @@ class PartnerInfoExtended(models.Model):
 
     # Verification digit
     dv = fields.Integer(string=None, store=True)
+
+    # Country -> State -> Municipality
+    xcountry = fields.Many2one('res.country', 'País')
+    xstate = fields.Many2one('res.country.state', 'Departamento')
+    xcity = fields.Many2one('res.country.state.city', 'Ciudad / Municipio')
 
     @api.one
     @api.depends('x_pn_numeroDocumento')

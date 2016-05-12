@@ -56,6 +56,10 @@
                            attrs="{'invisible':['|',('personType', '=', 2)]}"  />
                     <field name="x_pn_retri" />
                     <field name="ciiu" domain="[('type', '=', 'other')]" />
+                    <field name="xcountry" /> <!-- Country -->
+                    <field name="xstate" /> <!-- municipality / Ciudad -->
+                    <field name="xcity" /> <!-- City / Municipality -->
+
                 </field>
             </field>
         </record>
