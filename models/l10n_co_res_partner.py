@@ -173,40 +173,9 @@ class PartnerInfoExtended(models.Model):
     dv = fields.Integer(string=None, store=True)
 
     # Country -> State -> Municipality - Logic
-    xcountry = fields.Many2one('res.country', COUNTRY)
-    xstate = fields.Many2one('res.country.state', DEPARTMENT)
-    xcity = fields.Many2one('res.country.state.city', MUNICIPALITY)
-
-    def onchange_location(self, cr, uid, ids, country_id=False, state_id=False):
-        """
-        This functions is a great helper when you enter the customers location.
-        It solves the problem of various cities with the same name in a country
-        @param country_id: Country Id (ISO)
-        @param state_id: State Id (ISO)
-        @return: object
-        """
-        if country_id:
-            mymodel = 'res.country.state'
-            filter_column = 'country_id'
-            check_value = country_id
-            domain = 'xstate'
-
-        elif state_id:
-            mymodel = 'res.country.state.city'
-            filter_column = 'state_id'
-            check_value = state_id
-            domain = 'xcity'
-        else:
-            return {}
-
-        obj = self.pool.get(mymodel)
-        ids = obj.search(cr, uid, [(filter_column, '=', check_value)])
-        # return {'value': {'xcountry': country_id}}
-        return {
-            'domain': {domain: [('id', 'in', ids)]},
-            'value': {domain: ''}
-            }
-
+    country_id = fields.Many2one('res.country', COUNTRY)
+    state_id = fields.Many2one('res.country.state', DEPARTMENT)
+    city = fields.Many2one('res.country.state.city', MUNICIPALITY)
 
     @api.one
     @api.depends('x_pn_numeroDocumento')
@@ -385,6 +354,36 @@ class PartnerInfoExtended(models.Model):
             return str(result)
         else:
             return str(11-result)
+
+    def onchange_location(self, cr, uid, ids, country_id=False, state_id=False):
+        """
+        This functions is a great helper when you enter the customers location.
+        It solves the problem of various cities with the same name in a country
+        @param country_id: Country Id (ISO)
+        @param state_id: State Id (ISO)
+        @return: object
+        """
+        if country_id:
+            mymodel = 'res.country.state'
+            filter_column = 'country_id'
+            check_value = country_id
+            domain = 'state_id'
+
+        elif state_id:
+            mymodel = 'res.country.state.city'
+            filter_column = 'state_id'
+            check_value = state_id
+            domain = 'city'
+        else:
+            return {}
+
+        obj = self.pool.get(mymodel)
+        ids = obj.search(cr, uid, [(filter_column, '=', check_value)])
+        # return {'value': {'xcountry': country_id}}
+        return {
+            'domain': {domain: [('id', 'in', ids)]},
+            'value': {domain: ''}
+            }
 
     @api.constrains('x_pn_numeroDocumento')
     def _check_ident(self):
