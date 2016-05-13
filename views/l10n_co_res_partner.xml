@@ -56,9 +56,10 @@
                            attrs="{'invisible':['|',('personType', '=', 2)]}"  />
                     <field name="x_pn_retri" />
                     <field name="ciiu" domain="[('type', '=', 'other')]" />
-                    <field name="xcountry" /> <!-- Country -->
-                    <field name="xstate" on_change="onchange_state(xstate)" /> <!-- Department -->
-                    <field name="xcity" /> <!-- City / Municipality -->
+
+                    <field name="xcountry" on_change="onchange_location(xcountry, False)" /> <!-- Country -->
+                    <field name="xstate" attrs="{'invisible':[('xcountry', '=', False)]}" on_change="onchange_location(False, xstate)" /> <!-- Department -->
+                    <field name="xcity" attrs="{'invisible':[('xstate', '=', False)]}" /> <!-- City / Municipality -->
 
                 </field>
             </field>

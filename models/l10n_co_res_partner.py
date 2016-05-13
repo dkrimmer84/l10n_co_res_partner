@@ -89,6 +89,11 @@ class PartnerInfoExtended(models.Model):
     # Company Name
     COMPNAME = "Nombre de la compañia"
 
+    # Customer Location
+    COUNTRY = 'País'
+    DEPARTMENT = 'Departamento'
+    MUNICIPALITY = 'Municipio'
+
     # --- Creating new fields --
 
     # Company Name
@@ -167,22 +172,37 @@ class PartnerInfoExtended(models.Model):
     # Verification digit
     dv = fields.Integer(string=None, store=True)
 
-    # Country -> State -> Municipality
-    xcountry = fields.Many2one('res.country', 'País')
-    xstate = fields.Many2one('res.country.state', 'Departamento')
-    # xcity = fields.Many2one('res.country.state.city', 'Ciudad / Municipio', domain="[('code','like',88564)]")
-    xcity = fields.Many2one('res.country.state.city', 'Ciudad / Municipio')
+    # Country -> State -> Municipality - Logic
+    xcountry = fields.Many2one('res.country', COUNTRY)
+    xstate = fields.Many2one('res.country.state', DEPARTMENT)
+    xcity = fields.Many2one('res.country.state.city', MUNICIPALITY)
 
+    def onchange_location(self, cr, uid, ids, country_id=False, state_id=False):
+        """
+        This functions is a great helper when you enter the customers location.
+        It solves the problem of various cities with the same name in a country
+        @param country_id: Country Id (ISO)
+        @param state_id: State Id (ISO)
+        @return: object
+        """
+        if country_id:
+            mymodel = 'res.country.state'
+            filter_column = 'country_id'
+            check_value = country_id
+            domain = 'xstate'
 
-    def onchange_state(self, cr, uid, ids, state_id):
+        elif state_id:
+            mymodel = 'res.country.state.city'
+            filter_column = 'state_id'
+            check_value = state_id
+            domain = 'xcity'
+        else:
+            return {}
 
-        if state_id:
-            # country_id=self.pool.get('res.country.state').browse(cr, uid, state_id).country_id.id
-            city_obj = self.pool.get('res.country.state.city')
-            city_ids = city_obj.search(cr, uid, [('state_id', '=', state_id)])
-            # return {'value': {'xcountry': country_id}}
-            return {'domain': {'xcity': [('id', 'in', city_ids)]}}
-        return {}
+        obj = self.pool.get(mymodel)
+        ids = obj.search(cr, uid, [(filter_column, '=', check_value)])
+        return {'domain': {domain: [('id', 'in', ids)]}}
+
 
     @api.one
     @api.depends('x_pn_numeroDocumento')
