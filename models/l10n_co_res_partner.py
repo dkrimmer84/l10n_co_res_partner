@@ -170,7 +170,19 @@ class PartnerInfoExtended(models.Model):
     # Country -> State -> Municipality
     xcountry = fields.Many2one('res.country', 'País')
     xstate = fields.Many2one('res.country.state', 'Departamento')
+    # xcity = fields.Many2one('res.country.state.city', 'Ciudad / Municipio', domain="[('code','like',88564)]")
     xcity = fields.Many2one('res.country.state.city', 'Ciudad / Municipio')
+
+
+    def onchange_state(self, cr, uid, ids, state_id):
+
+        if state_id:
+            # country_id=self.pool.get('res.country.state').browse(cr, uid, state_id).country_id.id
+            city_obj = self.pool.get('res.country.state.city')
+            city_ids = city_obj.search(cr, uid, [('state_id', '=', state_id)])
+            # return {'value': {'xcountry': country_id}}
+            return {'domain': {'xcity': [('id', 'in', city_ids)]}}
+        return {}
 
     @api.one
     @api.depends('x_pn_numeroDocumento')
