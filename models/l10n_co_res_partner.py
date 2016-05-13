@@ -201,7 +201,11 @@ class PartnerInfoExtended(models.Model):
 
         obj = self.pool.get(mymodel)
         ids = obj.search(cr, uid, [(filter_column, '=', check_value)])
-        return {'domain': {domain: [('id', 'in', ids)]}}
+        # return {'value': {'xcountry': country_id}}
+        return {
+            'domain': {domain: [('id', 'in', ids)]},
+            'value': {domain: ''}
+            }
 
 
     @api.one
@@ -311,7 +315,10 @@ class PartnerInfoExtended(models.Model):
         formats e.g. "Tarjeta de extranjeria" (21) allows letters in the value
         @return: void
         """
-        self.x_pn_numeroDocumento = False
+        if self.x_pn_tipoDocumento is 43:
+            self.x_pn_numeroDocumento = '444444444'
+        else:
+            self.x_pn_numeroDocumento = False
 
     @api.one
     @api.onchange('company_type')
