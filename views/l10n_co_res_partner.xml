@@ -83,6 +83,9 @@
                 <field name="model">res.partner</field>
                 <field name="inherit_id" ref="base.view_partner_tree"/>
                 <field name="arch" type="xml">
+                    <tree position="attributes">
+                        <attribute name="colors">red:x_pn_numeroDocumento==False;red:x_pn_numeroDocumento==''</attribute>
+                    </tree>
                 <field name="phone" position="before">
                     <field name="x_pn_numeroDocumento" string="Identificación" />
                 </field>
