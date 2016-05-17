@@ -40,92 +40,38 @@ class PartnerInfoExtended(models.Model):
     _name = 'res.partner'
     _inherit = 'res.partner'
 
-    # Creating new strings
-
-    # Basic Fields
-    PRIMARY_FNAME = "Primer Nombre"
-    SECONDARY_FNAME = "Segundo Nombre"
-    PRIMARY_NAME = "Primer Apellido"
-    SECONDARY_NAME = "Segundo Apellido"
-    DOCTYPE = "Tipo de identificación"
-
-    # El numero es el código que la DIAN le asigna a cada uno de esas categorías
-    DOCNUM = "Numero de Documento"
-    DOCTYPE1 = "13 - Cédula de ciudadanía"
-    DOCTYPE2 = "22 - Cédula de extranjería"
-    DOCTYPE3 = "31 - NIT (Número de identificación tributaria)"
-    DOCTYPE4 = "12 - Tarjeta de identidad"
-    DOCTYPE5 = "21 - Tarjeta de extranjería"
-    DOCTYPE6 = "41 - Pasaporte"
-    DOCTYPE7 = "42 - Documento de identificación extranjero"
-    DOCTYPE8 = "43 - Sin identificación del exterior o para uso definido por la DIAN"
-    DOCTYPE9 = "11 - Registro civil de nacimiento"
-    DOCTYPE12 = "AS - Adulto sin identificación"
-    DOCTYPE13 = "MS - Menor sin identificación"
-    DOCTYPE14 = "NU - Número único de identificación"
-    # TODO: Replace these names with the real terms and numbers
-    DOCTYPE10 = "xx - DIAN"
-    DOCTYPE11 = "xx - DIE"
-
-    # Regímen Tributario
-    RETRI = "Regímen Tributario"
-    RETRI1 = "Simplificado"
-    RETRI2 = "P/Natural Común"
-    RETRI3 = "Común"
-    RETRI4 = "Gran Contribuyente  Auto-retenedor"
-    RETRI5 = "Internacional"
-    RETRI6 = "Común Auto-retenedor"
-    RETRI7 = "Gran Contribuyente"
-
-    # Name field will be replaced
-    NAME = "Nombre completo"
-
-    # CIIU
-    CIIU = "Actividad CIIU"
-    NATURAL = "natural"
-    COMPANY = "juridica"
-    PERSONTYPE = "Tipo de persona"
-
     # Company Name
-    COMPNAME = "Nombre de la compañia"
-
-    # Customer Location
-    COUNTRY = 'País'
-    DEPARTMENT = 'Departamento'
-    MUNICIPALITY = 'Municipio'
-
-    # --- Creating new fields --
-
-    # Company Name
-    companyName = fields.Char(COMPNAME)
+    companyName = fields.Char("Nombre de la compañia")
 
     # companyType
     companyType = fields.Selection(related='company_type')
 
     # Adding new name fields
-    x_pn_nombre1 = fields.Char(PRIMARY_FNAME)
-    x_pn_nombre2 = fields.Char(SECONDARY_FNAME)
-    x_pn_apellido1 = fields.Char(PRIMARY_NAME)
-    x_pn_apellido2 = fields.Char(SECONDARY_NAME)
+    x_pn_nombre1 = fields.Char("Primer Nombre")
+    x_pn_nombre2 = fields.Char("Segundo Nombre")
+    x_pn_apellido1 = fields.Char("Primer Apellido")
+    x_pn_apellido2 = fields.Char("Segundo Apellido")
 
     # Document information
+    ''' TODO: Check these types and clarify: xx - DIAN, x - DIE '''
     doctype = fields.Selection(
         [
-            (11, DOCTYPE9),
-            (12, DOCTYPE4),
-            (13, DOCTYPE1),
-            (21, DOCTYPE5),
-            (22, DOCTYPE2),
-            (31, DOCTYPE3),
-            (41, DOCTYPE6),
-            (42, DOCTYPE7),
-            (43, DOCTYPE8),
-            (99, DOCTYPE10),
-            (98, DOCTYPE11)
+            (11, "11 - Registro civil de nacimiento"),
+            (12, "12 - Tarjeta de identidad"),
+            (13, "13 - Cédula de ciudadanía"),
+            (21, "21 - Tarjeta de extranjería"),
+            (22, "22 - Cédula de extranjería"),
+            (31, "31 - NIT (Número de identificación tributaria)"),
+            (41, "41 - Pasaporte"),
+            (42, "42 - Documento de identificación extranjero"),
+            (43, "43 - Sin identificación del exterior o para uso definido por la DIAN"),
+            (99, "AS - Adulto sin identificación"),
+            (98, "MS - Menor sin identificación"),
+            (97, "NU - Número único de identificación"),
 
-        ], DOCTYPE
+        ], "Tipo de identificación"
     )
-    xidentification = fields.Char(DOCNUM, store=True)
+    xidentification = fields.Char("Numero de Documento", store=True, help="Ingrese el numero de identificación")
     verificationDigit = fields.Integer('DV', size=2)
     formatedNit = fields.Char(
         string='NIT Formateado',
@@ -136,25 +82,25 @@ class PartnerInfoExtended(models.Model):
     # Tributate regime
     x_pn_retri = fields.Selection(
         [
-            (6, RETRI1),
-            (23, RETRI2),
-            (7, RETRI3),
-            (11, RETRI4),
-            (22, RETRI5),
-            (25, RETRI6),
-            (24, RETRI7)
-        ], RETRI
+            (6, "Simplificado"),
+            (23, "P/Natural Común"),
+            (7, "Común"),
+            (11, "Gran Contribuyente  Auto-retenedor"),
+            (22, "Internacional"),
+            (25, "Común Auto-retenedor"),
+            (24, "Gran Contribuyente")
+        ], "Regímen Tributario"
 
     )
 
     # CIIU
-    ciiu = fields.Many2one('ciiu', CIIU)
+    ciiu = fields.Many2one('ciiu', "Actividad CIIU")
     personType = fields.Selection(
         [
-            (1, NATURAL),
-            (2, COMPANY)
+            (1, "natural"),
+            (2, "juridica")
         ],
-        PERSONTYPE,
+        "Tipo de persona",
         default=1
     )
 
@@ -173,12 +119,11 @@ class PartnerInfoExtended(models.Model):
     dv = fields.Integer(string=None, store=True)
 
     # Country -> State -> Municipality - Logic
-    country_id = fields.Many2one('res.country', COUNTRY)
-    state_id = fields.Many2one('res.country.state', DEPARTMENT)
-    city = fields.Many2one('res.country.state.city', MUNICIPALITY)
+    country_id = fields.Many2one('res.country', "País")
+    state_id = fields.Many2one('res.country.state', "Departamento")
+    city = fields.Many2one('res.country.state.city', "Municipio")
 
     # identification field has to be unique, therefore a constraint will validate it:
-    # TODO: if type = 43 (444444444) dont check for unique dataset
     _sql_constraints = [
         ('ident_unique',
          'UNIQUE(doctype,xidentification)',
@@ -292,10 +237,7 @@ class PartnerInfoExtended(models.Model):
         formats e.g. "Tarjeta de extranjeria" (21) allows letters in the value
         @return: void
         """
-        if self.doctype is 43:
-            self.xidentification = '444444444'
-        else:
-            self.xidentification = False
+        self.xidentification = False
 
     @api.one
     @api.onchange('company_type')
@@ -424,7 +366,10 @@ class PartnerInfoExtended(models.Model):
         """
         if self.doctype is False:
             raise exceptions.ValidationError("¡Error! Porfavor escoga un tipo de identificación")
-        elif self.xidentification is False:
+        elif self.xidentification is False \
+                and self.doctype is not 43 \
+                and self.doctype is not 99\
+                and self.doctype is not 98:
             raise exceptions.ValidationError("¡Error! Número de identificación es obligatorio!")
 
     @api.constrains('x_pn_nombre1', 'x_pn_nombre2', 'companyName')
