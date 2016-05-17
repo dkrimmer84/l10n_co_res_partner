@@ -130,6 +130,9 @@ class PartnerInfoExtended(models.Model):
          "¡Error! El número de identificación debe ser único!"),
     ]
 
+    # Check to handle change of Country, City and Municipality
+    change_country = fields.Boolean(string="Cambiar país, municipio o país?", default=True, store=False)
+
     @api.one
     @api.depends('xidentification')
     def _concat_nit(self):
@@ -270,6 +273,18 @@ class PartnerInfoExtended(models.Model):
         else:
             self.is_company = False
             self.company_type = 'person'
+
+    @api.one
+    @api.onchange('change_country')
+    def onChangeAddress(self):
+        """
+        This function changes the person type field and the company type if checked / unchecked
+        @return: void
+        """
+        if self.change_country is True:
+            self.country_id = False
+            self.state_id = False
+            self.city = False
 
     def _check_dv(self, nit):
         """
