@@ -125,7 +125,7 @@ class PartnerInfoExtended(models.Model):
 
         ], DOCTYPE
     )
-    x_pn_numeroDocumento = fields.Char(DOCNUM)
+    xidentification = fields.Char(DOCNUM, store=True)
     verificationDigit = fields.Integer('DV', size=2)
     formatedNit = fields.Char(
         string='NIT Formateado',
@@ -177,8 +177,19 @@ class PartnerInfoExtended(models.Model):
     state_id = fields.Many2one('res.country.state', DEPARTMENT)
     city = fields.Many2one('res.country.state.city', MUNICIPALITY)
 
+    # Some fields have to be unique, therefore some constraints will validate these fields:
+    _sql_constraints = [
+        ('email_unique',
+         'UNIQUE(email)',
+         "¡Error! El correo electronico debe ser único!"),
+
+        ('ident_unique',
+         'UNIQUE(xidentification)',
+         "¡Error! El número de identificación debe ser único!"),
+    ]
+
     @api.one
-    @api.depends('x_pn_numeroDocumento')
+    @api.depends('xidentification')
     def _concat_nit(self):
         """
         Concatenating and formatting the NIT number in order to have it consistent everywhere where it is needed
@@ -191,20 +202,20 @@ class PartnerInfoExtended(models.Model):
             self._check_ident_num()
 
             # Instead of showing "False" we put en empty string
-            if self.x_pn_numeroDocumento is False:
-                self.x_pn_numeroDocumento = ''
+            if self.xidentification is False:
+                self.xidentification = ''
 
             self.formatedNit = ''
 
             # Formatting the NIT: xx.xxx.xxx-x
-            s = str(self.x_pn_numeroDocumento)[::-1]
+            s = str(self.xidentification)[::-1]
             newnit = '.'.join(s[i:i+3] for i in range(0, len(s), 3))
             newnit = newnit[::-1]
 
             nitList = [
                 newnit,
                 # Calling the NIT Function which creates the Verification Code:
-                self._check_dv(str(self.x_pn_numeroDocumento))
+                self._check_dv(str(self.xidentification))
             ]
 
             formatedNitList = []
@@ -285,9 +296,9 @@ class PartnerInfoExtended(models.Model):
         @return: void
         """
         if self.x_pn_tipoDocumento is 43:
-            self.x_pn_numeroDocumento = '444444444'
+            self.xidentification = '444444444'
         else:
-            self.x_pn_numeroDocumento = False
+            self.xidentification = False
 
     @api.one
     @api.onchange('company_type')
@@ -385,18 +396,18 @@ class PartnerInfoExtended(models.Model):
             'value': {domain: ''}
             }
 
-    @api.constrains('x_pn_numeroDocumento')
+    @api.constrains('xidentification')
     def _check_ident(self):
         """
         This function checks the number length in the Identification field. Min 6, Max 12 digits.
         @return: void
         """
-        if len(str(self.x_pn_numeroDocumento)) < 2:
+        if len(str(self.xidentification)) < 2:
             raise exceptions.ValidationError("¡Error! Número de identificación debe tener entre 2 y 12 dígitos")
-        elif len(str(self.x_pn_numeroDocumento)) > 12:
+        elif len(str(self.xidentification)) > 12:
             raise exceptions.ValidationError("¡Error! Número de identificación debe tener entre 2 y 12 dígitos")
 
-    @api.constrains('x_pn_numeroDocumento')
+    @api.constrains('xidentification')
     def _check_ident_num(self):
         """
         This function checks the content of the identification fields: Type of document and number cannot be empty.
@@ -404,8 +415,8 @@ class PartnerInfoExtended(models.Model):
         The rest does not permit any letters
         @return: void
         """
-        if self.x_pn_numeroDocumento != False and self.x_pn_tipoDocumento != 21 and self.x_pn_tipoDocumento != 41:
-            if re.match("^[0-9]+$", self.x_pn_numeroDocumento) == None:
+        if self.xidentification != False and self.x_pn_tipoDocumento != 21 and self.x_pn_tipoDocumento != 41:
+            if re.match("^[0-9]+$", self.xidentification) == None:
                     raise exceptions.ValidationError("¡Error! El número de identificación sólo permite números")
 
     @api.constrains('x_pn_tipoDocumento')
@@ -415,7 +426,7 @@ class PartnerInfoExtended(models.Model):
         @return: void
         """
         if self.x_pn_tipoDocumento is False:
-            raise exceptions.ValidationError("¡Error! Porfavor escoga un tipo de identificación ")
+            raise exceptions.ValidationError("¡Error! Porfavor escoga un tipo de identificación")
 
     @api.constrains('x_pn_nombre1', 'x_pn_nombre2', 'companyName')
     def _check_names(self):

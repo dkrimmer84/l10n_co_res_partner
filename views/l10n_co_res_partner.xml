@@ -50,7 +50,7 @@
                     <field name="personType"
                            attrs="{'readonly':[('company_type', '=', 'person')]}"/>
                     <field name="x_pn_tipoDocumento" />
-                    <field name="x_pn_numeroDocumento" />
+                    <field name="xidentification" />
                     <field name="formatedNit"
                            attrs="{'invisible':[('x_pn_tipoDocumento', '!=', 31)]}"
                            readonly="1" />
@@ -84,10 +84,10 @@
                 <field name="inherit_id" ref="base.view_partner_tree"/>
                 <field name="arch" type="xml">
                     <tree position="attributes">
-                        <attribute name="colors">red:x_pn_numeroDocumento==False;red:x_pn_numeroDocumento==''</attribute>
+                        <attribute name="colors">red:xidentification==False;red:xidentification==''</attribute>
                     </tree>
                 <field name="phone" position="before">
-                    <field name="x_pn_numeroDocumento" string="Identificación" />
+                    <field name="xidentification" string="Identificación" />
                 </field>
             </field>
         </record>
@@ -115,7 +115,7 @@
                     <field name="category_id"/>
                     <field name="image"/>
                     <field name="type"/>
-                    <field name="x_pn_numeroDocumento" />
+                    <field name="xidentification" />
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click o_res_partner_kanban">
@@ -143,7 +143,7 @@
                                 </div>
                                 <div class="oe_kanban_details">
                                     <strong class="oe_partner_heading"><field name="display_name"/></strong>
-                                    <div t-if="!record.x_pn_numeroDocumento.raw_value"
+                                    <div t-if="!record.xidentification.raw_value"
                                          style="margin: 0px; padding:3px 3px 10px 3px; color:#F77171; background-color: #FFF3F3;">
                                         <b>Datos incompletos!</b><br /> Por favor, actualice pronto!
                                     </div>
@@ -173,7 +173,7 @@
                 <field name="inherit_id" ref="base.view_res_partner_filter"/>
                 <field name="arch" type="xml">
                     <field name="name" position="replace">
-                        <field name="name" filter_domain="['|',('display_name','ilike',self), ('x_pn_numeroDocumento','ilike',self)]" />
+                        <field name="name" filter_domain="['|',('display_name','ilike',self), ('xidentification','ilike',self)]" />
                     </field>
             </field>
         </record>
