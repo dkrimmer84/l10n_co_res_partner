@@ -109,7 +109,7 @@ class PartnerInfoExtended(models.Model):
     x_pn_apellido2 = fields.Char(SECONDARY_NAME)
 
     # Document information
-    x_pn_tipoDocumento = fields.Selection(
+    doctype = fields.Selection(
         [
             (11, DOCTYPE9),
             (12, DOCTYPE4),
@@ -177,14 +177,11 @@ class PartnerInfoExtended(models.Model):
     state_id = fields.Many2one('res.country.state', DEPARTMENT)
     city = fields.Many2one('res.country.state.city', MUNICIPALITY)
 
-    # Some fields have to be unique, therefore some constraints will validate these fields:
+    # identification field has to be unique, therefore a constraint will validate it:
+    # TODO: if type = 43 (444444444) dont check for unique dataset
     _sql_constraints = [
-        ('email_unique',
-         'UNIQUE(email)',
-         "¡Error! El correo electronico debe ser único!"),
-
         ('ident_unique',
-         'UNIQUE(xidentification)',
+         'UNIQUE(doctype,xidentification)',
          "¡Error! El número de identificación debe ser único!"),
     ]
 
@@ -196,7 +193,7 @@ class PartnerInfoExtended(models.Model):
         @return: void
         """
         # Executing only for Document Type 31 (NIT)
-        if self.x_pn_tipoDocumento is 31:
+        if self.doctype is 31:
             # First check if entered value is valid
             self._check_ident()
             self._check_ident_num()
@@ -288,14 +285,14 @@ class PartnerInfoExtended(models.Model):
             self.companyName = False
 
     @api.one
-    @api.onchange('x_pn_tipoDocumento')
+    @api.onchange('doctype')
     def onChangeDocumentType(self):
         """
         If Document Type changes we delete the document number as for different document types there are different
         formats e.g. "Tarjeta de extranjeria" (21) allows letters in the value
         @return: void
         """
-        if self.x_pn_tipoDocumento is 43:
+        if self.doctype is 43:
             self.xidentification = '444444444'
         else:
             self.xidentification = False
@@ -312,11 +309,11 @@ class PartnerInfoExtended(models.Model):
         if self.company_type == 'company':
             self.personType = 2
             self.is_company = True
-            self.x_pn_tipoDocumento = 31
+            self.doctype = 31
         else:
             self.personType = 1
             self.is_company = False
-            self.x_pn_tipoDocumento = False
+            self.doctype = False
 
     @api.one
     @api.onchange('is_company')
@@ -338,7 +335,7 @@ class PartnerInfoExtended(models.Model):
         @param nit: Enter the NIT number without check digit
         @return: String
         """
-        if self.x_pn_tipoDocumento != 31:
+        if self.doctype != 31:
             return str(nit)
 
         nitString = '0'*(15-len(nit)) + nit
@@ -415,18 +412,20 @@ class PartnerInfoExtended(models.Model):
         The rest does not permit any letters
         @return: void
         """
-        if self.xidentification != False and self.x_pn_tipoDocumento != 21 and self.x_pn_tipoDocumento != 41:
+        if self.xidentification != False and self.doctype != 21 and self.doctype != 41:
             if re.match("^[0-9]+$", self.xidentification) == None:
                     raise exceptions.ValidationError("¡Error! El número de identificación sólo permite números")
 
-    @api.constrains('x_pn_tipoDocumento')
+    @api.constrains('doctype', 'xidentification')
     def _checkDocType(self):
         """
         This function throws and error if there is no document type selected.
         @return: void
         """
-        if self.x_pn_tipoDocumento is False:
+        if self.doctype is False:
             raise exceptions.ValidationError("¡Error! Porfavor escoga un tipo de identificación")
+        elif self.xidentification is False:
+            raise exceptions.ValidationError("¡Error! Número de identificación es obligatorio!")
 
     @api.constrains('x_pn_nombre1', 'x_pn_nombre2', 'companyName')
     def _check_names(self):
