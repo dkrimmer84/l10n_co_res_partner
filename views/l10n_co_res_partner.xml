@@ -26,6 +26,20 @@
                     <field name="country_id" invisible="1"/>
                 </field>
 
+
+                <!-- Dynamic Form which opens when creating a related contact to a company -->
+                <xpath expr="(//field[@name='name'])[4]" position="before">
+
+                    <field name="x_pn_nombre1"
+                           placeholder="Primer Nombre" />
+                    <field name="x_pn_nombre2"
+                           placeholder="Segundo Nombre" />
+                    <field name="x_pn_apellido1"
+                           placeholder="Primer Apellido"/>
+                    <field name="x_pn_apellido2"
+                           placeholder="Segundo Apellido"  />
+                </xpath>
+
                 <field name="company_type" position="after">
                     <field invisible="1"
                            name="company_type"
