@@ -258,7 +258,7 @@ class PartnerInfoExtended(models.Model):
         else:
             self.personType = 1
             self.is_company = False
-            self.doctype = False
+            self.doctype = 13
 
     @api.one
     @api.onchange('is_company')
