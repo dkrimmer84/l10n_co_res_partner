@@ -38,6 +38,17 @@
                            placeholder="Primer Apellido"/>
                     <field name="x_pn_apellido2"
                            placeholder="Segundo Apellido"  />
+
+                    <field name="doctype" />
+                    <field name="xidentification"
+                           placeholder="No. ej. 900301230"
+                           attrs="{'invisible':['|','|',('doctype', '=', 43), ('doctype', '=', 99), ('doctype', '=', 98)]}" />
+                    <field name="formatedNit"
+                           attrs="{'invisible':[('doctype', '!=', 31)]}"
+                           readonly="1" />
+                    <field name="dv" invisible="1" />
+                    <field name="x_pn_retri" />
+                    <field name="ciiu" domain="[('type', '=', 'other')]" />
                 </xpath>
 
                 <field name="company_type" position="after">
