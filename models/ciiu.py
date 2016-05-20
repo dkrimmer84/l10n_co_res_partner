@@ -24,7 +24,7 @@ from openerp import models, fields, api
 
 class Ciiu(models.Model):
     _name = "ciiu"
-    _description = "Lista CIIU, ICA y CREE"
+    _description = "Lista CIIU"
 
     name = fields.Char(
         string="Codigo y Descripción",

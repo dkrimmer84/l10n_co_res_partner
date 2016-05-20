@@ -43,13 +43,13 @@
     </record>
 
     <record id="action_ciiu_transaction" model="ir.actions.act_window">
-        <field name="name">CIIU, ICA y CREE</field>
+        <field name="name">CIIU</field>
         <field name="res_model">ciiu</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id"  eval="False"/>
         <field name="context">{}</field>
-        <field name="help">CIIU, ICA y CREE</field>
+        <field name="help">CIIU</field>
     </record>
 
     <menuitem action="action_ciiu_transaction"
