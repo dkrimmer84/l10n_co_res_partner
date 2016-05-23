@@ -115,10 +115,10 @@
                     <field name="state_id"
                            options="{'no_open': True}"
                            placeholder="Departamento"
-                           attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('country_id', '=', False)], 'required': [('city', '!=', False)]}" on_change="onchange_location(False, state_id)" /> <!-- Department -->
-                    <field name="city"
+                           attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('country_id', '=', False)], 'required': [('xcity', '!=', False)]}" on_change="onchange_location(False, state_id)" /> <!-- Department -->
+                    <field name="xcity"
                            options="{'no_open': True}"
-                           placeholder="Cuidad"
+                           placeholder="Ciudad"
                            attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('state_id', '=', False)]}" />  <!-- City / Municipality -->
                 </field>
             </field>

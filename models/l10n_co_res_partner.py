@@ -120,8 +120,10 @@ class PartnerInfoExtended(models.Model):
 
     # Country -> State -> Municipality - Logic
     country_id = fields.Many2one('res.country', "País")
-    state_id = fields.Many2one('res.country.state', "Departamento")
-    city = fields.Many2one('res.country.state.city', "Municipio")
+    # state_id = fields.Many2one('res.country.state', "Departamento")
+    xcity = fields.Many2one('res.country.state.city', "Municipio")
+    # state_id = fields.Char(related="xstate_id.name")
+    city = fields.Char(related="xcity.name")
 
     # identification field has to be unique, therefore a constraint will validate it:
     _sql_constraints = [
@@ -284,7 +286,7 @@ class PartnerInfoExtended(models.Model):
         if self.change_country is True:
             self.country_id = False
             self.state_id = False
-            self.city = False
+            self.xcity = False
 
     def _check_dv(self, nit):
         """
@@ -338,7 +340,7 @@ class PartnerInfoExtended(models.Model):
             mymodel = 'res.country.state.city'
             filter_column = 'state_id'
             check_value = state_id
-            domain = 'city'
+            domain = 'xcity'
         else:
             return {}
 
