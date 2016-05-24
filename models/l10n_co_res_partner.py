@@ -120,9 +120,7 @@ class PartnerInfoExtended(models.Model):
 
     # Country -> State -> Municipality - Logic
     country_id = fields.Many2one('res.country', "País")
-    # state_id = fields.Many2one('res.country.state', "Departamento")
     xcity = fields.Many2one('res.country.state.city', "Municipio")
-    # state_id = fields.Char(related="xstate_id.name")
     city = fields.Char(related="xcity.name")
 
     # identification field has to be unique, therefore a constraint will validate it:
