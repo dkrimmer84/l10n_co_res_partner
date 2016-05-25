@@ -149,7 +149,11 @@
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <xpath expr='//kanban/templates/t/div/div[3]/ul' position="before">
-                    <field name="xidentification" />
+
+                    <div attrs="{'invisible':[('xidentification', '=', False)]}">
+                        N° Documento: <field name="xidentification" />
+                    </div>
+
                     <div t-if="!record.xidentification.raw_value"
                          style="margin: 0px; padding:3px 3px 10px 3px; color:#F77171; background-color: #FFF3F3;">
                         <b>Datos incompletos!</b><br /> Por favor, actualice pronto!
