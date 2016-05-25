@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <openerp>
     <data>
+        <!-- Extending Partner Form View -->
         <record id="view_partner_form" model="ir.ui.view">
            <field name="inherit_id" ref="base.view_partner_form" />
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
 
+                <!-- Hiding some fields that will be replaced partially or just set to invisible -->
                 <field name="name" position="attributes">
                     <attribute name="invisible">True</attribute>
                 </field>
@@ -51,6 +53,7 @@
                     <field name="ciiu" domain="[('type', '=', 'other')]" />
                 </xpath>
 
+                <!-- Adding some more relevant fields to the form view -->
                 <field name="company_type" position="after">
                     <field invisible="1"
                            name="company_type"
@@ -124,6 +127,7 @@
             </field>
         </record>
 
+        <!-- Extending the Partner Tree view -->
         <record id="view_tree_res_partner_inherited" model="ir.ui.view">
             <field name="name">Partner – User extension</field>
                 <field name="model">res.partner</field>
@@ -138,6 +142,7 @@
             </field>
         </record>
 
+        <!-- Extending the Partner Kanban view -->
         <record model="ir.ui.view" id="res_partner_kanban_view_extened">
             <field name="name">res.partner.kanban.view.extened</field>
             <field name="inherit_id" ref="base.res_partner_kanban_view"/>
@@ -154,6 +159,7 @@
         </record>
 
 
+        <!-- Extending the Search: Making document number searchable -->
         <record id="view_search_res_partner_inherited" model="ir.ui.view">
             <field name="name">Search - extension</field>
                 <field name="model">res.partner</field>
