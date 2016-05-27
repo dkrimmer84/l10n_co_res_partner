@@ -26,7 +26,8 @@ Colombian Partner Rules:
         'views/ciiu.xml',
         'data/ciiu.csv',
         'data/l10n_states_co_data.xml',
-        'data/l10n_cities_co_data.xml'
+        'data/l10n_cities_co_data.xml',
+        'security/ir.model.access.csv'
     ],
     'installable': True,
 }
