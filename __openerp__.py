@@ -13,8 +13,11 @@ Colombian Partner Rules:
     * Additional fields: first and second name, first and second last name
     * Additional fields: Document Type, Document Number and Types, Tributate regime, CIIU
     * Automatic Verification of NIT (DV)
-    * Interface to maintain the lists of CIIU, ICA y CREE
+    * Interface to maintain the list of CIIU
     * Contacts can be found using Identification Number (e.g. NIT)
+    * Country -> State -> Municipality - Logic to avoid confusion of locations with same names
+    * "Identification <-> Document Type" - Combination will be checked as this combination should be unique
+
     """,
     'depends': [
         'account',
