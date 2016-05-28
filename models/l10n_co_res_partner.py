@@ -130,15 +130,6 @@ class PartnerInfoExtended(models.Model):
     # Check to handle change of Country, City and Municipality
     change_country = fields.Boolean(string="Cambiar país, municipio o país?", default=True, store=False)
 
-    '''
-    _defaults = {
-        'ciiu': lambda self, cr, uid, context: self.pool.get('ciiu').browse(
-                        cr, uid, self.pool.get('ciiu').search(cr, uid, [('code', '=', '119')])
-                    )[0].id,
-        'country_id': lambda self, cr, uid, context: self.pool.get('res.country').browse(
-                        cr, uid, self.pool.get('res.country').search(cr, uid, [('code', '=', 'CO')])
-                    )[0].id,
-    } '''
 
     @api.one
     @api.depends('xidentification')
