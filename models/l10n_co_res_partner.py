@@ -64,10 +64,7 @@ class PartnerInfoExtended(models.Model):
             (31, "31 - NIT (Número de identificación tributaria)"),
             (41, "41 - Pasaporte"),
             (42, "42 - Documento de identificación extranjero"),
-            (43, "43 - Sin identificación del exterior o para uso definido por la DIAN"),
-            (99, "AS - Adulto sin identificación"),
-            (98, "MS - Menor sin identificación"),
-            (97, "NU - Número único de identificación"),
+            (43, "43 - Sin identificación del exterior o para uso definido por la DIAN")
 
         ], "Tipo de identificación"
     )
@@ -132,6 +129,16 @@ class PartnerInfoExtended(models.Model):
 
     # Check to handle change of Country, City and Municipality
     change_country = fields.Boolean(string="Cambiar país, municipio o país?", default=True, store=False)
+
+    '''
+    _defaults = {
+        'ciiu': lambda self, cr, uid, context: self.pool.get('ciiu').browse(
+                        cr, uid, self.pool.get('ciiu').search(cr, uid, [('code', '=', '119')])
+                    )[0].id,
+        'country_id': lambda self, cr, uid, context: self.pool.get('res.country').browse(
+                        cr, uid, self.pool.get('res.country').search(cr, uid, [('code', '=', 'CO')])
+                    )[0].id,
+    } '''
 
     @api.one
     @api.depends('xidentification')
@@ -381,10 +388,7 @@ class PartnerInfoExtended(models.Model):
         """
         if self.doctype is False:
             raise exceptions.ValidationError("¡Error! Porfavor escoga un tipo de identificación")
-        elif self.xidentification is False \
-                and self.doctype is not 43 \
-                and self.doctype is not 99\
-                and self.doctype is not 98:
+        elif self.xidentification is False and self.doctype is not 43:
             raise exceptions.ValidationError("¡Error! Número de identificación es obligatorio!")
 
     @api.constrains('x_pn_nombre1', 'x_pn_nombre2', 'companyName')

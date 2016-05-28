@@ -44,7 +44,7 @@
                     <field name="doctype" />
                     <field name="xidentification"
                            placeholder="No. ej. 900301230"
-                           attrs="{'invisible':['|','|',('doctype', '=', 43), ('doctype', '=', 99), ('doctype', '=', 98)]}" />
+                           attrs="{'invisible':[('doctype', '=', 43)]}" />
                     <field name="formatedNit"
                            attrs="{'invisible':[('doctype', '!=', 31)]}"
                            readonly="1" />
@@ -80,7 +80,7 @@
                     <field name="doctype" />
                     <field name="xidentification"
                            placeholder="No. ej. 900301230"
-                           attrs="{'invisible':['|','|',('doctype', '=', 43), ('doctype', '=', 99), ('doctype', '=', 98)]}" />
+                           attrs="{'invisible':['|',('doctype', '=', 43)], 'required': [('doctype', '!=', 43)]}" />
                     <field name="formatedNit"
                            attrs="{'invisible':[('doctype', '!=', 31)]}"
                            readonly="1" />
@@ -134,7 +134,7 @@
                 <field name="inherit_id" ref="base.view_partner_tree"/>
                 <field name="arch" type="xml">
                     <tree position="attributes">
-                        <attribute name="colors">black:doctype==99;black:doctype==98;red:xidentification==False;red:xidentification=='';</attribute>
+                        <attribute name="colors">red:xidentification==False;red:xidentification=='';</attribute>
                     </tree>
                 <field name="phone" position="before">
                     <field name="xidentification" string="Identificación" />
@@ -155,13 +155,10 @@
                     <div attrs="{'invisible':[('xidentification', '=', False)]}">
                         N° Documento: <field name="xidentification" />
                     </div>
-
-                    <div t-if="record.doctype.raw_value != 98" >
-                        <div t-if="record.doctype.raw_value != 99" >
-                            <div t-if="!record.xidentification.raw_value"
-                                 style="margin: 0px; padding:3px 3px 10px 3px; color:#F77171; background-color: #FFF3F3;">
-                                <b>Datos incompletos!</b><br /> Por favor, actualice pronto!
-                            </div>
+                    <div t-if="record.doctype.raw_value !=43">
+                        <div t-if="!record.xidentification.raw_value"
+                             style="margin: 0px; padding:3px 3px 10px 3px; color:#F77171; background-color: #FFF3F3;">
+                            <b>¡Datos incompletos!</b><br /> Por favor, actualice pronto.
                         </div>
                     </div>
                 </xpath>
