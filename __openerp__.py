@@ -1,12 +1,12 @@
 {
-    'name': 'Colombia - Partner Information',
+    'name': 'Colombia - Terceros',
     'category': 'Localization',
     'version': '0.2',
     'author': 'Dominic Krimmer, Plastinorte S.A.S',
     'maintainer': 'dominic.krimmer@gmail.com',
     'website': 'https://www.plastinorte.com',
     'description': """
-Colombian Partner Rules:
+Colombia Terceros:
 ======================
 
     * Redesign of the contact form due to some new rules that have to apply
