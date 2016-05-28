@@ -134,10 +134,11 @@
                 <field name="inherit_id" ref="base.view_partner_tree"/>
                 <field name="arch" type="xml">
                     <tree position="attributes">
-                        <attribute name="colors">red:xidentification==False;red:xidentification==''</attribute>
+                        <attribute name="colors">black:doctype==99;black:doctype==98;red:xidentification==False;red:xidentification=='';</attribute>
                     </tree>
                 <field name="phone" position="before">
                     <field name="xidentification" string="Identificación" />
+                    <field name="doctype" invisible="1" />
                 </field>
             </field>
         </record>
