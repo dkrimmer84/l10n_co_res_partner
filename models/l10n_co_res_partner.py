@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-# Partner Information App
+# Extended Partner  Module
 from openerp import models, fields, api, exceptions
 import re
 
@@ -53,7 +53,6 @@ class PartnerInfoExtended(models.Model):
     x_pn_apellido2 = fields.Char("Segundo Apellido")
 
     # Document information
-    ''' TODO: Check these types and clarify: xx - DIAN, x - DIE '''
     doctype = fields.Selection(
         [
             (11, "11 - Registro civil de nacimiento"),
@@ -90,7 +89,7 @@ class PartnerInfoExtended(models.Model):
 
     )
 
-    # CIIU
+    # CIIU - Clasificación Internacional Industrial Uniforme
     ciiu = fields.Many2one('ciiu', "Actividad CIIU")
     personType = fields.Selection(
         [
@@ -178,7 +177,7 @@ class PartnerInfoExtended(models.Model):
         """
         This function concatenates the four name fields in order to be able to search
         for the entire name. On the other hand the original name field should not be editable anymore
-        as the other fields should fill it up.
+        as the new name fields should fill it up automatically.
         @return: void
         """
         # Avoiding that "False" will be written into the name field
@@ -219,7 +218,8 @@ class PartnerInfoExtended(models.Model):
     @api.onchange('personType')
     def onChangePersonType(self):
         """
-        Delete entries in name fields once the type of person changes to "company"
+        Delete entries in name and company fields once the type of person changes.
+        This avoids unnecessary entries in the database and makes the contact cleaner and ready for analysis
         @return: void
         """
         if self.personType is 2:
@@ -235,7 +235,8 @@ class PartnerInfoExtended(models.Model):
     def onChangeDocumentType(self):
         """
         If Document Type changes we delete the document number as for different document types there are different
-        formats e.g. "Tarjeta de extranjeria" (21) allows letters in the value
+        rules that apply e.g. foreign documents (e.g. 21) allows letters in the value. Here we reduce the risk
+        of having corrupt information about the contact.
         @return: void
         """
         self.xidentification = False
@@ -244,9 +245,9 @@ class PartnerInfoExtended(models.Model):
     @api.onchange('company_type')
     def onChangeCompanyType(self):
         """
-        This function changes the person type field if the company type changes.
-        If it is a company, document type 31 will be selected automatically as in colombia it's more probably that
-        it will be choosen by the user.
+        This function changes the person type once the company type changes.
+        If it is a company, document type 31 will be selected automatically as in Colombia it's more likely that
+        it will be chosen by the user.
         @return: void
         """
         if self.company_type == 'company':
@@ -286,7 +287,7 @@ class PartnerInfoExtended(models.Model):
 
     def _check_dv(self, nit):
         """
-        Function to validate the check digit (DV). So there is no need to type it manually.
+        Function to calculate the check digit (DV) of the NIT. So there is no need to type it manually.
         @param nit: Enter the NIT number without check digit
         @return: String
         """
@@ -320,7 +321,7 @@ class PartnerInfoExtended(models.Model):
 
     def onchange_location(self, cr, uid, ids, country_id=False, state_id=False):
         """
-        This functions is a great helper when you enter the customers location.
+        This functions is a great helper when you enter the customer's location.
         It solves the problem of various cities with the same name in a country
         @param country_id: Country Id (ISO)
         @param state_id: State Id (ISO)
@@ -342,7 +343,6 @@ class PartnerInfoExtended(models.Model):
 
         obj = self.pool.get(mymodel)
         ids = obj.search(cr, uid, [(filter_column, '=', check_value)])
-        # return {'value': {'xcountry': country_id}}
         return {
             'domain': {domain: [('id', 'in', ids)]},
             'value': {domain: ''}
@@ -386,7 +386,6 @@ class PartnerInfoExtended(models.Model):
     def _check_names(self):
         """
         Double check: Although validation is checked within the frontend (xml) we check it again to get sure
-        TODO: Check if obsolate :-)
         """
         if self.is_company is True:
             if self.companyName is False:
