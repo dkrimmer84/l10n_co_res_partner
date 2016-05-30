@@ -5,7 +5,6 @@
     'author': 'Dominic Krimmer, Plastinorte S.A.S',
     'maintainer': 'dominic.krimmer@gmail.com',
     'website': 'https://www.plastinorte.com',
-    'license': 'AGPL',
     'summary': 'Colombia Terceros: Extended Partner Module - Odoo 9.0',
     'description': """
 Colombia Terceros:
