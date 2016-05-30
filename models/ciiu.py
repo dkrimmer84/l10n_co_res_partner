@@ -19,8 +19,6 @@
 
 from openerp import models, fields, api
 
-# CIIU, ICA y CREE
-
 
 class Ciiu(models.Model):
     _name = "ciiu"
