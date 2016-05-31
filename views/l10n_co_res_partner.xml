@@ -32,13 +32,13 @@
                 <!-- Dynamic Form which opens when creating a related contact to a company -->
                 <xpath expr="(//field[@name='name'])[4]" position="before">
 
-                    <field name="x_pn_nombre1"
+                    <field name="x_name1"
                            placeholder="Primer Nombre" />
-                    <field name="x_pn_nombre2"
+                    <field name="x_name2"
                            placeholder="Segundo Nombre" />
-                    <field name="x_pn_apellido1"
+                    <field name="x_lastname1"
                            placeholder="Primer Apellido"/>
-                    <field name="x_pn_apellido2"
+                    <field name="x_lastname2"
                            placeholder="Segundo Apellido"  />
 
                     <field name="doctype" />
@@ -69,7 +69,7 @@
                     <h3>
                         <field
                                 name="name"
-                                attrs="{'invisible':[('x_pn_nombre1', '=', ''),('companyName', '=', False)]}"
+                                attrs="{'invisible':[('x_name1', '=', ''),('companyName', '=', False)]}"
                                 placeholder="¡Campo se llenará automáticamente!" />
                     </h3>
                 </field>
@@ -88,17 +88,17 @@
                     <field name="companyName"
                            placeholder="Nombre de la compañia"
                            attrs="{'invisible':['|',('personType', '=', 1),('company_type', '=', 'person')], 'required': [('personType', '=', 2)]}" />
-                    <field name="x_pn_nombre1"
+                    <field name="x_name1"
                            placeholder="Primer Nombre"
                            default_focus="1"
                            attrs="{'invisible':['|',('personType', '=', 2)], 'required': [('personType', '=', 1)]}" />
-                    <field name="x_pn_nombre2"
+                    <field name="x_name2"
                            placeholder="Segundo Nombre"
                            attrs="{'invisible':['|',('personType', '=', 2)]}" />
-                    <field name="x_pn_apellido1"
+                    <field name="x_lastname1"
                            placeholder="Primer Apellido"
                            attrs="{'invisible':['|',('personType', '=', 2)], 'required': [('personType', '=', 1)]}" />
-                    <field name="x_pn_apellido2"
+                    <field name="x_lastname2"
                            placeholder="Segundo Apellido"
                            attrs="{'invisible':['|',('personType', '=', 2)]}"  />
                     <field name="x_pn_retri" />

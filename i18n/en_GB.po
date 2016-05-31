@@ -299,7 +299,7 @@ msgid "Primer Apellido"
 msgstr "Last Name"
 
 #. module: l10n_co_res_partner
-#: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_x_pn_nombre1
+#: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_x_name1
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "Primer Nombre"
 msgstr "First Name"
