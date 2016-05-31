@@ -369,7 +369,7 @@ class PartnerInfoExtended(models.Model):
         """
         if self.xidentification != False and self.doctype != 21 and self.doctype != 41:
             if re.match("^[0-9]+$", self.xidentification) == None:
-                    raise exceptions.ValidationError("¡Error! El número de identificación sólo permite números")
+                raise exceptions.ValidationError("¡Error! El número de identificación sólo permite números")
 
     @api.constrains('doctype', 'xidentification')
     def _checkDocType(self):

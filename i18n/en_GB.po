@@ -18,57 +18,57 @@ msgstr ""
 #. module: l10n_co_res_partner
 #: selection:res.partner,doctype:0
 msgid "11 - Registro civil de nacimiento"
-msgstr "11 - birth certificate"
+msgstr "11 - Birth Certificate"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,doctype:0
 msgid "12 - Tarjeta de identidad"
-msgstr ""
+msgstr "12 - Identity Card"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,doctype:0
 msgid "13 - Cédula de ciudadanía"
-msgstr ""
+msgstr "13 - Citizenship Card"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,doctype:0
 msgid "21 - Tarjeta de extranjería"
-msgstr ""
+msgstr "21 - Aliens Card"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,doctype:0
 msgid "22 - Cédula de extranjería"
-msgstr ""
+msgstr "22 - Foreigner ID"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,doctype:0
 msgid "31 - NIT (Número de identificación tributaria)"
-msgstr ""
+msgstr "31 - TAX Number (NIT)"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,doctype:0
 msgid "41 - Pasaporte"
-msgstr ""
+msgstr "41 - Passport"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,doctype:0
 msgid "42 - Documento de identificación extranjero"
-msgstr ""
+msgstr "42 - Foreign Identification Document"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,doctype:0
 msgid "43 - Sin identificación del exterior o para uso definido por la DIAN"
-msgstr ""
+msgstr "43 - No Foreign Identification"
 
 #. module: l10n_co_res_partner
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.res_partner_kanban_view_extened
 msgid "<b>¡Datos incompletos!</b><br/> Por favor, actualice pronto."
-msgstr ""
+msgstr "<b>Incomplete data!</b><br/> Please update soon!"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_ciiu
 msgid "Actividad CIIU"
-msgstr ""
+msgstr "ISIC Activity"
 
 #. module: l10n_co_res_partner
 #: model:ir.actions.act_window,help:l10n_co_res_partner.action_ciiu_transaction
@@ -77,12 +77,12 @@ msgstr ""
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_ciiu_transaction_form
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_ciiu_transaction_tree
 msgid "CIIU"
-msgstr ""
+msgstr "ISIC"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_change_country
 msgid "Cambiar país, municipio o país?"
-msgstr ""
+msgstr "Change Country / Department?"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_country_state_city_code
@@ -97,12 +97,12 @@ msgstr ""
 #. module: l10n_co_res_partner
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "Ciudad"
-msgstr ""
+msgstr "City"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_name
 msgid "Codigo y Descripción"
-msgstr ""
+msgstr "Code and Description"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_companyType
@@ -112,12 +112,12 @@ msgstr ""
 #. module: l10n_co_res_partner
 #: selection:res.partner,x_pn_retri:0
 msgid "Común"
-msgstr ""
+msgstr "Common"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,x_pn_retri:0
 msgid "Común Auto-retenedor"
-msgstr ""
+msgstr "Common Autorretenedor"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_country_state_city_country_id
@@ -139,27 +139,27 @@ msgstr ""
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_code
 msgid "Código"
-msgstr ""
+msgstr "Code"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,help:l10n_co_res_partner.field_res_country_state_city_code
 msgid "Código DANE -5 dígitos-"
-msgstr ""
+msgstr "Code DANE - 5 digits-"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_verificationDigit
 msgid "DV"
-msgstr ""
+msgstr "VD"
 
 #. module: l10n_co_res_partner
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "Departamento"
-msgstr ""
+msgstr "Department"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_description
 msgid "Descripción"
-msgstr ""
+msgstr "Description"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_display_name
@@ -180,12 +180,12 @@ msgstr ""
 #. module: l10n_co_res_partner
 #: selection:res.partner,x_pn_retri:0
 msgid "Gran Contribuyente"
-msgstr ""
+msgstr "Great Contributor"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,x_pn_retri:0
 msgid "Gran Contribuyente  Auto-retenedor"
-msgstr ""
+msgstr "Great Taxpayer Autorretenedor"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_hierarchy
@@ -201,17 +201,17 @@ msgstr ""
 #. module: l10n_co_res_partner
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_tree_res_partner_inherited
 msgid "Identificación"
-msgstr ""
+msgstr "Identification"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,help:l10n_co_res_partner.field_res_partner_xidentification
 msgid "Ingrese el numero de identificación"
-msgstr ""
+msgstr "Enter the Identification Number"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,x_pn_retri:0
 msgid "Internacional"
-msgstr ""
+msgstr "International"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu___last_update
@@ -234,7 +234,7 @@ msgstr ""
 #. module: l10n_co_res_partner
 #: model:ir.model,name:l10n_co_res_partner.model_ciiu
 msgid "Lista CIIU"
-msgstr ""
+msgstr "ISIC List"
 
 #. module: l10n_co_res_partner
 #: model:ir.model,name:l10n_co_res_partner.model_res_country_state_city
@@ -244,43 +244,43 @@ msgstr ""
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_xcity
 msgid "Municipio"
-msgstr ""
+msgstr "Municipality"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_formatedNit
 msgid "NIT Formateado"
-msgstr ""
+msgstr "NIT Formatted"
 
 #. module: l10n_co_res_partner
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "No. ej. 900301230"
-msgstr ""
+msgstr "No. e.g. 900301230"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_companyName
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "Nombre de la compañia"
-msgstr ""
+msgstr "Name of the Company"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_xidentification
 msgid "Numero de Documento"
-msgstr ""
+msgstr "Document Number"
 
 #. module: l10n_co_res_partner
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.res_partner_kanban_view_extened
 msgid "N° Documento:"
-msgstr ""
+msgstr "Document #:"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,x_pn_retri:0
 msgid "P/Natural Común"
-msgstr ""
+msgstr "Natural Person"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_parent
 msgid "Padre"
-msgstr ""
+msgstr "Parent"
 
 #. module: l10n_co_res_partner
 #: model:ir.model,name:l10n_co_res_partner.model_res_partner
@@ -290,46 +290,46 @@ msgstr ""
 #. module: l10n_co_res_partner
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "País"
-msgstr ""
+msgstr "Country"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_x_pn_apellido1
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "Primer Apellido"
-msgstr ""
+msgstr "Last Name"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_x_pn_nombre1
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "Primer Nombre"
-msgstr ""
+msgstr "First Name"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_x_pn_retri
 msgid "Regímen Tributario"
-msgstr ""
+msgstr "Tributate Regime"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_section
 msgid "Seccion"
-msgstr ""
+msgstr "Section"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_x_pn_apellido2
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "Segundo Apellido"
-msgstr ""
+msgstr "Second Last Name"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_x_pn_nombre2
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "Segundo Nombre"
-msgstr ""
+msgstr "Second Name"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,x_pn_retri:0
 msgid "Simplificado"
-msgstr ""
+msgstr "Simplified"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_country_state_city_state_id
@@ -345,57 +345,57 @@ msgstr ""
 #: selection:ciiu,hierarchy:0
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_hasDivision
 msgid "Tiene Division?"
-msgstr ""
+msgstr "Has Division?"
 
 #. module: l10n_co_res_partner
 #: selection:ciiu,hierarchy:0
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_hasParent
 msgid "Tiene Padre?"
-msgstr ""
+msgstr "Has Parent?"
 
 #. module: l10n_co_res_partner
 #: selection:ciiu,hierarchy:0
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_hasSection
 msgid "Tiene Seccion?"
-msgstr ""
+msgstr "Has Section?"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_type
 msgid "Tipo"
-msgstr ""
+msgstr "Type"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_doctype
 msgid "Tipo de identificación"
-msgstr ""
+msgstr "Type of Identification"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_personType
 msgid "Tipo de persona"
-msgstr ""
+msgstr "Type of Person"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,personType:0
 msgid "juridica"
-msgstr ""
+msgstr "Juridical"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,personType:0
 msgid "natural"
-msgstr ""
+msgstr "Natural"
 
 #. module: l10n_co_res_partner
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "¡Campo se llenará automáticamente!"
-msgstr ""
+msgstr "Don't touch! Field will be filled up automatically!"
 
 #. module: l10n_co_res_partner
 #: sql_constraint:res.partner:0
 msgid "¡Error! El número de identificación debe ser único!"
-msgstr ""
+msgstr "Identification number must be unique!"
 
 #. module: l10n_co_res_partner
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "¿Es una empresa?"
-msgstr ""
+msgstr "Is it a Company?"
 
