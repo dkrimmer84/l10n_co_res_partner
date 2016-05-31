@@ -33,7 +33,7 @@ msgstr "13 - Citizenship Card"
 #. module: l10n_co_res_partner
 #: selection:res.partner,doctype:0
 msgid "21 - Tarjeta de extranjería"
-msgstr "21 - Aliens Card"
+msgstr "21 - Alien Registration Card"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,doctype:0
@@ -63,7 +63,7 @@ msgstr "43 - No Foreign Identification"
 #. module: l10n_co_res_partner
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.res_partner_kanban_view_extened
 msgid "<b>¡Datos incompletos!</b><br/> Por favor, actualice pronto."
-msgstr "<b>Incomplete data!</b><br/> Please update soon!"
+msgstr "<b>Information is incomplete!</b><br/> Please update soon!"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_ciiu
@@ -307,7 +307,7 @@ msgstr "First Name"
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_x_pn_retri
 msgid "Regímen Tributario"
-msgstr "Tributate Regime"
+msgstr "Tax Regime"
 
 #. module: l10n_co_res_partner
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_section
