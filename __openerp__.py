@@ -3,7 +3,7 @@
     'category': 'Localization',
     'version': '0.9',
     'author': 'Dominic Krimmer, Plastinorte S.A.S',
-    'license': 'Other proprietary',
+    'license': 'AGPL-3',
     'maintainer': 'dominic.krimmer@gmail.com',
     'website': 'https://www.plastinorte.com',
     'summary': 'Colombia Terceros: Extended Partner Module - Odoo 9.0',
