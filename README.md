@@ -10,4 +10,4 @@ Colombia Terceros
 - Description of economic activities (CIIU Code)
 - Contacts can be found using Identification Number (e.g. NIT)
 - Country -> State -> Municipality - Logic to avoid confusion of locations with same name
-- Identification - Document Type combination will be checked as it should be unique
+- Identification - Document Type combination will be checked as it should be unique!
