@@ -13,6 +13,7 @@ What you get
 - Visual Identifier for incomplete contacts in Kanban- and Tree view
 - Auto-Complete of NIT: Type in the NIT and the Verification Digit will be calculated automatically
 - Description of economic activities (CIIU Code), including the entire list to maintain it
+- Maintain the CIIU list under this new menu point: Accounting/Configuration/Accounting/CIIU
 - Contacts can be found by Identification Number (e.g. NIT)
 - Added a complete list of all cities and departments in Colombia
 - Country, Department and Municipality Dependency Logic in order to avoid confusion of locations with the same name
