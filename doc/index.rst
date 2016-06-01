@@ -16,6 +16,7 @@ Usage
 
 Once you start modifying your existing contacts you will enjoy the benefits of the module. Fill in all mandatory data
 and the visual hints will disappear.
+This module does NOT create any kind of reports.
 
 Uninstallation
 ==============
