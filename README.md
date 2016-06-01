@@ -36,8 +36,6 @@ Contact
 -----------------
 This is how you can reach us: 
 
-Twitter: @dkrimmer84 (Dominic)
-Mail for technical subjects: dominic@plastinorte.com (Dominic Krimmer)
+Twitter: @dkrimmer84 (Dominic), 
+Mail for technical subjects: dominic@plastinorte.com (Dominic Krimmer), 
 Mail concerning the content: quipus.total@gmail.com (Hector Ivan)
-
- 
