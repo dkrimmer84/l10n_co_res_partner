@@ -128,7 +128,10 @@ class PartnerInfoExtended(models.Model):
     ]
 
     # Check to handle change of Country, City and Municipality
-    change_country = fields.Boolean(string="Cambiar país, municipio o país?", default=True, store=False)
+    change_country = fields.Boolean(string="Cambiar País/Dpt./Ciudad?", default=True, store=False)
+
+    # Name of point of sales / delivery contact
+    pos_name = fields.Char("Nombre del Punto de Venta")
 
 
     @api.one
@@ -173,7 +176,7 @@ class PartnerInfoExtended(models.Model):
 
 
     @api.one
-    @api.onchange('x_name1', 'x_name2', 'x_lastname1', 'x_lastname2', 'companyName')
+    @api.onchange('x_name1', 'x_name2', 'x_lastname1', 'x_lastname2', 'companyName', 'pos_name')
     def _concat_name(self):
         """
         This function concatenates the four name fields in order to be able to search
@@ -204,10 +207,18 @@ class PartnerInfoExtended(models.Model):
 
         formatedList = []
         if self.companyName is False:
-            for item in nameList:
-                if item is not '':
-                    formatedList.append(item)
-            self.name = ' ' .join(formatedList)
+            if self.type == 'delivery':
+                self.name = self.pos_name
+                self.x_name1 = False
+                self.x_name2 = False
+                self.x_lastname1 = False
+                self.x_lastname2 = False
+                self.doctype = 1
+            else:
+                for item in nameList:
+                    if item is not '':
+                        formatedList.append(item)
+                self.name = ' ' .join(formatedList)
         else:
             self.name = self.companyName
 
@@ -398,6 +409,9 @@ class PartnerInfoExtended(models.Model):
             elif self.personType is 2:
                 if self.companyName is False:
                     raise exceptions.ValidationError("¡Error! Porfavor ingrese el nombre de la empresa")
+        elif self.type == 'delivery':
+            if self.pos_name is False or self.pos_name == '':
+                raise exceptions.ValidationError("¡Error! Porfavor ingrese el nombre de la persona")
         else:
             if self.x_name1 is False or self.x_name1 == '':
                 raise exceptions.ValidationError("¡Error! Porfavor ingrese el nombre de la persona")

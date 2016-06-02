@@ -30,27 +30,52 @@
 
 
                 <!-- Dynamic Form which opens when creating a related contact to a company -->
+                <xpath expr="(//field[@name='city'])[4]" position="replace"></xpath>
+                <xpath expr="(//field[@name='state_id'])[4]" position="replace"></xpath>
+                <xpath expr="(//field[@name='country_id'])[4]" position="replace"></xpath>
+
+                <xpath expr="(//field[@name='zip'])[4]" position="after">
+                    <field name="change_country" class="oe_edit_only"
+                           attrs="{'invisible':[('change_country', '=', True)]}"/>
+
+                    <field name="country_id"
+                           attrs="{'readonly':[('change_country', '=', False)]}"
+                           options='{"no_open": True, "no_create": True}'
+                           placeholder="País" on_change="onchange_location(country_id, False)"
+                           class="o_address_country" /> <!-- Country -->
+                    <field name="state_id"
+                           options="{'no_open': True}"
+                           placeholder="Departamento"
+                           attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('country_id', '=', False)], 'required': [('xcity', '!=', False)]}" on_change="onchange_location(False, state_id)" /> <!-- Department -->
+                    <field name="xcity"
+                           options="{'no_open': True}"
+                           placeholder="Ciudad"
+                           attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('state_id', '=', False)]}" />  <!-- City / Municipality -->
+
+                </xpath>
+
                 <xpath expr="(//field[@name='name'])[4]" position="before">
-
+                    <field name="pos_name" placeholder="Nombre del Punto de Venta o dirección" attrs="{'invisible':['|',('type', '!=', 'delivery')], 'required': [('type', '=', 'delivery')]}" />
                     <field name="x_name1"
-                           placeholder="Primer Nombre" />
+                           placeholder="Primer Nombre" attrs="{'invisible':['|',('type', '=', 'delivery')], 'required': [('type', '!=', 'delivery')]}" />
                     <field name="x_name2"
-                           placeholder="Segundo Nombre" />
+                           placeholder="Segundo Nombre" attrs="{'invisible':['|',('type', '=', 'delivery')]}" />
                     <field name="x_lastname1"
-                           placeholder="Primer Apellido"/>
+                           placeholder="Primer Apellido" attrs="{'invisible':['|',('type', '=', 'delivery')], 'required': [('type', '!=', 'delivery')]}" />
                     <field name="x_lastname2"
-                           placeholder="Segundo Apellido"  />
+                           placeholder="Segundo Apellido" attrs="{'invisible':['|',('type', '=', 'delivery')]}" />
 
-                    <field name="doctype" />
+                    <field name="doctype" attrs="{'invisible':[('type', '=', 'delivery')]}" />
                     <field name="xidentification"
                            placeholder="No. ej. 900301230"
-                           attrs="{'invisible':['|','|',('doctype', '=', 43), ('doctype', '=', 1), ('doctype', '=', False)]}" />
+                           attrs="{'invisible':['|','|','|',('doctype', '=', 43), ('doctype', '=', 1), ('doctype', '=', False), ('type', '=', 'delivery')]}" />
                     <field name="formatedNit"
                            attrs="{'invisible':[('doctype', '!=', 31)]}"
                            readonly="1" />
                     <field name="dv" invisible="1" />
-                    <field name="x_pn_retri" />
-                    <field name="ciiu" domain="[('type', '=', 'other')]" />
+                    <field name="x_pn_retri" attrs="{'invisible':[('type', '=', 'delivery')]}" />
+                    <field name="ciiu" attrs="{'invisible':[('type', '=', 'delivery')]}" domain="[('type', '=', 'other')]" />
+
                 </xpath>
 
                 <!-- Adding some more relevant fields to the form view -->
@@ -77,7 +102,7 @@
                 <field name="type" position="before">
                     <field name="personType"
                            attrs="{'readonly':[('company_type', '=', 'person')]}"/>
-                    <field name="doctype" />
+                    <field name="doctype" attrs="{'invisible':[('type', '=', 'delivery')]}" />
                     <field name="xidentification"
                            placeholder="No. ej. 900301230"
                            attrs="{'invisible':['|','|',('doctype', '=', 43), ('doctype', '=', 1), ('doctype', '=', False)]}" />
@@ -88,21 +113,22 @@
                     <field name="companyName"
                            placeholder="Nombre de la compañia"
                            attrs="{'invisible':['|',('personType', '=', 1),('company_type', '=', 'person')], 'required': [('personType', '=', 2)]}" />
+                    <field name="pos_name" placeholder="Nombre del Punto de Venta o dirección" attrs="{'invisible':['|',('type', '!=', 'delivery')], 'required': [('type', '=', 'delivery')]}" />
                     <field name="x_name1"
                            placeholder="Primer Nombre"
                            default_focus="1"
-                           attrs="{'invisible':['|',('personType', '=', 2)], 'required': [('personType', '=', 1)]}" />
+                           attrs="{'invisible':['|',('personType', '=', 2), ('type', '=', 'delivery')], 'required': [('personType', '=', 1), ('type', '!=', 'delivery')]}" />
                     <field name="x_name2"
                            placeholder="Segundo Nombre"
-                           attrs="{'invisible':['|',('personType', '=', 2)]}" />
+                           attrs="{'invisible':['|',('personType', '=', 2), ('type', '=', 'delivery')]}" />
                     <field name="x_lastname1"
                            placeholder="Primer Apellido"
-                           attrs="{'invisible':['|',('personType', '=', 2)], 'required': [('personType', '=', 1)]}" />
+                           attrs="{'invisible':['|',('personType', '=', 2), ('type', '=', 'delivery')], 'required': [('personType', '=', 1), ('type', '!=', 'delivery')]}" />
                     <field name="x_lastname2"
                            placeholder="Segundo Apellido"
-                           attrs="{'invisible':['|',('personType', '=', 2)]}"  />
-                    <field name="x_pn_retri" />
-                    <field name="ciiu" domain="[('type', '=', 'other')]" />
+                           attrs="{'invisible':['|',('personType', '=', 2), ('type', '=', 'delivery')]}"  />
+                    <field name="x_pn_retri" attrs="{'invisible':[('type', '=', 'delivery')]}" />
+                    <field name="ciiu" attrs="{'invisible':[('type', '=', 'delivery')]}"  domain="[('type', '=', 'other')]" />
 
                 </field>
                 <field name="website" position="before">
