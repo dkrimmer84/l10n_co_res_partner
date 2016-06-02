@@ -44,7 +44,7 @@
                     <field name="doctype" />
                     <field name="xidentification"
                            placeholder="No. ej. 900301230"
-                           attrs="{'invisible':[('doctype', '=', 43)]}" />
+                           attrs="{'invisible':['|','|',('doctype', '=', 43), ('doctype', '=', 1), ('doctype', '=', False)]}" />
                     <field name="formatedNit"
                            attrs="{'invisible':[('doctype', '!=', 31)]}"
                            readonly="1" />
@@ -80,7 +80,7 @@
                     <field name="doctype" />
                     <field name="xidentification"
                            placeholder="No. ej. 900301230"
-                           attrs="{'invisible':['|',('doctype', '=', 43)], 'required': [('doctype', '!=', 43)]}" />
+                           attrs="{'invisible':['|','|',('doctype', '=', 43), ('doctype', '=', 1), ('doctype', '=', False)]}" />
                     <field name="formatedNit"
                            attrs="{'invisible':[('doctype', '!=', 31)]}"
                            readonly="1" />
@@ -155,12 +155,16 @@
                     <div attrs="{'invisible':[('xidentification', '=', False)]}">
                         N° Documento: <field name="xidentification" />
                     </div>
-                    <div t-if="record.doctype.raw_value !=43">
-                        <div t-if="!record.xidentification.raw_value"
-                             style="margin: 0px; padding:3px 3px 10px 3px; color:#F77171; background-color: #FFF3F3;">
-                            <b>¡Datos incompletos!</b><br /> Por favor, actualice pronto.
+                    <div t-if="record.doctype.raw_value !=1">
+                        <div t-if="record.doctype.raw_value !=43">
+                            <div t-if="!record.xidentification.raw_value"
+                                 style="margin: 0px; padding:3px 3px 10px 3px; color:#F77171; background-color: #FFF3F3;">
+                                <b>¡Datos incompletos!</b><br /> Por favor, actualice pronto.
+                            </div>
                         </div>
                     </div>
+
+
                 </xpath>
             </field>
         </record>

@@ -55,6 +55,7 @@ class PartnerInfoExtended(models.Model):
     # Document information
     doctype = fields.Selection(
         [
+            (1, "Sin identificación"),
             (11, "11 - Registro civil de nacimiento"),
             (12, "12 - Tarjeta de identidad"),
             (13, "13 - Cédula de ciudadanía"),
@@ -257,7 +258,7 @@ class PartnerInfoExtended(models.Model):
         else:
             self.personType = 1
             self.is_company = False
-            self.doctype = 13
+            self.doctype = 1
 
     @api.one
     @api.onchange('is_company')
@@ -354,10 +355,11 @@ class PartnerInfoExtended(models.Model):
         This function checks the number length in the Identification field. Min 6, Max 12 digits.
         @return: void
         """
-        if len(str(self.xidentification)) < 2:
-            raise exceptions.ValidationError("¡Error! Número de identificación debe tener entre 2 y 12 dígitos")
-        elif len(str(self.xidentification)) > 12:
-            raise exceptions.ValidationError("¡Error! Número de identificación debe tener entre 2 y 12 dígitos")
+        if self.doctype is not 1:
+            if len(str(self.xidentification)) < 2:
+                raise exceptions.ValidationError("¡Error! Número de identificación debe tener entre 2 y 12 dígitos")
+            elif len(str(self.xidentification)) > 12:
+                raise exceptions.ValidationError("¡Error! Número de identificación debe tener entre 2 y 12 dígitos")
 
     @api.constrains('xidentification')
     def _check_ident_num(self):
@@ -367,9 +369,10 @@ class PartnerInfoExtended(models.Model):
         The rest does not permit any letters
         @return: void
         """
-        if self.xidentification != False and self.doctype != 21 and self.doctype != 41:
-            if re.match("^[0-9]+$", self.xidentification) == None:
-                raise exceptions.ValidationError("¡Error! El número de identificación sólo permite números")
+        if self.doctype is not 1:
+            if self.xidentification != False and self.doctype != 21 and self.doctype != 41:
+                if re.match("^[0-9]+$", self.xidentification) == None:
+                    raise exceptions.ValidationError("¡Error! El número de identificación sólo permite números")
 
     @api.constrains('doctype', 'xidentification')
     def _checkDocType(self):
@@ -377,10 +380,11 @@ class PartnerInfoExtended(models.Model):
         This function throws and error if there is no document type selected.
         @return: void
         """
-        if self.doctype is False:
-            raise exceptions.ValidationError("¡Error! Porfavor escoga un tipo de identificación")
-        elif self.xidentification is False and self.doctype is not 43:
-            raise exceptions.ValidationError("¡Error! Número de identificación es obligatorio!")
+        if self.doctype is not 1:
+            if self.doctype is False:
+                raise exceptions.ValidationError("¡Error! Porfavor escoga un tipo de identificación")
+            elif self.xidentification is False and self.doctype is not 43:
+                raise exceptions.ValidationError("¡Error! Número de identificación es obligatorio!")
 
     @api.constrains('x_name1', 'x_name2', 'companyName')
     def _check_names(self):
@@ -388,11 +392,24 @@ class PartnerInfoExtended(models.Model):
         Double check: Although validation is checked within the frontend (xml) we check it again to get sure
         """
         if self.is_company is True:
-            if self.companyName is False:
-                raise exceptions.ValidationError("¡Error! Porfavor ingrese el nombre de la empresa")
+            if self.personType is 1:
+                if self.x_name1 is False or self.x_name1 == '':
+                    raise exceptions.ValidationError("¡Error! Porfavor ingrese el nombre de la persona")
+            elif self.personType is 2:
+                if self.companyName is False:
+                    raise exceptions.ValidationError("¡Error! Porfavor ingrese el nombre de la empresa")
         else:
             if self.x_name1 is False or self.x_name1 == '':
                 raise exceptions.ValidationError("¡Error! Porfavor ingrese el nombre de la persona")
+
+    @api.constrains('personType')
+    def _check_person_type(self):
+        """
+        This function checks if the person type is not empty
+        @return: void
+        """
+        if self.personType is False:
+            raise exceptions.ValidationError("¡Error! Por favor selecciona un tipo de persona")
 
 
 
