@@ -1,4 +1,4 @@
-Colombia Terceros
+Localización Colombia: Terceros
 ======
 
 ![main_screenshot.png](http://www.plastinorte.com/images/main_screenshot.png)
