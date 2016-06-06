@@ -1,6 +1,8 @@
 Colombia Terceros
 ======
 
+![main_screenshot.png](http://www.plastinorte.com/images/main_screenshot.png)
+
 What you get
 -----------------
 - Redesign of the contact form due to some local rules that have to apply
