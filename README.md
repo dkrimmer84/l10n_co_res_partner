@@ -18,7 +18,7 @@ What you get
 - Added a complete list of all cities and departments in Colombia
 - Country, Department and Municipality Dependency Logic in order to avoid confusion of locations with the same name
 - Identification / Document-Type combination will be checked as it should be unique
-- All changes available in english (en_GB)
+- All changes available in english (choose language: en_GB)
 
 
 License
