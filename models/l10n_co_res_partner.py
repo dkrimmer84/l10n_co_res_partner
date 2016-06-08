@@ -239,8 +239,10 @@ class PartnerInfoExtended(models.Model):
             self.x_name2 = ''
             self.x_lastname1 = ''
             self.x_lastname2 = ''
+            self.x_pn_retri = 7
         elif self.personType is 1:
             self.companyName = False
+            self.x_pn_retri = False
 
     @api.one
     @api.onchange('doctype')
