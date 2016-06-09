@@ -102,7 +102,7 @@
                 <field name="type" position="before">
                     <field name="personType"
                            attrs="{'readonly':[('company_type', '=', 'person')]}"/>
-                    <field name="doctype" attrs="{'invisible':[('type', '=', 'delivery')]}" />
+                    <field name="doctype" attrs="{'invisible':[('type', '=', 'delivery')], 'required': [('doctype', '=', False)]}" />
                     <field name="xidentification"
                            placeholder="No. ej. 900301230"
                            attrs="{'invisible':['|','|',('doctype', '=', 43), ('doctype', '=', 1), ('doctype', '=', False)]}" />
