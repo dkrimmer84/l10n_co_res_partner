@@ -41,33 +41,33 @@
                     <field name="country_id"
                            attrs="{'readonly':[('change_country', '=', False)]}"
                            options='{"no_open": True, "no_create": True}'
-                           placeholder="País" on_change="onchange_location(country_id, False)"
+                           placeholder="Country" on_change="onchange_location(country_id, False)"
                            class="o_address_country" /> <!-- Country -->
                     <field name="state_id"
                            options="{'no_open': True}"
-                           placeholder="Departamento"
+                           placeholder="Department"
                            attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('country_id', '=', False)], 'required': [('xcity', '!=', False)]}" on_change="onchange_location(False, state_id)" /> <!-- Department -->
                     <field name="xcity"
                            options="{'no_open': True}"
-                           placeholder="Ciudad"
+                           placeholder="City"
                            attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('state_id', '=', False)]}" />  <!-- City / Municipality -->
 
                 </xpath>
 
                 <xpath expr="(//field[@name='name'])[4]" position="before">
-                    <field name="pos_name" placeholder="Nombre del Punto de Venta o dirección" attrs="{'invisible':['|',('type', '!=', 'delivery')], 'required': [('type', '=', 'delivery')]}" />
+                    <field name="pos_name" placeholder="Point of Sales Name or Direction" attrs="{'invisible':['|',('type', '!=', 'delivery')], 'required': [('type', '=', 'delivery')]}" />
                     <field name="x_name1"
-                           placeholder="Primer Nombre" attrs="{'invisible':['|',('type', '=', 'delivery')], 'required': [('type', '!=', 'delivery')]}" />
+                           placeholder="First Name" attrs="{'invisible':['|',('type', '=', 'delivery')], 'required': [('type', '!=', 'delivery')]}" />
                     <field name="x_name2"
-                           placeholder="Segundo Nombre" attrs="{'invisible':['|',('type', '=', 'delivery')]}" />
+                           placeholder="Second Name" attrs="{'invisible':['|',('type', '=', 'delivery')]}" />
                     <field name="x_lastname1"
-                           placeholder="Primer Apellido" attrs="{'invisible':['|',('type', '=', 'delivery')], 'required': [('type', '!=', 'delivery')]}" />
+                           placeholder="Last Name" attrs="{'invisible':['|',('type', '=', 'delivery')], 'required': [('type', '!=', 'delivery')]}" />
                     <field name="x_lastname2"
-                           placeholder="Segundo Apellido" attrs="{'invisible':['|',('type', '=', 'delivery')]}" />
+                           placeholder="Second Last Name" attrs="{'invisible':['|',('type', '=', 'delivery')]}" />
 
                     <field name="doctype" attrs="{'invisible':[('type', '=', 'delivery')]}" />
                     <field name="xidentification"
-                           placeholder="No. ej. 900301230"
+                           placeholder="e.g. 900301230"
                            attrs="{'invisible':['|','|','|',('doctype', '=', 43), ('doctype', '=', 1), ('doctype', '=', False), ('type', '=', 'delivery')]}" />
                     <field name="formatedNit"
                            attrs="{'invisible':[('doctype', '!=', 31)]}"
@@ -87,7 +87,7 @@
                            options="{'horizontal': true}"/>
 
                     <field name="is_company" class="oe_inline" modifiers="{}"/>
-                    <label for="is_company" string="¿Es una empresa?"/>
+                    <label for="is_company" string="Is it a Company?"/>
                 </field>
 
                 <field name="parent_id" position="before">
@@ -95,37 +95,37 @@
                         <field
                                 name="name"
                                 attrs="{'invisible':[('x_name1', '=', ''),('companyName', '=', False)]}"
-                                placeholder="¡Campo se llenará automáticamente!" />
+                                placeholder="Don't touch! Field will be filled up automatically!" />
                     </h3>
                 </field>
 
                 <field name="type" position="before">
                     <field name="personType"
                            attrs="{'readonly':[('company_type', '=', 'person')]}"/>
-                    <field name="doctype" attrs="{'invisible':[('type', '=', 'delivery')]}" />
+                    <field name="doctype" attrs="{'invisible':[('type', '=', 'delivery')], 'required': [('doctype', '=', False)]}" />
                     <field name="xidentification"
-                           placeholder="No. ej. 900301230"
+                           placeholder="e.g. 900301230"
                            attrs="{'invisible':['|','|',('doctype', '=', 43), ('doctype', '=', 1), ('doctype', '=', False)]}" />
                     <field name="formatedNit"
                            attrs="{'invisible':[('doctype', '!=', 31)]}"
                            readonly="1" />
                     <field name="dv" invisible="1" />
                     <field name="companyName"
-                           placeholder="Nombre de la compañia"
+                           placeholder="Name of the Company"
                            attrs="{'invisible':['|',('personType', '=', 1),('company_type', '=', 'person')], 'required': [('personType', '=', 2)]}" />
-                    <field name="pos_name" placeholder="Nombre del Punto de Venta o dirección" attrs="{'invisible':['|',('type', '!=', 'delivery')], 'required': [('type', '=', 'delivery')]}" />
+                    <field name="pos_name" placeholder="Point of Sales Name or Direction" attrs="{'invisible':['|',('type', '!=', 'delivery')], 'required': [('type', '=', 'delivery')]}" />
                     <field name="x_name1"
-                           placeholder="Primer Nombre"
+                           placeholder="First Name"
                            default_focus="1"
                            attrs="{'invisible':['|',('personType', '=', 2), ('type', '=', 'delivery')], 'required': [('personType', '=', 1), ('type', '!=', 'delivery')]}" />
                     <field name="x_name2"
-                           placeholder="Segundo Nombre"
+                           placeholder="Second Name"
                            attrs="{'invisible':['|',('personType', '=', 2), ('type', '=', 'delivery')]}" />
                     <field name="x_lastname1"
-                           placeholder="Primer Apellido"
+                           placeholder="Last Name"
                            attrs="{'invisible':['|',('personType', '=', 2), ('type', '=', 'delivery')], 'required': [('personType', '=', 1), ('type', '!=', 'delivery')]}" />
                     <field name="x_lastname2"
-                           placeholder="Segundo Apellido"
+                           placeholder="Second Last Name"
                            attrs="{'invisible':['|',('personType', '=', 2), ('type', '=', 'delivery')]}"  />
                     <field name="x_pn_retri" attrs="{'invisible':[('type', '=', 'delivery')]}" />
                     <field name="ciiu" attrs="{'invisible':[('type', '=', 'delivery')]}"  domain="[('type', '=', 'other')]" />
@@ -139,15 +139,15 @@
                     <field name="country_id"
                            attrs="{'readonly':[('change_country', '=', False)]}"
                            options='{"no_open": True, "no_create": True}'
-                           placeholder="País" on_change="onchange_location(country_id, False)"
+                           placeholder="Country" on_change="onchange_location(country_id, False)"
                            class="o_address_country" /> <!-- Country -->
                     <field name="state_id"
                            options="{'no_open': True}"
-                           placeholder="Departamento"
+                           placeholder="Department"
                            attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('country_id', '=', False)], 'required': [('xcity', '!=', False)]}" on_change="onchange_location(False, state_id)" /> <!-- Department -->
                     <field name="xcity"
                            options="{'no_open': True}"
-                           placeholder="Ciudad"
+                           placeholder="City"
                            attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('state_id', '=', False)]}" />  <!-- City / Municipality -->
                 </field>
             </field>
@@ -163,7 +163,7 @@
                         <attribute name="colors">black:doctype==43;black:doctype==1;red:xidentification==False;red:xidentification=='';</attribute>
                     </tree>
                 <field name="phone" position="before">
-                    <field name="xidentification" string="Identificación" />
+                    <field name="xidentification" string="Identification" />
                     <field name="doctype" invisible="1" />
                 </field>
             </field>
@@ -179,13 +179,13 @@
                     <field name="doctype" invisible="1"/>
 
                     <div attrs="{'invisible':[('xidentification', '=', False)]}">
-                        N° Documento: <field name="xidentification" />
+                        Document # <field name="xidentification" />
                     </div>
                     <div t-if="record.doctype.raw_value !=1">
                         <div t-if="record.doctype.raw_value !=43">
                             <div t-if="!record.xidentification.raw_value"
                                  style="margin: 0px; padding:3px 3px 10px 3px; color:#F77171; background-color: #FFF3F3;">
-                                <b>¡Datos incompletos!</b><br /> Por favor, actualice pronto.
+                                <b>Information is incomplete!</b><br/> Please update soon!
                             </div>
                         </div>
                     </div>
