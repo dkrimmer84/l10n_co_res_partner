@@ -32,7 +32,7 @@ Once you have a running installation, you can install this module on several way
 
 1. Go to your Addons folder of your Odoo Installation and type "git clone <repository-master>". 
 
-2. You can download the zip file and extract all files. Have in mind that the folder you will add to your addons path is called "l10n_co_res_partner". 
+2. You can download the ZIP file and extract all files. Have in mind that the folder you will add to your addons path is called "l10n_co_res_partner".
 
 3. Install Docker on your computer and follow this instructions: https://goo.gl/5p8Q7Y
 
