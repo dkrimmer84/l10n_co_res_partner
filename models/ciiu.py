@@ -22,34 +22,34 @@ from openerp import models, fields, api
 
 class Ciiu(models.Model):
     _name = "ciiu"
-    _description = "Lista CIIU"
+    _description = "ISIC List"
 
     name = fields.Char(
-        string="Codigo y Descripción",
+        string="Code and Description",
         store=True,
         compute="_concat_name"
     )
-    code = fields.Char('Código', required=True)
-    description = fields.Char('Descripción', required=True)
+    code = fields.Char('Code', required=True)
+    description = fields.Char('Description', required=True)
     type = fields.Char(
-        'Tipo',
+        'Type',
         store=True,
         compute="_set_type"
     )
-    hasParent = fields.Boolean('Tiene Padre?')
-    parent = fields.Many2one('ciiu', 'Padre')
+    hasParent = fields.Boolean('Has Parent?')
+    parent = fields.Many2one('ciiu', 'Parent')
 
-    hasDivision = fields.Boolean('Tiene Division?')
+    hasDivision = fields.Boolean('Has Division?')
     division = fields.Many2one('ciiu', 'Division')
 
-    hasSection = fields.Boolean('Tiene Seccion?')
-    section = fields.Many2one('ciiu', 'Seccion')
+    hasSection = fields.Boolean('Has Section?')
+    section = fields.Many2one('ciiu', 'Section')
 
     hierarchy = fields.Selection(
         [
-            (1, 'Tiene Padre?'),
-            (2, 'Tiene Division?'),
-            (3, 'Tiene Seccion?')
+            (1, 'Has Parent?'),
+            (2, 'Has Division?'),
+            (3, 'Has Section?')
         ],
         'Hierarchy'
     )

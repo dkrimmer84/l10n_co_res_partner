@@ -29,7 +29,7 @@ class CountryStateCity(models.Model):
     _description = 'Model to manipulate Cities'
     _name = 'res.country.state.city'
 
-    code = fields.Char('City Code', size=5, help='Código DANE -5 dígitos-', required=True)
+    code = fields.Char('City Code', size=5, help='Code DANE - 5 digits-', required=True)
     name = fields.Char('City Name', size=64, required=True)
     state_id = fields.Many2one('res.country.state', 'State', required=True)
     country_id = fields.Many2one('res.country', 'Country', required=True)
@@ -41,37 +41,37 @@ class PartnerInfoExtended(models.Model):
     _inherit = 'res.partner'
 
     # Company Name
-    companyName = fields.Char("Nombre de la compañia")
+    companyName = fields.Char("Name of the Company")
 
     # companyType
     companyType = fields.Selection(related='company_type')
 
     # Adding new name fields
-    x_name1 = fields.Char("Primer Nombre")
-    x_name2 = fields.Char("Segundo Nombre")
-    x_lastname1 = fields.Char("Primer Apellido")
-    x_lastname2 = fields.Char("Segundo Apellido")
+    x_name1 = fields.Char("First Name")
+    x_name2 = fields.Char("Second Name")
+    x_lastname1 = fields.Char("Last Name")
+    x_lastname2 = fields.Char("Second Last Name")
 
     # Document information
     doctype = fields.Selection(
         [
-            (1, "Sin identificación"),
-            (11, "11 - Registro civil de nacimiento"),
-            (12, "12 - Tarjeta de identidad"),
-            (13, "13 - Cédula de ciudadanía"),
-            (21, "21 - Tarjeta de extranjería"),
-            (22, "22 - Cédula de extranjería"),
-            (31, "31 - NIT (Número de identificación tributaria)"),
-            (41, "41 - Pasaporte"),
-            (42, "42 - Documento de identificación extranjero"),
-            (43, "43 - Sin identificación del exterior o para uso definido por la DIAN")
+            (1, "No identification"),
+            (11, "11 - Birth Certificate"),
+            (12, "12 - Identity Card"),
+            (13, "13 - Citizenship Card"),
+            (21, "21 - Alien Registration Card"),
+            (22, "22 - Foreigner ID"),
+            (31, "31 - TAX Number (NIT)"),
+            (41, "41 - Passport"),
+            (42, "42 - Foreign Identification Document"),
+            (43, "43 - No Foreign Identification")
 
-        ], "Tipo de identificación"
+        ], "Type of Identification"
     )
-    xidentification = fields.Char("Numero de Documento", store=True, help="Ingrese el numero de identificación")
-    verificationDigit = fields.Integer('DV', size=2)
+    xidentification = fields.Char("Document Number", store=True, help="Enter the Identification Number")
+    verificationDigit = fields.Integer('VD', size=2)
     formatedNit = fields.Char(
-        string='NIT Formateado',
+        string='NIT Formatted',
         compute="_concat_nit",
         store=True
     )
@@ -79,25 +79,25 @@ class PartnerInfoExtended(models.Model):
     # Tributate regime
     x_pn_retri = fields.Selection(
         [
-            (6, "Simplificado"),
-            (23, "P/Natural Común"),
-            (7, "Común"),
-            (11, "Gran Contribuyente  Auto-retenedor"),
-            (22, "Internacional"),
-            (25, "Común Auto-retenedor"),
-            (24, "Gran Contribuyente")
-        ], "Regímen Tributario"
+            (6, "Simplified"),
+            (23, "Natural Person"),
+            (7, "Common"),
+            (11, "Great Taxpayer Autorretenedor"),
+            (22, "International"),
+            (25, "Common Autorretenedor"),
+            (24, "Great Contributor")
+        ], "Tax Regime"
 
     )
 
     # CIIU - Clasificación Internacional Industrial Uniforme
-    ciiu = fields.Many2one('ciiu', "Actividad CIIU")
+    ciiu = fields.Many2one('ciiu', "ISIC Activity")
     personType = fields.Selection(
         [
-            (1, "natural"),
-            (2, "juridica")
+            (1, "Natural"),
+            (2, "Juridical")
         ],
-        "Tipo de persona",
+        "Type of Person",
         default=1
     )
 
@@ -105,7 +105,7 @@ class PartnerInfoExtended(models.Model):
     company_type = fields.Selection(
         [
             ('person', 'Individual'),
-            ('company', 'Compañia')
+            ('company', 'Company')
         ]
     )
 
@@ -116,22 +116,22 @@ class PartnerInfoExtended(models.Model):
     dv = fields.Integer(string=None, store=True)
 
     # Country -> State -> Municipality - Logic
-    country_id = fields.Many2one('res.country', "País")
-    xcity = fields.Many2one('res.country.state.city', "Municipio")
+    country_id = fields.Many2one('res.country', "Country")
+    xcity = fields.Many2one('res.country.state.city', "Municipality")
     city = fields.Char(related="xcity.name")
 
     # identification field has to be unique, therefore a constraint will validate it:
     _sql_constraints = [
         ('ident_unique',
          'UNIQUE(doctype,xidentification)',
-         "¡Error! El número de identificación debe ser único!"),
+         "Identification number must be unique!"),
     ]
 
     # Check to handle change of Country, City and Municipality
-    change_country = fields.Boolean(string="Cambiar País/Dpt./Ciudad?", default=True, store=False)
+    change_country = fields.Boolean(string="Change Country / Department?", default=True, store=False)
 
     # Name of point of sales / delivery contact
-    pos_name = fields.Char("Nombre del Punto de Venta")
+    pos_name = fields.Char("Point of Sales Name")
 
 
     @api.one
