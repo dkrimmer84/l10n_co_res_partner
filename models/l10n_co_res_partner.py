@@ -225,7 +225,16 @@ class PartnerInfoExtended(models.Model):
     @api.one
     @api.onchange('name')
     def onChangeName(self):
-        self._concat_name()
+        """
+        The name field gets concatenated by the four name fields.
+        If a user enters a value anyway, the value will be deleted except first name has no value.
+        Reason: In certain forms of odoo it is still possible to add value to the original name field. Therefore
+        we have to ensure that this field can receive values unless we offer the four name fields.
+        @return: void
+        """
+        if self.x_name1 is not False:
+            if len(self.x_name1) > 0:
+                self._concat_name()
 
     @api.onchange('personType')
     def onChangePersonType(self):
