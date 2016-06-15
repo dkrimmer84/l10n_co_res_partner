@@ -133,6 +133,9 @@ class PartnerInfoExtended(models.Model):
     # Name of point of sales / delivery contact
     pos_name = fields.Char("Point of Sales Name")
 
+    # Birthday of the contact (only useful for non-company contacts)
+    xbirthday = fields.Date("Birthday")
+
 
     @api.one
     @api.depends('xidentification')
@@ -292,6 +295,7 @@ class PartnerInfoExtended(models.Model):
         if self.is_company is True:
             self.personType = 2
             self.company_type = 'company'
+            self.xbirthday = False
         else:
             self.is_company = False
             self.company_type = 'person'
