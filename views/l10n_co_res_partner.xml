@@ -64,6 +64,7 @@
                            placeholder="Last Name" attrs="{'invisible':['|',('type', '=', 'delivery')], 'required': [('type', '!=', 'delivery')]}" />
                     <field name="x_lastname2"
                            placeholder="Second Last Name" attrs="{'invisible':['|',('type', '=', 'delivery')]}" />
+                    <field name="xbirthday" attrs="{'invisible':[('type', '=', 'delivery')]}" />
 
                     <field name="doctype" attrs="{'invisible':[('type', '=', 'delivery')]}" />
                     <field name="xidentification"

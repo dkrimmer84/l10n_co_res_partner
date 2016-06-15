@@ -66,6 +66,11 @@ msgid "<b>Information is incomplete!</b><br/> Please update soon!"
 msgstr "<b>¡Datos incompletos!</b><br/> Por favor, actualice pronto."
 
 #. module: l10n_co_res_partner
+#: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_xbirthday
+msgid "Birthday"
+msgstr "Fecha de Nacimiento"
+
+#. module: l10n_co_res_partner
 #: model:ir.actions.act_window,help:l10n_co_res_partner.action_ciiu_transaction
 #: model:ir.actions.act_window,name:l10n_co_res_partner.action_ciiu_transaction
 #: model:ir.ui.menu,name:l10n_co_res_partner.menu_action_ciiu_transaction
