@@ -334,22 +334,11 @@ class PartnerInfoExtended(models.Model):
         nitString = '0'*(15-len(nit)) + nit
         vl = list(nitString)
         result = (
-           int(vl[0])*71 +
-           int(vl[1])*67 +
-           int(vl[2])*59 +
-           int(vl[3])*53 +
-           int(vl[4])*47 +
-           int(vl[5])*43 +
-           int(vl[6])*41 +
-           int(vl[7])*37 +
-           int(vl[8])*29 +
-           int(vl[9])*23 +
-           int(vl[10])*19 +
-           int(vl[11])*17 +
-           int(vl[12])*13 +
-           int(vl[13])*7 +
-           int(vl[14])*3
-         ) % 11
+            int(vl[0])*71 + int(vl[1])*67 + int(vl[2])*59 + int(vl[3])*53 +
+            int(vl[4])*47 + int(vl[5])*43 + int(vl[6])*41 + int(vl[7])*37 +
+            int(vl[8])*29 + int(vl[9])*23 + int(vl[10])*19 + int(vl[11])*17 +
+            int(vl[12])*13 + int(vl[13])*7 + int(vl[14])*3
+        ) % 11
 
         if result in (0, 1):
             return str(result)
@@ -412,10 +401,10 @@ class PartnerInfoExtended(models.Model):
         @return: void
         """
         if self.doctype is not 1:
-            if self.xidentification != False and \
+            if self.xidentification is not False and \
                     self.doctype != 21 and \
                     self.doctype != 41:
-                if re.match("^[0-9]+$", self.xidentification) == None:
+                if re.match("^[0-9]+$", self.xidentification) is None:
                     msg = _('Error! Identification number can only '
                             'have numbers')
                     raise exceptions.ValidationError(msg)
