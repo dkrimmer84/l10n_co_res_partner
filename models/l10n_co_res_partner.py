@@ -152,29 +152,29 @@ class PartnerInfoExtended(models.Model):
             # Instead of showing "False" we put en empty string
             if self.xidentification is False:
                 self.xidentification = ''
+            else:
+                self.formatedNit = ''
 
-            self.formatedNit = ''
+                # Formatting the NIT: xx.xxx.xxx-x
+                s = str(self.xidentification)[::-1]
+                newnit = '.'.join(s[i:i+3] for i in range(0, len(s), 3))
+                newnit = newnit[::-1]
 
-            # Formatting the NIT: xx.xxx.xxx-x
-            s = str(self.xidentification)[::-1]
-            newnit = '.'.join(s[i:i+3] for i in range(0, len(s), 3))
-            newnit = newnit[::-1]
+                nitList = [
+                    newnit,
+                    # Calling the NIT Function which creates the Verification Code:
+                    self._check_dv(str(self.xidentification))
+                ]
 
-            nitList = [
-                newnit,
-                # Calling the NIT Function which creates the Verification Code:
-                self._check_dv(str(self.xidentification))
-            ]
+                formatedNitList = []
 
-            formatedNitList = []
+                for item in nitList:
+                    if item is not '':
+                        formatedNitList.append(item)
+                        self.formatedNit = '-' .join(formatedNitList)
 
-            for item in nitList:
-                if item is not '':
-                    formatedNitList.append(item)
-                    self.formatedNit = '-' .join(formatedNitList)
-
-            # Saving Verification digit in a proper field
-            self.dv = nitList[1]
+                # Saving Verification digit in a proper field
+                self.dv = nitList[1]
 
 
     @api.onchange('name1', 'name2', 'lastname1', 'lastname2', 'companyName', 'pos_name')
