@@ -19,6 +19,7 @@
 
 # Extended Partner Module
 from openerp import models, fields, api, exceptions
+from openerp.tools.translate import _
 import re
 
 
@@ -422,9 +423,10 @@ class PartnerInfoExtended(models.Model):
                             self.doctype != 21 and \
                             self.doctype != 41:
                 if re.match("^[0-9]+$", self.xidentification) == None:
-                    raise exceptions.ValidationError(
-                        "El número de identificación sólo permite números"
-                    )
+                    msg = _('\xc2\xa1Error! El n\xc3\xbamero de '
+                            'identificaci\xc3\xb3n s\xc3\xb3lo permite '
+                            'n\xc3\xbameros')
+                    raise exceptions.ValidationError(msg)
 
     @api.constrains('doctype', 'xidentification')
     def _checkDocType(self):
