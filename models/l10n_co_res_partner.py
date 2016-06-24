@@ -49,10 +49,10 @@ class PartnerInfoExtended(models.Model):
     companyType = fields.Selection(related='company_type')
 
     # Adding new name fields
-    name1 = fields.Char("First Name")
-    name2 = fields.Char("Second Name")
-    lastname1 = fields.Char("Last Name")
-    lastname2 = fields.Char("Second Last Name")
+    x_name1 = fields.Char("First Name")
+    x_name2 = fields.Char("Second Name")
+    x_lastname1 = fields.Char("Last Name")
+    x_lastname2 = fields.Char("Second Last Name")
 
     # Document information
     doctype = fields.Selection(
@@ -80,7 +80,7 @@ class PartnerInfoExtended(models.Model):
     )
 
     # Tributate regime
-    pn_retri = fields.Selection(
+    x_pn_retri = fields.Selection(
         [
             (6, "Simplified"),
             (23, "Natural Person"),
@@ -183,7 +183,7 @@ class PartnerInfoExtended(models.Model):
                     # Saving Verification digit in a proper field
                     self.dv = nitList[1]
 
-    @api.onchange('name1', 'name2', 'lastname1', 'lastname2', 'companyName',
+    @api.onchange('x_name1', 'x_name2', 'x_lastname1', 'x_lastname2', 'companyName',
                   'pos_name')
     def _concat_name(self):
         """
@@ -194,34 +194,34 @@ class PartnerInfoExtended(models.Model):
         @return: void
         """
         # Avoiding that "False" will be written into the name field
-        if self.name1 is False:
-            self.name1 = ''
+        if self.x_name1 is False:
+            self.x_name1 = ''
 
-        if self.name2 is False:
-            self.name2 = ''
+        if self.x_name2 is False:
+            self.x_name2 = ''
 
-        if self.lastname1 is False:
-            self.lastname1 = ''
+        if self.x_lastname1 is False:
+            self.x_lastname1 = ''
 
-        if self.lastname2 is False:
-            self.lastname2 = ''
+        if self.x_lastname2 is False:
+            self.x_lastname2 = ''
 
         # Collecting all names in a field that will be concatenated
         nameList = [
-            self.name1.encode(encoding='utf-8').strip(),
-            self.name2.encode(encoding='utf-8').strip(),
-            self.lastname1.encode(encoding='utf-8').strip(),
-            self.lastname2.encode(encoding='utf-8').strip()
+            self.x_name1.encode(encoding='utf-8').strip(),
+            self.x_name2.encode(encoding='utf-8').strip(),
+            self.x_lastname1.encode(encoding='utf-8').strip(),
+            self.x_lastname2.encode(encoding='utf-8').strip()
         ]
 
         formatedList = []
         if self.companyName is False:
             if self.type == 'delivery':
                 self.name = self.pos_name
-                self.name1 = False
-                self.name2 = False
-                self.lastname1 = False
-                self.lastname2 = False
+                self.x_name1 = False
+                self.x_name2 = False
+                self.x_lastname1 = False
+                self.x_lastname2 = False
                 self.doctype = 1
             else:
                 for item in nameList:
@@ -242,8 +242,8 @@ class PartnerInfoExtended(models.Model):
         fields.
         @return: void
         """
-        if self.name1 is not False:
-            if len(self.name1) > 0:
+        if self.x_name1 is not False:
+            if len(self.x_name1) > 0:
                 self._concat_name()
         if self.companyName is not False:
             if len(self.companyName) > 0:
@@ -258,14 +258,14 @@ class PartnerInfoExtended(models.Model):
         @return: void
         """
         if self.personType is 2:
-            self.name1 = ''
-            self.name2 = ''
-            self.lastname1 = ''
-            self.lastname2 = ''
-            self.pn_retri = 7
+            self.x_name1 = ''
+            self.x_name2 = ''
+            self.x_lastname1 = ''
+            self.x_lastname2 = ''
+            self.x_pn_retri = 7
         elif self.personType is 1:
             self.companyName = False
-            self.pn_retri = False
+            self.x_pn_retri = False
 
     @api.onchange('doctype')
     def onChangeDocumentType(self):
@@ -424,7 +424,7 @@ class PartnerInfoExtended(models.Model):
                 msg = _('Error! Identification number is mandatory')
                 raise exceptions.ValidationError(msg)
 
-    @api.constrains('name1', 'name2', 'companyName')
+    @api.constrains('x_name1', 'x_name2', 'companyName')
     def _check_names(self):
         """
         Double check: Although validation is checked within the frontend (xml)
@@ -432,7 +432,7 @@ class PartnerInfoExtended(models.Model):
         """
         if self.is_company is True:
             if self.personType is 1:
-                if self.name1 is False or self.name1 == '':
+                if self.x_name1 is False or self.x_name1 == '':
                     msg = _('Error! Please enter the persons name')
                     raise exceptions.ValidationError(msg)
             elif self.personType is 2:
@@ -444,7 +444,7 @@ class PartnerInfoExtended(models.Model):
                 msg = _('Error! Please enter the persons name')
                 raise exceptions.ValidationError(msg)
         else:
-            if self.name1 is False or self.name1 == '':
+            if self.x_name1 is False or self.x_name1 == '':
                 msg = _('Error! Please enter the name of the person')
                 raise exceptions.ValidationError(msg)
 
