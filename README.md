@@ -1,8 +1,3 @@
-[![Runbot Status](https://runbot.odoo-community.org/runbot/badge/flat/195/9.0.svg)](https://runbot.odoo-community.org/runbot/repo/github-com-oca-l10n-columbia-201)
-[![Build Status](https://travis-ci.org/OCA/l10n-columbia.svg?branch=9.0)](https://travis-ci.org/OCA/l10n-columbia)
-[![Coverage Status](https://coveralls.io/repos/OCA/l10n-columbia/badge.svg?branch=9.0&service=github)](https://coveralls.io/github/OCA/l10n-columbia?branch=9.0)
-[![Code Climate](https://codeclimate.com/github/OCA/l10n-columbia/badges/gpa.svg)](https://codeclimate.com/github/OCA/l10n-columbia)
-
 Localización Colombia: Terceros
 ======
 
