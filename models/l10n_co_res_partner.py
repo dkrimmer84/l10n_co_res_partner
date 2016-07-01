@@ -184,7 +184,8 @@ class PartnerInfoExtended(models.Model):
                             partner.formatedNit = '-' .join(formatedNitList)
 
                     # Saving Verification digit in a proper field
-                    self.dv = nitList[1]
+                    for pnitem in self:
+                        pnitem.dv = nitList[1]
 
     @api.onchange('x_name1', 'x_name2', 'x_lastname1', 'x_lastname2', 'companyName',
                   'pos_name', 'companyBrandName')
@@ -340,22 +341,23 @@ class PartnerInfoExtended(models.Model):
         @param nit: Enter the NIT number without check digit
         @return: String
         """
-        if self.doctype != 31:
-            return str(nit)
+        for item in self:
+            if item.doctype != 31:
+                return str(nit)
 
-        nitString = '0'*(15-len(nit)) + nit
-        vl = list(nitString)
-        result = (
-            int(vl[0])*71 + int(vl[1])*67 + int(vl[2])*59 + int(vl[3])*53 +
-            int(vl[4])*47 + int(vl[5])*43 + int(vl[6])*41 + int(vl[7])*37 +
-            int(vl[8])*29 + int(vl[9])*23 + int(vl[10])*19 + int(vl[11])*17 +
-            int(vl[12])*13 + int(vl[13])*7 + int(vl[14])*3
-        ) % 11
+            nitString = '0'*(15-len(nit)) + nit
+            vl = list(nitString)
+            result = (
+                int(vl[0])*71 + int(vl[1])*67 + int(vl[2])*59 + int(vl[3])*53 +
+                int(vl[4])*47 + int(vl[5])*43 + int(vl[6])*41 + int(vl[7])*37 +
+                int(vl[8])*29 + int(vl[9])*23 + int(vl[10])*19 + int(vl[11])*17 +
+                int(vl[12])*13 + int(vl[13])*7 + int(vl[14])*3
+            ) % 11
 
-        if result in (0, 1):
-            return str(result)
-        else:
-            return str(11-result)
+            if result in (0, 1):
+                return str(result)
+            else:
+                return str(11-result)
 
     def onchange_location(self, cr, uid, ids, country_id=False,
                           state_id=False):
@@ -395,13 +397,14 @@ class PartnerInfoExtended(models.Model):
         Min 6, Max 12 digits.
         @return: void
         """
-        if self.doctype is not 1:
-            msg = _('Error! Number of digits in Identification number must be'
-                    'between 2 and 12')
-            if len(str(self.xidentification)) < 2:
-                raise exceptions.ValidationError(msg)
-            elif len(str(self.xidentification)) > 12:
-                raise exceptions.ValidationError(msg)
+        for item in self:
+            if item.doctype is not 1:
+                msg = _('Error! Number of digits in Identification number must be'
+                        'between 2 and 12')
+                if len(str(item.xidentification)) < 2:
+                    raise exceptions.ValidationError(msg)
+                elif len(str(item.xidentification)) > 12:
+                    raise exceptions.ValidationError(msg)
 
     @api.constrains('xidentification')
     def _check_ident_num(self):
@@ -412,14 +415,15 @@ class PartnerInfoExtended(models.Model):
         field: 21 and 41. The rest does not permit any letters
         @return: void
         """
-        if self.doctype is not 1:
-            if self.xidentification is not False and \
-                    self.doctype != 21 and \
-                    self.doctype != 41:
-                if re.match("^[0-9]+$", self.xidentification) is None:
-                    msg = _('Error! Identification number can only '
-                            'have numbers')
-                    raise exceptions.ValidationError(msg)
+        for item in self:
+            if item.doctype is not 1:
+                if item.xidentification is not False and \
+                                item.doctype != 21 and \
+                                item.doctype != 41:
+                    if re.match("^[0-9]+$", item.xidentification) is None:
+                        msg = _('Error! Identification number can only '
+                                'have numbers')
+                        raise exceptions.ValidationError(msg)
 
     @api.constrains('doctype', 'xidentification')
     def _checkDocType(self):
