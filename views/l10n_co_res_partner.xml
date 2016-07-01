@@ -114,6 +114,9 @@
                     <field name="companyName"
                            placeholder="Name of the Company"
                            attrs="{'invisible':['|',('personType', '=', 1),('company_type', '=', 'person')], 'required': [('personType', '=', 2)]}" />
+                    <field name="companyBrandName"
+                           placeholder="Brand Name of the Company?"
+                           attrs="{'invisible':['|',('personType', '=', 1),('company_type', '=', 'person')]}" />
                     <field name="pos_name" placeholder="Point of Sales Name or Direction" attrs="{'invisible':['|',('type', '!=', 'delivery')], 'required': [('type', '=', 'delivery')]}" />
                     <field name="x_name1"
                            placeholder="First Name"

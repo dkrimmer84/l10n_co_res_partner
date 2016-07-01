@@ -42,8 +42,11 @@ class PartnerInfoExtended(models.Model):
     _name = 'res.partner'
     _inherit = 'res.partner'
 
-    # Company Name
+    # Company Name (legal name)
     companyName = fields.Char("Name of the Company")
+
+    # Brand Name (e.j. Claro Móvil = Brand, COMCEL SA = legal name)
+    companyBrandName = fields.Char("Brand")
 
     # companyType
     companyType = fields.Selection(related='company_type')
@@ -184,7 +187,7 @@ class PartnerInfoExtended(models.Model):
                     self.dv = nitList[1]
 
     @api.onchange('x_name1', 'x_name2', 'x_lastname1', 'x_lastname2', 'companyName',
-                  'pos_name')
+                  'pos_name', 'companyBrandName')
     def _concat_name(self):
         """
         This function concatenates the four name fields in order to be able to
@@ -229,7 +232,14 @@ class PartnerInfoExtended(models.Model):
                         formatedList.append(item)
                 self.name = ' ' .join(formatedList)
         else:
-            self.name = self.companyName
+            # Some Companies are know for their Brand, which could conflict from the users point of view while
+            # searching the company (e.j. o2 = brand, Telefonica = Company)
+            if self.companyBrandName is not False:
+                delimiter = ', '
+                company_list = (self.companyBrandName, self.companyName)
+                self.name = delimiter.join(company_list)
+            else:
+                self.name = self.companyName
 
     @api.onchange('name')
     def onChangeName(self):
@@ -265,6 +275,7 @@ class PartnerInfoExtended(models.Model):
             self.x_pn_retri = 7
         elif self.personType is 1:
             self.companyName = False
+            self.companyBrandName = False
             self.x_pn_retri = False
 
     @api.onchange('doctype')

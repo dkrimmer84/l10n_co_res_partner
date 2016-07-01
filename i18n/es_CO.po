@@ -71,6 +71,16 @@ msgid "Birthday"
 msgstr "Fecha de Nacimiento"
 
 #. module: l10n_co_res_partner
+#: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_companyBrandName
+msgid "Brand"
+msgstr "Marca"
+
+#. module: l10n_co_res_partner
+#: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
+msgid "Brand Name of the Company?"
+msgstr "Nombre de la Marca"
+
+#. module: l10n_co_res_partner
 #: model:ir.actions.act_window,help:l10n_co_res_partner.action_ciiu_transaction
 #: model:ir.actions.act_window,name:l10n_co_res_partner.action_ciiu_transaction
 #: model:ir.ui.menu,name:l10n_co_res_partner.menu_action_ciiu_transaction
@@ -375,7 +385,7 @@ msgstr "NIT Formateado"
 #: model:ir.model.fields,field_description:l10n_co_res_partner.field_res_partner_companyName
 #: model:ir.ui.view,arch_db:l10n_co_res_partner.view_partner_form
 msgid "Name of the Company"
-msgstr "Nombre de la compañia"
+msgstr "Nombre de la Compañia"
 
 #. module: l10n_co_res_partner
 #: selection:res.partner,personType:0
