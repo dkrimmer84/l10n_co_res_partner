@@ -21,7 +21,8 @@
 from openerp import models, fields, api, exceptions
 from openerp.tools.translate import _
 import re
-
+import logging
+_logger = logging.getLogger(__name__)
 
 class CountryStateCity(models.Model):
     """
@@ -143,6 +144,14 @@ class PartnerInfoExtended(models.Model):
 
     # Birthday of the contact (only useful for non-company contacts)
     xbirthday = fields.Date("Birthday")
+
+    def get_doctype(self, cr, uid, context=None):
+        return dict(self.pool.get('res.partner').fields_get(cr, uid, allfields=['doctype'], context=context)['doctype'][
+                        'selection'])
+
+    def get_persontype(self, cr, uid, context=None):
+        return dict(self.pool.get('res.partner').fields_get(cr, uid, allfields=['personType'], context=context)[
+                        'personType']['selection'])
 
     @api.depends('xidentification')
     def _compute_concat_nit(self):
