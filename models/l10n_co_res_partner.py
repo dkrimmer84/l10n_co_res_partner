@@ -146,12 +146,16 @@ class PartnerInfoExtended(models.Model):
     xbirthday = fields.Date("Birthday")
 
     def get_doctype(self, cr, uid, context=None):
-        return dict(self.pool.get('res.partner').fields_get(cr, uid, allfields=['doctype'], context=context)['doctype'][
-                        'selection'])
+        result = []
+        for item in self.pool.get('res.partner').fields_get(cr, uid, allfields=['doctype'], context=context)['doctype']['selection']:
+            result.append({'id': item[0], 'name': item[1]})
+        return result
 
     def get_persontype(self, cr, uid, context=None):
-        return dict(self.pool.get('res.partner').fields_get(cr, uid, allfields=['personType'], context=context)[
-                        'personType']['selection'])
+        result = []
+        for item in self.pool.get('res.partner').fields_get(cr, uid, allfields=['personType'], context=context)['personType']['selection']:
+            result.append({'id': item[0], 'name': item[1]})
+        return result
 
     @api.depends('xidentification')
     def _compute_concat_nit(self):
