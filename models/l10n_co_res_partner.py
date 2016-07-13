@@ -145,13 +145,13 @@ class PartnerInfoExtended(models.Model):
     # Birthday of the contact (only useful for non-company contacts)
     xbirthday = fields.Date("Birthday")
 
-    def get_doctype(self, cr, uid, context=None):
+    def get_doctype(self, cr, uid, context={'lang': 'es_CO'}):
         result = []
         for item in self.pool.get('res.partner').fields_get(cr, uid, allfields=['doctype'], context=context)['doctype']['selection']:
             result.append({'id': item[0], 'name': item[1]})
         return result
 
-    def get_persontype(self, cr, uid, context=None):
+    def get_persontype(self, cr, uid, context={'lang': 'es_CO'}):
         result = []
         for item in self.pool.get('res.partner').fields_get(cr, uid, allfields=['personType'], context=context)['personType']['selection']:
             result.append({'id': item[0], 'name': item[1]})
