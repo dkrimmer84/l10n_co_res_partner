@@ -235,8 +235,9 @@ class PartnerInfoExtended(models.Model):
         @param type: int
         @return: void
         """
-        if docid is False:
+        if docid is False or docid.isnumeric() is False:
             return False
+
         try:
             for partner in self:
                 data = json.load(
