@@ -207,6 +207,10 @@ class PartnerInfoExtended(models.Model):
 
     @api.onchange('xidentification')
     def _compute_get_names_for_id(self):
+        """
+        Depending on the context we will trigger the data from the rues portal.
+        @return: void
+        """
         for partner in self:
             rv = 2
             if partner.is_company is True:
@@ -221,6 +225,16 @@ class PartnerInfoExtended(models.Model):
                 self.get_data_from_rues(partner.xidentification, rv)
 
     def get_data_from_rues(self, docid, type):
+        """
+        This functions is a very helpful way to get the correct name of the
+        contact automatically by entering the identification number.
+        This will call a service which checks if the contact exists. If it
+        does this function will fill the corresponding fields with the correct
+        data. If nothing is found, nothing will happen.
+        @param docid: int
+        @param type: int
+        @return: void
+        """
         if docid is False:
             return False
         try:
@@ -230,10 +244,18 @@ class PartnerInfoExtended(models.Model):
                         'http://master.plastinorte.net/clientes.php?id='+docid)
                 )
                 if data['name'] is not '':
-                    if type is 1 and data['doctype'] is 2 and self.personType is 2:
-                        partner.companyName = data['name'].title() if 'name' in data else ''
-                    elif type is 3 and data['doctype'] is 1 and partner.personType is 2:
-                        partner.companyName = data['name'].title() if 'name' in data else ''
+                    if type is 1 \
+                            and data['doctype'] is 2 \
+                            and self.personType is 2:
+                        partner.companyName = \
+                            data['name'].title() if 'name' in data else ''
+
+                    elif type is 3 \
+                            and data['doctype'] is 1 \
+                            and partner.personType is 2:
+                        partner.companyName = \
+                            data['name'].title() if 'name' in data else ''
+
                     elif type is 2 and data['doctype'] is 1:
                         allnames = data['name'].split(' ')
 
@@ -257,6 +279,7 @@ class PartnerInfoExtended(models.Model):
                         except IndexError:
                             print ''
 
+                # checking if the identification number is valid
                 if data['doctype'] is not '':
                     if type is 4 and data['doctype'] is not 2:
                         msg = _('Error! This Number of Identification is not valid')
@@ -309,7 +332,7 @@ class PartnerInfoExtended(models.Model):
                 for item in nameList:
                     if item is not '':
                         formatedList.append(item)
-                self.name = ' ' .join(formatedList)
+                self.name = ' ' .join(formatedList).title()
         else:
             # Some Companies are know for their Brand, which could conflict from the users point of view while
             # searching the company (e.j. o2 = brand, Telefonica = Company)
