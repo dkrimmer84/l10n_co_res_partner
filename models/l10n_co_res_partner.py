@@ -178,6 +178,7 @@ class PartnerInfoExtended(models.Model):
                 if partner.xidentification is False:
                     partner.xidentification = ''
                 else:
+                    self.get_data_from_rues(partner.xidentification, 4)
                     self.get_data_from_rues(partner.xidentification, 1)
                     partner.formatedNit = ''
 
@@ -255,6 +256,11 @@ class PartnerInfoExtended(models.Model):
                             partner.x_name2 = allnames[3].title()
                         except IndexError:
                             print ''
+
+                if data['doctype'] is not '':
+                    if type is 4 and data['doctype'] is not 2:
+                        msg = _('Error! This Number of Identification is not valid')
+                        raise exceptions.ValidationError(msg)
 
         except ValueError as err:
             print(err)
