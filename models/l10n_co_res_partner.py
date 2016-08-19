@@ -22,6 +22,9 @@ from openerp import models, fields, api, exceptions
 from openerp.tools.translate import _
 import re
 import logging
+import json
+import urllib2
+
 _logger = logging.getLogger(__name__)
 
 class CountryStateCity(models.Model):
@@ -175,6 +178,7 @@ class PartnerInfoExtended(models.Model):
                 if partner.xidentification is False:
                     partner.xidentification = ''
                 else:
+                    self.get_data_from_rues(partner.xidentification, 1)
                     partner.formatedNit = ''
 
                     # Formatting the NIT: xx.xxx.xxx-x
@@ -199,6 +203,61 @@ class PartnerInfoExtended(models.Model):
                     # Saving Verification digit in a proper field
                     for pnitem in self:
                         pnitem.dv = nitList[1]
+
+    @api.onchange('xidentification')
+    def _compute_get_names_for_id(self):
+        for partner in self:
+            rv = 2
+            if partner.is_company is True:
+                rv = 3
+
+            if partner.doctype is 13:
+                partner.x_lastname1 = ''
+                partner.x_lastname2 = ''
+                partner.x_name1 = ''
+                partner.x_name2 = ''
+
+                self.get_data_from_rues(partner.xidentification, rv)
+
+    def get_data_from_rues(self, docid, type):
+        if docid is False:
+            return False
+        try:
+            for partner in self:
+                data = json.load(
+                    urllib2.urlopen(
+                        'http://master.plastinorte.net/clientes.php?id='+docid)
+                )
+                if data['name'] is not '':
+                    if type is 1 and data['doctype'] is 2 and self.personType is 2:
+                        partner.companyName = data['name'].title() if 'name' in data else ''
+                    elif type is 3 and data['doctype'] is 1 and partner.personType is 2:
+                        partner.companyName = data['name'].title() if 'name' in data else ''
+                    elif type is 2 and data['doctype'] is 1:
+                        allnames = data['name'].split(' ')
+
+                        try:
+                            partner.x_lastname1 = allnames[0].title()
+                        except IndexError:
+                            print ''
+
+                        try:
+                            partner.x_lastname2 = allnames[1].title()
+                        except IndexError:
+                            print ''
+
+                        try:
+                            partner.x_name1 = allnames[2].title()
+                        except IndexError:
+                            print ''
+
+                        try:
+                            partner.x_name2 = allnames[3].title()
+                        except IndexError:
+                            print ''
+
+        except ValueError as err:
+            print(err)
 
     @api.onchange('x_name1', 'x_name2', 'x_lastname1', 'x_lastname2', 'companyName',
                   'pos_name', 'companyBrandName')
