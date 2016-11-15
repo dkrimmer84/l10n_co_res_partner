@@ -371,9 +371,8 @@ class PartnerInfoExtended(models.Model):
                 return str(result)
             else:
                 return str(11-result)
-
-    def onchange_location(self, cr, uid, ids, country_id=False,
-                          state_id=False):
+    @api.multi
+    def onchange_location(self, country_id=False, state_id=False):
         """
         This functions is a great helper when you enter the customer's
         location. It solves the problem of various cities with the same name in
@@ -383,21 +382,22 @@ class PartnerInfoExtended(models.Model):
         @return: object
         """
         if country_id:
-            mymodel = 'res.country.state'
+            location_model = 'res.country.state'
             filter_column = 'country_id'
             check_value = country_id
             domain = 'state_id'
 
         elif state_id:
-            mymodel = 'res.country.state.city'
+            location_model = 'res.country.state.city'
             filter_column = 'state_id'
             check_value = state_id
             domain = 'xcity'
         else:
             return {}
-
-        obj = self.pool.get(mymodel)
-        ids = obj.search(cr, uid, [(filter_column, '=', check_value)])
+        res = self.env[location_model].search(
+            [(filter_column, '=', check_value)]
+            )
+        ids = [record.id for record in res]
         return {
             'domain': {domain: [('id', 'in', ids)]},
             'value': {domain: ''}
