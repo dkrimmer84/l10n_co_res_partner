@@ -41,12 +41,12 @@
                     <field name="country_id"
                            attrs="{'readonly':[('change_country', '=', False)]}"
                            options='{"no_open": True, "no_create": True}'
-                           placeholder="Country" on_change="onchange_location(country_id, False)"
+                           placeholder="Country" 
                            class="o_address_country" /> <!-- Country -->
                     <field name="state_id"
                            options="{'no_open': True}"
                            placeholder="Department"
-                           attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('country_id', '=', False)], 'required': [('xcity', '!=', False)]}" on_change="onchange_location(False, state_id)" /> <!-- Department -->
+                           attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('country_id', '=', False)], 'required': [('xcity', '!=', False)]}" /> <!-- Department -->
                     <field name="xcity"
                            options="{'no_open': True}"
                            placeholder="City"
@@ -144,12 +144,12 @@
                     <field name="country_id"
                            attrs="{'readonly':[('change_country', '=', False)]}"
                            options='{"no_open": True, "no_create": True}'
-                           placeholder="Country" on_change="onchange_location(country_id, False)"
+                           placeholder="Country" 
                            class="o_address_country" /> <!-- Country -->
                     <field name="state_id"
                            options="{'no_open': True}"
                            placeholder="Department"
-                           attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('country_id', '=', False)], 'required': [('xcity', '!=', False)]}" on_change="onchange_location(False, state_id)" /> <!-- Department -->
+                           attrs="{'readonly':[('change_country', '=', False)], 'invisible':[('country_id', '=', False)], 'required': [('xcity', '!=', False)]}" /> <!-- Department -->
                     <field name="xcity"
                            options="{'no_open': True}"
                            placeholder="City"

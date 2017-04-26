@@ -145,17 +145,19 @@ class PartnerInfoExtended(models.Model):
     # Birthday of the contact (only useful for non-company contacts)
     xbirthday = fields.Date("Birthday")
 
-    def get_doctype(self, cr, uid, context={'lang': 'es_CO'}):
+    @api.model
+    def get_doctype(self):
         result = []
-        for item in self.pool.get('res.partner').fields_get(cr, uid, allfields=['doctype'], context=context)['doctype']['selection']:
+        for item in self.env['res.partner'].fields_get(self)['doctype']['selection']:
             result.append({'id': item[0], 'name': item[1]})
-        return result
+        return result        
 
-    def get_persontype(self, cr, uid, context={'lang': 'es_CO'}):
+    @api.model
+    def get_persontype(self):
         result = []
-        for item in self.pool.get('res.partner').fields_get(cr, uid, allfields=['personType'], context=context)['personType']['selection']:
+        for item in self.env['res.partner'].fields_get(self)['personType']['selection']:
             result.append({'id': item[0], 'name': item[1]})
-        return result
+        return result        
 
     @api.depends('xidentification')
     def _compute_concat_nit(self):
@@ -372,8 +374,8 @@ class PartnerInfoExtended(models.Model):
             else:
                 return str(11-result)
 
-    def onchange_location(self, cr, uid, ids, country_id=False,
-                          state_id=False):
+    @api.onchange('country_id', 'state_id')
+    def onchange_location(self):
         """
         This functions is a great helper when you enter the customer's
         location. It solves the problem of various cities with the same name in
@@ -382,26 +384,31 @@ class PartnerInfoExtended(models.Model):
         @param state_id: State Id (ISO)
         @return: object
         """
-        if country_id:
+        
+        if self.country_id and not self.state_id:
             mymodel = 'res.country.state'
             filter_column = 'country_id'
-            check_value = country_id
+            check_value = self.country_id.id
             domain = 'state_id'
 
-        elif state_id:
+        elif self.state_id:
             mymodel = 'res.country.state.city'
             filter_column = 'state_id'
-            check_value = state_id
+            check_value = self.state_id.id
             domain = 'xcity'
         else:
             return {}
 
-        obj = self.pool.get(mymodel)
-        ids = obj.search(cr, uid, [(filter_column, '=', check_value)])
+        obj = self.env[mymodel]
+        ids = obj.search([(filter_column, '=', check_value)])
+        id_domain = []
+        for id in ids:
+            id_domain.append(id.id)
+        
         return {
-            'domain': {domain: [('id', 'in', ids)]},
+            'domain': {domain: [('id', 'in', id_domain)]},
             'value': {domain: ''}
-            }
+        }
 
     @api.constrains('xidentification')
     def _check_ident(self):
