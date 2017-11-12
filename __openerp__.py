@@ -8,7 +8,7 @@
     'maintainer': 'dominic.krimmer@gmail.com',
     'website': 'https://www.plastinorte.com',
     'summary': 'Colombia Terceros: Extended Partner / '
-               'Contact Module - Odoo 9.0',
+               'Contact Module - Odoo 10.0',
     'images': ['images/main_screenshot.png'],
     'depends': [
         'account',
