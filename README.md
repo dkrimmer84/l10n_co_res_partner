@@ -38,16 +38,16 @@ Setup a running environment of Odoo on your machine (local or remote). Here are 
 Ubuntu: https://goo.gl/mgEbUR
 Mac: http://goo.gl/hXBqfG
 
-Once you have a running installation, you can install this module on several ways: 
+Once you have a running installation, you can install this module in several ways: 
 
 1. Go to your Addons folder of your Odoo Installation and type "git clone <repository-master>". 
 
 2. You can download the ZIP file and extract all files. Have in mind that the folder you will add to your addons path is called "l10n_co_res_partner".
 
-3. Install Docker on your computer and follow this instructions: https://goo.gl/5p8Q7Y
+3. Install Docker on your computer and follow these instructions: https://goo.gl/5p8Q7Y
 
 
-Restart your server and go the the applications tab. Change to developer mode and update the application list. Then you can search for the module like "colombia" or "Terceros". Install it. Have fun.
+Restart your server and go to the applications tab. Change to developer mode and update the application list. Then you can search for the module like "colombia" or "Terceros". Install it. Have fun.
 
 License
 -----------------
@@ -57,7 +57,7 @@ Everyone is permitted to copy and distribute verbatim copies of this license doc
 
 Feedback
 -----------------
-We want to improve constantly our software, therefore we love feedback. Feel free to comment at any time our code. 
+We want to improve constantly our software, therefore we love feedback. Feel free to comment at any time on our code. 
 If you think something is missing please don't hesitate to drop a message.
 
 
