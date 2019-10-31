@@ -1,4 +1,4 @@
-"id","code","description","division/id","hierarchy","parent/id","section/id","hasDivision","hasParent","hasSection"
+"id","code","description","division/id","hierarchy","parent/id","section/id","has_division","has_parent","has_section"
 "ciiu.1","SECCIÓN A","AGRICULTURA, GANADERÍA, CAZA, SILVICULTURA Y PESCA",,,,,"False","False","False"
 "ciiu.01",1,"Agricultura, ganadería, caza y actividades de servicios conexas ",,,,"ciiu.1","False","False","True"
 "ciiu.011",11,"Cultivos agrícolas transitorios ","ciiu.01",,,,"True","False","False"

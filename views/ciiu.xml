@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<openerp>
-    <data>
+<odoo>
 
-<!-- CIIU Related info-->
+    <!-- CIIU Related info-->
 
     <!--CIIU List View-->
     <record id="view_ciiu_transaction_tree" model="ir.ui.view">
         <field name="name">ciiu.tree</field>
         <field name="model">ciiu</field>
         <field name="arch" type="xml">
-            <!-- this will be our title of list/tree view -->
-            <tree string="CIIU" colors="blue:type == 'view'; black:type == 'other'" toolbar="1" create="false" delete="false" edit="false">
-                <!-- these will automatically map table headers for our list view -->
-                <field name="code"/> 
+            <tree string="CIIU" create="0" delete="0" edit="0">
+                <field name="code"/>
                 <field name="description"/>
                 <field name="type" invisible="1" />
             </tree>
@@ -24,17 +21,16 @@
         <field name="name">ciiu.view</field>
         <field name="model">ciiu</field>
         <field name="arch" type="xml">
-            <!-- this will be our title of list/tree view -->
-            <form string="CIIU" version="7.0" toolbar="1" create="false" delete="false" edit="false">
+            <form string="CIIU" create="0" delete="0" edit="0">
                 <group>
                     <field name="code"/> 
                     <field name="description"/> 
-                    <field name="hasParent" attrs="{'invisible':['|',('hasDivision', '=', True),('hasSection', '=', True)]}" />
-                    <field name="parent" attrs="{'invisible':[('hasParent', '=', False)]}"/> 
-                    <field name="hasDivision" attrs="{'invisible':['|',('hasParent', '=', True),('hasSection', '=', True)]}" />
-                    <field name="division" attrs="{'invisible':[('hasDivision', '=', False)]}"/> 
-                    <field name="hasSection" attrs="{'invisible':['|',('hasDivision', '=', True),('hasParent', '=', True)]}" />
-                    <field name="section" attrs="{'invisible':[('hasSection', '=', False)]}"/> 
+                    <field name="has_parent" attrs="{'invisible':['|',('has_division', '=', True),('has_section', '=', True)]}" />
+                    <field name="parent" attrs="{'invisible':[('has_parent', '=', False)]}"/> 
+                    <field name="has_division" attrs="{'invisible':['|',('has_parent', '=', True),('has_section', '=', True)]}" />
+                    <field name="division" attrs="{'invisible':[('has_division', '=', False)]}"/> 
+                    <field name="has_section" attrs="{'invisible':['|',('has_division', '=', True),('has_parent', '=', True)]}" />
+                    <field name="section" attrs="{'invisible':[('has_section', '=', False)]}"/> 
                     <field name="type"/>
                     <field name="name" />
                 </group>
@@ -56,5 +52,4 @@
         id="menu_action_ciiu_transaction"
         parent="account.account_account_menu" sequence="11"/>
 
-    </data>
-</openerp>
+</odoo>

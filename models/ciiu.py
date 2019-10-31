@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from openerp import models, fields, api
+from odoo import models, fields, api
 
 
 class IndustrialClassification(models.Model):
@@ -36,13 +36,13 @@ class IndustrialClassification(models.Model):
         store=True,
         compute="_compute_set_type"
     )
-    hasParent = fields.Boolean('Has Parent?')
+    has_parent = fields.Boolean('Has Parent?')
     parent = fields.Many2one('ciiu', 'Parent')
 
-    hasDivision = fields.Boolean('Has Division?')
+    has_division = fields.Boolean('Has Division?')
     division = fields.Many2one('ciiu', 'Division')
 
-    hasSection = fields.Boolean('Has Section?')
+    has_section = fields.Boolean('Has Section?')
     section = fields.Many2one('ciiu', 'Section')
 
     hierarchy = fields.Selection(
@@ -54,6 +54,8 @@ class IndustrialClassification(models.Model):
         'Hierarchy'
     )
 
+
+    @api.multi
     @api.depends('code', 'description')
     def _compute_concat_name(self):
         """
@@ -61,27 +63,31 @@ class IndustrialClassification(models.Model):
         for CIIU as number or string
         @return: void
         """
-        if self.code is False or self.description is False:
-            self.name = ''
-        else:
-            self.name = str(self.code.encode('utf-8').strip()) + \
-                ' - ' + str(self.description.encode('utf-8').strip())
+        for rec in self:
+            if rec.code is False or rec.description is False:
+                rec.name = ''
+            else:
+                rec.name = str(rec.code.encode('utf-8').strip()) + \
+                    ' - ' + str(rec.description.encode('utf-8').strip())
 
-    @api.depends('hasParent')
+
+    @api.multi
+    @api.depends('has_parent')
     def _compute_set_type(self):
         """
         Section, Division and Parent should be visually separated in the tree
         view. Therefore we tag them accordingly as 'view' or 'other'
         @return: void
         """
-        # Child
-        if self.hasParent is True:
-            if self.division is True:
-                self.type = 'view'
-            elif self.section is True:
-                self.type = 'view'
+        for rec in self:
+            # Child
+            if rec.has_parent is True:
+                if rec.division is True:
+                    rec.type = 'view'
+                elif rec.section is True:
+                    rec.type = 'view'
+                else:
+                    rec.type = 'other'
+            # Division
             else:
-                self.type = 'other'
-        # Division
-        else:
-            self.type = 'view'
+                rec.type = 'view'

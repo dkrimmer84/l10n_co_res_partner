@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
+<odoo>
     <!-- States -->
     <data noupdate="1">
 
@@ -1193,7 +1193,7 @@
             <field name="name">BOGOTÁ, D.C.</field>
 
             <field search="[('code','=','CO')]" model="res.country" name="country_id"/>
-            <field search="[('code','=','DC ')]" model="res.country.state" name="state_id"/>
+            <field search="[('code','=','DC')]" model="res.country.state" name="state_id"/>
         </record>
 
         <record model="res.country.state.city" id="res_country_state_co_13001">
@@ -8821,4 +8821,4 @@
         </record>
 
     </data>
-</openerp>
+</odoo>

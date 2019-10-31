@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###############################################################################
 #                                                                             #
 # Copyright (C) 2016  Dominic Krimmer                                         #
@@ -18,11 +17,12 @@
 ###############################################################################
 
 # Extended Partner Module
-from openerp import models, fields, api, exceptions
-from openerp.tools.translate import _
+from odoo import models, fields, api, exceptions
+from odoo.tools.translate import _
 import re
 import logging
 _logger = logging.getLogger(__name__)
+
 
 class CountryStateCity(models.Model):
     """
@@ -30,13 +30,13 @@ class CountryStateCity(models.Model):
     """
     _description = 'Model to manipulate Cities'
     _name = 'res.country.state.city'
+    _order = 'code'
 
     code = fields.Char('City Code', size=5, help='Code DANE - 5 digits-',
                        required=True)
     name = fields.Char('City Name', size=64, required=True)
     state_id = fields.Many2one('res.country.state', 'State', required=True)
     country_id = fields.Many2one('res.country', 'Country', required=True)
-    _order = 'code'
 
 
 class PartnerInfoExtended(models.Model):
@@ -204,23 +204,23 @@ class PartnerInfoExtended(models.Model):
                   'pos_name', 'companyBrandName')
     def _concat_name(self):
         """
-        This function concatenates the four name fields in order to be able to
-        search for the entire name. On the other hand the original name field
-        should not be editable anymore as the new name fields should fill it up
-        automatically.
-        @return: void
-        """
+                This function concatenates the four name fields in order to be able to
+                search for the entire name. On the other hand the original name field
+                should not be editable anymore as the new name fields should fill it up
+                automatically.
+                @return: void
+                """
         # Avoiding that "False" will be written into the name field
-        if self.x_name1 is False:
+        if not self.x_name1:
             self.x_name1 = ''
 
-        if self.x_name2 is False:
+        if not self.x_name2:
             self.x_name2 = ''
 
-        if self.x_lastname1 is False:
+        if not self.x_lastname1:
             self.x_lastname1 = ''
 
-        if self.x_lastname2 is False:
+        if not self.x_lastname2:
             self.x_lastname2 = ''
 
         # Collecting all names in a field that will be concatenated
@@ -242,9 +242,9 @@ class PartnerInfoExtended(models.Model):
                 self.doctype = 1
             else:
                 for item in nameList:
-                    if item is not '':
-                        formatedList.append(item)
-                self.name = ' ' .join(formatedList).title()
+                    if item is not b'':
+                        formatedList.append(item.decode('UTF-8'))
+                    self.name = ' '.join(formatedList).title()
         else:
             # Some Companies are know for their Brand, which could conflict from the users point of view while
             # searching the company (e.j. o2 = brand, Telefonica = Company)
@@ -256,7 +256,7 @@ class PartnerInfoExtended(models.Model):
                 self.name = self.companyName.title()
 
     @api.onchange('name')
-    def onChangeName(self):
+    def on_change_name(self):
         """
         The name field gets concatenated by the four name fields.
         If a user enters a value anyway, the value will be deleted except first
@@ -274,7 +274,7 @@ class PartnerInfoExtended(models.Model):
                 self._concat_name()
 
     @api.onchange('personType')
-    def onChangePersonType(self):
+    def on_change_person_type(self):
         """
         Delete entries in name and company fields once the type of person
         changes. This avoids unnecessary entries in the database and makes the
@@ -293,7 +293,7 @@ class PartnerInfoExtended(models.Model):
             self.x_pn_retri = False
 
     @api.onchange('doctype')
-    def onChangeDocumentType(self):
+    def on_change_document_type(self):
         """
         If Document Type changes we delete the document number as for different
         document types there are different rules that apply e.g. foreign
@@ -304,7 +304,7 @@ class PartnerInfoExtended(models.Model):
         self.xidentification = False
 
     @api.onchange('company_type')
-    def onChangeCompanyType(self):
+    def on_change_company_type(self):
         """
         This function changes the person type once the company type changes.
         If it is a company, document type 31 will be selected automatically as
@@ -321,7 +321,7 @@ class PartnerInfoExtended(models.Model):
             self.doctype = 1
 
     @api.onchange('is_company')
-    def onChangeIsCompany(self):
+    def on_change_is_company(self):
         """
         This function changes the person type field and the company type if
         checked / unchecked
@@ -336,7 +336,7 @@ class PartnerInfoExtended(models.Model):
             self.company_type = 'person'
 
     @api.onchange('change_country')
-    def onChangeAddress(self):
+    def on_change_address(self):
         """
         This function changes the person type field and the company type if
         checked / unchecked
@@ -361,11 +361,11 @@ class PartnerInfoExtended(models.Model):
             nitString = '0'*(15-len(nit)) + nit
             vl = list(nitString)
             result = (
-                int(vl[0])*71 + int(vl[1])*67 + int(vl[2])*59 + int(vl[3])*53 +
-                int(vl[4])*47 + int(vl[5])*43 + int(vl[6])*41 + int(vl[7])*37 +
-                int(vl[8])*29 + int(vl[9])*23 + int(vl[10])*19 + int(vl[11])*17 +
-                int(vl[12])*13 + int(vl[13])*7 + int(vl[14])*3
-            ) % 11
+                             int(vl[0])*71 + int(vl[1])*67 + int(vl[2])*59 + int(vl[3])*53 +
+                             int(vl[4])*47 + int(vl[5])*43 + int(vl[6])*41 + int(vl[7])*37 +
+                             int(vl[8])*29 + int(vl[9])*23 + int(vl[10])*19 + int(vl[11])*17 +
+                             int(vl[12])*13 + int(vl[13])*7 + int(vl[14])*3
+                     ) % 11
 
             if result in (0, 1):
                 return str(result)
@@ -401,7 +401,7 @@ class PartnerInfoExtended(models.Model):
         return {
             'domain': {domain: [('id', 'in', ids)]},
             'value': {domain: ''}
-            }
+        }
 
     @api.constrains('xidentification')
     def _check_ident(self):
@@ -431,8 +431,8 @@ class PartnerInfoExtended(models.Model):
         for item in self:
             if item.doctype is not 1:
                 if item.xidentification is not False and \
-                                item.doctype != 21 and \
-                                item.doctype != 41:
+                        item.doctype != 21 and \
+                        item.doctype != 41:
                     if re.match("^[0-9]+$", item.xidentification) is None:
                         msg = _('Error! Identification number can only '
                                 'have numbers')

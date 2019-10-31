@@ -270,19 +270,19 @@ msgstr ""
 
 #. module: l10n_co_res_partner
 #: selection:ciiu,hierarchy:0
-#: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_hasDivision
+#: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_has_division
 msgid "Has Division?"
 msgstr ""
 
 #. module: l10n_co_res_partner
 #: selection:ciiu,hierarchy:0
-#: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_hasParent
+#: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_has_parent
 msgid "Has Parent?"
 msgstr ""
 
 #. module: l10n_co_res_partner
 #: selection:ciiu,hierarchy:0
-#: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_hasSection
+#: model:ir.model.fields,field_description:l10n_co_res_partner.field_ciiu_has_section
 msgid "Has Section?"
 msgstr ""
 
