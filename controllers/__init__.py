@@ -17,5 +17,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
 ###############################################################################
 
-from . import l10n_co_res_partner
-from . import ciiu
+from . import controller

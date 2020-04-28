@@ -169,6 +169,7 @@
             <field name="phone" position="before">
                 <field name="xidentification" string="Identification" />
                 <field name="doctype" invisible="1" />
+                <field name="doctype" invisible="1" />
             </field>
         </field>
     </record>
@@ -212,5 +213,18 @@
                 </field>
         </field>
     </record>
+
+
+<function model="ir.model.fields" name="formbuilder_whitelist">
+            <value>res.partner</value>
+            <value eval="[
+                'name', 'phone', 'email',
+                'city', 'zip', 'street', 'street2', 'state_id', 'country_id',
+                'vat', 'company_name', 'district_id','mobile','partner_id',
+                'x_name1','x_name2','x_lastname1','x_lastname2', 
+                'xidentification','xcity', 'doctype', 'verificationDigit', 'pos_name', 'companyBrandName'
+            ]"/>
+        </function>
+
 
 </odoo>

@@ -17,6 +17,7 @@
     'data': [
         'views/l10n_co_res_partner.xml',
         'views/ciiu.xml',
+        'views/website.xml',
         'data/ciiu.csv',
         'data/l10n_states_co_data.xml',
         'data/l10n_cities_co_data.xml',
@@ -24,3 +25,6 @@
     ],
     'installable': True,
 }
+
+# ./odoo-bin --stop-after-init -c /etc/odoo_12-server.conf -d plastinorte -u l10n_co_res_partner
+# sudo /etc//init.d/odoo_12-server restart
