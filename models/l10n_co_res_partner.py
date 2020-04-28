@@ -32,8 +32,7 @@ class CountryStateCity(models.Model):
     _name = 'res.country.state.city'
     _order = 'code'
 
-    code = fields.Char('City Code', size=5, help='Code DANE - 5 digits-',
-                       required=True)
+    code = fields.Char('City Code', size=5, help='Code DANE - 5 digits-', required=True)
     name = fields.Char('City Name', size=64, required=True)
     state_id = fields.Many2one('res.country.state', 'State', required=True)
     country_id = fields.Many2one('res.country', 'Country', required=True)
@@ -85,17 +84,18 @@ class PartnerInfoExtended(models.Model):
 
     # Tributate regime
     x_pn_retri = fields.Selection(
-        [
-            (6, "Simplified"),
-            (23, "Natural Person"),
-            (7, "Common"),
-            (11, "Great Taxpayer Autorretenedor"),
-            (22, "International"),
-            (25, "Common Autorretenedor"),
-            (24, "Great Contributor")
-        ], "Tax Regime"
-
-    )
+                                    [
+                                        (6, "Simplified"),
+                                        (23, "Natural Person"),
+                                        (7, "Common"),
+                                        (11, "Great Taxpayer Autorretenedor"),
+                                        (22, "International"),
+                                        (25, "Common Autorretenedor"),
+                                        (24, "Great Contributor")
+                                    ], 
+                                    string="Tax Regime",
+                                    default=6                                    
+                                  )
 
     # CIIU - Clasificación Internacional Industrial Uniforme
     ciiu = fields.Many2one('ciiu', "ISIC Activity")
@@ -200,8 +200,7 @@ class PartnerInfoExtended(models.Model):
                     for pnitem in self:
                         pnitem.dv = nitList[1]
 
-    @api.onchange('x_name1', 'x_name2', 'x_lastname1', 'x_lastname2', 'companyName',
-                  'pos_name', 'companyBrandName')
+    @api.onchange('x_name1', 'x_name2', 'x_lastname1', 'x_lastname2', 'companyName', 'pos_name', 'companyBrandName')
     def _concat_name(self):
         """
                 This function concatenates the four name fields in order to be able to

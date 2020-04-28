@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="dian_assets_frontend" inherit_id="web.assets_frontend">
+            <xpath expr="." position="inside"> 
+                <link rel="stylesheet" href="/l10n_co_res_partner/static/src/css/frontend.css"/> 
+                <script type="text/javascript" src="/l10n_co_res_partner/static/src/js/frontend.js"></script>
+            </xpath>
+        </template>
+
+        <template id="dian_address_b2b" inherit_id="website_sale.address_b2b">
+                <xpath expr="//input[@name='vat']" position="replace">
+                    <t>  
+                        <input type="hidden"  name="partner_id"  class="form-control website-partner_id" readonly="1" t-att-value="partner_id" ></input>                
+                        <select  name="doctype" id="doctype" t-attf-class="form-control #{error.get('doctype') and 'is-invalid' or ''}" t-att-readonly="'1' if 'vat' in checkout and checkout['vat'] and not can_edit_vat else None">
+                            <option t-att-value="13"  t-att-selected="'doctype' in checkout and checkout['doctype'] == '13'">13 - Cédula de ciudadanía</option>
+                            <option t-att-value="31"  t-att-selected="'doctype' in checkout and checkout['doctype'] == '31'">31 - NIT (Número de identificación tributaria)</option>
+                            <option t-att-value="11"  t-att-selected="'doctype' in checkout and checkout['doctype'] == '11'">11 - Registro civil de nacimiento</option>
+                            <option t-att-value="41"  t-att-selected="'doctype' in checkout and checkout['doctype'] == '41'">41 - Pasaporte</option>
+                            <option t-att-value="12"  t-att-selected="'doctype' in checkout and checkout['doctype'] == '12'">12 - Tarjeta de identidad</option>
+                            <option t-att-value="21"  t-att-selected="'doctype' in checkout and checkout['doctype'] == '21'">21 - Tarjeta de extranjería</option>
+                            <option t-att-value="22"  t-att-selected="'doctype' in checkout and checkout['doctype'] == '22'">22 - Cédula de extranjería</option>
+                            <option t-att-value="42"  t-att-selected="'doctype' in checkout and checkout['doctype'] == '42'">42 - Documento de identificación extranjero</option>
+                        </select>
+                    </t>
+                     <t>
+                        <div>
+                            <input type="text" name="vat" class="form-control hidden-element" t-att-value="'xidentification' in checkout and checkout['xidentification']"></input>
+                        </div>
+                         <div>
+                            <table width="100%">
+                                <tr>
+                                    <td width="70%">
+                                        <input type="text" name="xidentification" placeholder="24645765" class="form-control website-xidentification" t-att-value="'xidentification' in checkout and checkout['xidentification']" ></input>
+                                    </td>
+                                    <td width="73%">
+                                        <input type="text" placeholder="Para N.I.T" name="verificationDigit"  class="form-control website-verificationDigit" readonly="1" t-att-value="'verificationDigit' in checkout and checkout['verificationDigit']" ></input>
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                        </div>
+                    </t>
+                </xpath>  
+                <xpath expr="//form[@class='checkout_autoformat']//div//div" position="inside">
+                     <div>
+                            <input type="text"  name="name"  class="form-control website-name hidden-element" readonly="1" t-att-value="'name' in checkout and checkout['name']" ></input> 
+                            <input type="text"  name="pos_name"  class="form-control website-name hidden-element" readonly="1" t-att-value="'name' in checkout and checkout['name']" ></input> 
+                            <input type="text"  name="companyBrandName"  class="form-control website-name hidden-element" readonly="1" t-att-value="'company_name' in checkout and checkout['company_name']" ></input> 
+                            <table class="form-full-width block-names">
+                                <tr>
+                                    <td>
+                                        <label>Primer Nombre</label>
+                                        <input t-att-value="'x_name1' in checkout and checkout['x_name1']" type="text" name="x_name1" placeholder="Richi" class="form-control website-x_name1"/>
+                                    </td>
+                                    <td>
+                                        <label>Segundo Nombre</label>
+                                        <input t-att-value="'x_name2' in checkout and checkout['x_name2']" type="text" name="x_name2" placeholder="Hamilton" class="form-control website-x_name2"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>Primer Apellido</label>
+                                        <input t-att-value="'x_lastname2' in checkout and checkout['x_lastname1']" type="text" name="x_lastname1" placeholder="Gomez" class="form-control website-x_lastname1"/>
+                                    </td>
+                                    <td>
+                                        <label>Segundo Apellido</label>
+                                        <input t-att-value="'x_lastname2' in checkout and checkout['x_lastname2']" type="text" name="x_lastname2" placeholder="Giraldo" class="form-control website-x_lastname2"/>
+                                    </td>
+                                </tr>
+                            </table>                        
+                    </div>
+                </xpath>
+                <xpath expr="//form[@class='checkout_autoformat']/div[@class='form-row']/div[12]" position="after">
+                    <t> 
+                        <div class="div_district form-group  col-lg-6">
+                            <label class="col-form-label" for="xcity">Municipio</label>                 
+                                <select name="xcity" class="form-control ">
+
+                                </select>     
+                        </div>           
+                    </t>
+                </xpath>              
+        </template>                        
+    </data>
+</odoo>

@@ -1,0 +1,30 @@
+.hidden-element
+{
+    display: none;
+}
+.website-xidentification
+{
+    margin-top: 5px;
+}
+.form-full-width
+{
+    width: 100%;
+}
+.block-names td
+{
+    padding: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.block-names tr td:first-child
+{
+    padding-right: 7px;
+}
+form.checkout_autoformat input[name="name"], form.checkout_autoformat label[for="name"]
+{
+    display: none;
+}
+.website-verificationDigit
+{
+    margin-top: 5px;
+}
